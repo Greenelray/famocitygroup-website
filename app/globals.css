@@ -1,0 +1,100 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+  --color-primary: #0b1f3a;
+  --color-secondary: #1e293b;
+  --color-accent: #c8a951;
+  --color-bg: #ffffff;
+  --color-bg-soft: #f8fafc;
+  --color-text: #0f172a;
+  --color-text-muted: #475569;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body), sans-serif;
+  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+  color: var(--color-text);
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display), "Century Gothic", "Futura", sans-serif;
+  letter-spacing: -0.02em;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+input,
+textarea {
+  font: inherit;
+}
+
+.section-shell {
+  @apply mx-auto w-full max-w-6xl px-5 sm:px-6 lg:px-8;
+}
+
+.glass-card {
+  @apply rounded-2xl border border-slate-200 bg-white shadow-lg;
+}
+
+.section-label {
+  @apply inline-flex items-center rounded-full border border-[#c8a951]/25 bg-[#c8a951]/10 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.24em] text-[#c8a951];
+}
+
+.section-title {
+  @apply mt-5 text-3xl font-semibold leading-[1.1] text-slate-900 sm:text-4xl lg:text-5xl;
+}
+
+.section-copy {
+  @apply mt-5 max-w-3xl text-base leading-8 text-slate-600 sm:text-lg;
+}
+
+.section-block {
+  @apply py-20 sm:py-24 lg:py-28;
+}
+
+.section-surface {
+  @apply border-y border-slate-200/80 bg-slate-50;
+}
+
+.premium-button {
+  @apply inline-flex items-center justify-center gap-2 rounded-full px-7 py-4 text-sm font-semibold transition duration-300 ease-out hover:scale-[1.02] hover:-translate-y-0.5;
+}
+
+.premium-button-primary {
+  @apply premium-button bg-[#0b1f3a] text-white hover:bg-[#102848];
+}
+
+.premium-button-accent {
+  @apply premium-button bg-[#c8a951] text-[#0b1f3a] hover:bg-[#d4b665];
+}
+
+.premium-button-secondary {
+  @apply premium-button border border-slate-300 bg-white text-slate-900 hover:border-[#c8a951] hover:text-[#0b1f3a];
+}
+
+.divider-line {
+  @apply h-px w-full bg-gradient-to-r from-transparent via-slate-300 to-transparent;
+}
