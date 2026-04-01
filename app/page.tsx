@@ -22,6 +22,7 @@ import promisePhoto from "../md2.jpeg";
 import { ContactForm } from "@/components/contact-form";
 import { Footer } from "@/components/footer";
 import { Navbar } from "@/components/navbar";
+import { PropertyGallery } from "@/components/property-gallery";
 import { Reveal } from "@/components/reveal";
 
 const stats = [
@@ -390,35 +391,7 @@ export default function Home() {
             </div>
           </Reveal>
 
-          <div className="grid gap-5 sm:grid-cols-2">
-            {propertyImages.map((image, index) => (
-              <Reveal
-                key={image.alt}
-                delay={0.08 * index}
-                className={index === 0 ? "sm:col-span-2" : undefined}
-              >
-                <div className={`glass-card overflow-hidden p-3 ${index === 0 ? "aspect-[16/10]" : "aspect-square"}`}>
-                  <div className="relative h-full overflow-hidden rounded-2xl">
-                    <Image
-                      src={image.src}
-                      alt={image.alt}
-                      fill
-                      className="object-cover transition duration-500 hover:scale-105"
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 30vw"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#061326]/88 via-[#061326]/18 to-transparent" />
-                    <div className="absolute inset-x-4 bottom-4 rounded-2xl border border-white/10 bg-white/10 p-4 text-white backdrop-blur-md">
-                      <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#c8a951]">
-                        Featured Listing
-                      </p>
-                      <h3 className="mt-2 text-lg font-semibold sm:text-xl">{image.title}</h3>
-                      <p className="mt-1 text-sm text-slate-100/90">{image.location}</p>
-                    </div>
-                  </div>
-                </div>
-              </Reveal>
-            ))}
-          </div>
+          <PropertyGallery images={propertyImages} />
         </div>
       </section>
 
