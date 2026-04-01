@@ -15,6 +15,7 @@ const body = Roboto({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://famocitygroup.org"),
   title: "Famocity Real Estate and Construction Limited",
   description:
     "Premium real estate and construction company helping people build wealth through property, construction, gadgets, and disciplined savings.",
@@ -35,7 +36,8 @@ export const metadata: Metadata = {
     title: "Famocity Real Estate and Construction Limited",
     description:
       "Build smart. Own assets. Live better with a premium real estate and construction brand focused on long-term value.",
-    type: "website"
+    type: "website",
+    url: "https://famocitygroup.org"
   },
   twitter: {
     card: "summary_large_image",
