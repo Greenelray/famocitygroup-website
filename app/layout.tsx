@@ -18,6 +18,11 @@ export const metadata: Metadata = {
   title: "Famocity Real Estate and Construction Limited",
   description:
     "Premium real estate and construction company helping people build wealth through property, construction, gadgets, and disciplined savings.",
+  icons: {
+    icon: "/icon.png",
+    shortcut: "/icon.png",
+    apple: "/icon.png"
+  },
   keywords: [
     "Famocity",
     "real estate Nigeria",
