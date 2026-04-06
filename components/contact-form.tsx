@@ -8,7 +8,7 @@ type FormState = {
 };
 
 const contactEmail = "famocityprime@gmail.com";
-const whatsappNumber = "2348138576412";
+const whatsappNumber = "2348148287468";
 
 export function ContactForm() {
   const [state, setState] = useState<FormState>({ type: "idle", message: "" });

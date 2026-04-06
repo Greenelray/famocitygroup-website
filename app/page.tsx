@@ -609,7 +609,7 @@ export default function Home() {
                 {
                   icon: Phone,
                   title: "Phone",
-                  content: "08138576412\n07038320560\n08124592833"
+                  content: "08148287468\n07038320560\n08124592833"
                 },
                 {
                   icon: Mail,
