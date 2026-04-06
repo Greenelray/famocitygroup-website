@@ -101,10 +101,10 @@ const propertyImages = [
 ];
 
 const team = [
-  { name: "Mr Famous Okpor", role: "Managing Director", image: managingDirectorPhoto },
-  { name: "Mr Peres Ogeinne", role: "General Manager", image: generalManagerPhoto },
-  { name: "Mr Ogbeivor-Abieu Ifeanyichukwu Evergreen", role: "Manager", image: managerPhoto },
-  { name: "Mrs Blessing Okpor", role: "Business Auditor", image: auditorPhoto }
+  { name: "Famous Okpor", role: "Managing Director", image: managingDirectorPhoto },
+  { name: "Peres Ogeinne", role: "General Manager", image: generalManagerPhoto },
+  { name: "Ogbeivor-Abieu Ifeanyichukwu Evergreen", role: "Manager", image: managerPhoto },
+  { name: "Blessing Okpor", role: "Business Auditor", image: auditorPhoto }
 ];
 
 export default function Home() {
@@ -609,7 +609,7 @@ export default function Home() {
                 {
                   icon: Phone,
                   title: "Phone",
-                  content: "08138576412\n07038320560\n08108554219"
+                  content: "08138576412\n07038320560\n08124592833"
                 },
                 {
                   icon: Mail,
