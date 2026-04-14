@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { X } from "lucide-react";
+import { Expand, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Reveal } from "@/components/reveal";
 
@@ -43,11 +43,11 @@ export function PropertyGallery({ images }: PropertyGalleryProps) {
             delay={0.08 * index}
             className={index === 0 ? "sm:col-span-2" : undefined}
           >
-            <div className="glass-card h-full overflow-hidden p-3">
+            <div className="glass-card h-full overflow-hidden p-3 transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(11,31,58,0.12)]">
               <button
                 type="button"
                 onClick={() => setActiveImage(image)}
-                className={`group relative block w-full overflow-hidden rounded-2xl bg-[linear-gradient(180deg,#eef4fb_0%,#d8e7f8_100%)] text-left ${
+                className={`group relative block w-full overflow-hidden rounded-[1.35rem] bg-[linear-gradient(180deg,#eef4fb_0%,#d8e7f8_100%)] text-left ${
                   index === 0 ? "aspect-[16/10]" : "aspect-[4/5]"
                 }`}
                 aria-label={`Open ${image.title}`}
@@ -59,13 +59,22 @@ export function PropertyGallery({ images }: PropertyGalleryProps) {
                   className="object-contain p-3 transition duration-500 group-hover:scale-[1.02]"
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 30vw"
                 />
+                <span className="absolute right-4 top-4 inline-flex items-center gap-2 rounded-full bg-[#0b1f3a]/90 px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-white opacity-0 shadow-lg backdrop-blur transition group-hover:opacity-100">
+                  <Expand size={14} />
+                  View
+                </span>
               </button>
-              <div className="px-2 pb-2 pt-5">
+              <div className="px-3 pb-3 pt-5">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#c8a951]">
                   Featured Listing
                 </p>
                 <h3 className="mt-2 text-lg font-semibold text-slate-900 sm:text-xl">{image.title}</h3>
-                <p className="mt-1 text-sm text-slate-600">{image.location}</p>
+                <div className="mt-3 flex items-center justify-between gap-3">
+                  <p className="text-sm text-slate-600">{image.location}</p>
+                  <span className="rounded-full border border-slate-200 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#0b1f3a]">
+                    Tap to view
+                  </span>
+                </div>
               </div>
             </div>
           </Reveal>

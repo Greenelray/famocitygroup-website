@@ -1,5 +1,6 @@
 "use client";
 
+import { Mail, MessageCircle } from "lucide-react";
 import { FormEvent, useState } from "react";
 
 type FormState = {
@@ -99,7 +100,7 @@ export function ContactForm() {
           name="name"
           placeholder="Your name"
           required
-          className="rounded-2xl border border-slate-200 bg-white px-4 py-4 text-slate-900 outline-none transition focus:border-[#c8a951] focus:ring-2 focus:ring-[#c8a951]/20"
+          className="rounded-2xl border border-slate-200 bg-white px-4 py-4 text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-[#c8a951] focus:ring-4 focus:ring-[#c8a951]/15"
         />
       </label>
       <label className="grid gap-2">
@@ -110,7 +111,7 @@ export function ContactForm() {
           name="email"
           placeholder="Your email"
           required
-          className="rounded-2xl border border-slate-200 bg-white px-4 py-4 text-slate-900 outline-none transition focus:border-[#c8a951] focus:ring-2 focus:ring-[#c8a951]/20"
+          className="rounded-2xl border border-slate-200 bg-white px-4 py-4 text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-[#c8a951] focus:ring-4 focus:ring-[#c8a951]/15"
         />
       </label>
       <label className="grid gap-2">
@@ -121,21 +122,23 @@ export function ContactForm() {
           name="message"
           placeholder="Tell us how we can help you"
           required
-          className="rounded-2xl border border-slate-200 bg-white px-4 py-4 text-slate-900 outline-none transition focus:border-[#c8a951] focus:ring-2 focus:ring-[#c8a951]/20"
+          className="rounded-2xl border border-slate-200 bg-white px-4 py-4 text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-[#c8a951] focus:ring-4 focus:ring-[#c8a951]/15"
         />
       </label>
       <div className="flex flex-col gap-3 sm:flex-row">
         <button
           type="submit"
-          className="inline-flex items-center justify-center rounded-full bg-[#0b1f3a] px-7 py-4 text-sm font-semibold text-white transition duration-300 hover:-translate-y-0.5 hover:scale-[1.01] hover:bg-[#102848]"
+          className="inline-flex items-center justify-center gap-2 rounded-full bg-[linear-gradient(135deg,#0b1f3a_0%,#123a67_100%)] px-7 py-4 text-sm font-semibold text-white shadow-[0_16px_32px_rgba(11,31,58,0.18)] transition duration-300 hover:-translate-y-0.5 hover:scale-[1.01]"
         >
+          <Mail size={16} />
           Send via Email
         </button>
         <button
           type="button"
           onClick={handleWhatsAppClick}
-          className="inline-flex items-center justify-center rounded-full border border-[#0b1f3a]/15 bg-white px-7 py-4 text-sm font-semibold text-[#0b1f3a] transition duration-300 hover:-translate-y-0.5 hover:scale-[1.01] hover:border-[#c8a951] hover:text-[#0b1f3a]"
+          className="inline-flex items-center justify-center gap-2 rounded-full border border-[#0b1f3a]/15 bg-white px-7 py-4 text-sm font-semibold text-[#0b1f3a] shadow-sm transition duration-300 hover:-translate-y-0.5 hover:scale-[1.01] hover:border-[#c8a951] hover:text-[#0b1f3a]"
         >
+          <MessageCircle size={16} />
           Send via WhatsApp
         </button>
       </div>

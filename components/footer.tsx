@@ -39,10 +39,11 @@ const socialLinks = [
 
 export function Footer() {
   return (
-    <footer className="border-t border-slate-200 bg-[#0b1f3a] text-white">
-      <div className="section-shell grid gap-12 py-14 lg:grid-cols-[1.2fr_0.8fr_1fr]">
+    <footer className="relative overflow-hidden border-t border-slate-200 bg-[#061326] text-white">
+      <div className="absolute -right-24 top-10 h-72 w-72 rounded-full bg-[#c8a951]/12 blur-3xl" />
+      <div className="section-shell relative grid gap-12 py-16 lg:grid-cols-[1.2fr_0.8fr_1fr]">
         <div>
-          <div className="inline-flex p-1">
+          <div className="inline-flex rounded-[1.5rem] border border-white/10 bg-white/[0.03] p-3">
             <Image
               src={logo}
               alt="Famocity logo"
@@ -54,6 +55,9 @@ export function Footer() {
           <p className="mt-5 max-w-md text-sm leading-7 text-white/72">
             Famocity Real Estate and Construction Limited is building a future where ownership, structure,
             and smart saving create lasting value.
+          </p>
+          <p className="mt-6 text-xs font-semibold uppercase tracking-[0.24em] text-[#c8a951]">
+            Ownership. Structure. Long-term value.
           </p>
         </div>
 
@@ -100,6 +104,9 @@ export function Footer() {
             ))}
           </div>
         </div>
+      </div>
+      <div className="section-shell relative border-t border-white/10 py-5 text-xs text-white/55">
+        <p>© {new Date().getFullYear()} Famocity Real Estate and Construction Limited. All rights reserved.</p>
       </div>
     </footer>
   );
