@@ -147,7 +147,7 @@ export default function Home() {
               </p>
 
               <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-                <Link href="#contact" className="premium-button-accent button-invest min-h-12 sm:min-w-[180px]">
+                <Link href="#contact" className="premium-button-accent button-hero-start min-h-12 px-8 sm:min-w-[210px]">
                   Get Started
                   <ArrowRight size={16} />
                 </Link>
@@ -529,7 +529,7 @@ export default function Home() {
                     achieved with patience and structure.
                   </p>
                 </div>
-                <Link href="#contact" className="premium-button-primary button-save min-h-12">
+                <Link href="#contact" className="premium-button-primary button-money-save min-h-12">
                   Start Saving Today
                 </Link>
               </div>
