@@ -147,15 +147,16 @@ export default function Home() {
               </p>
 
               <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-                <Link href="#contact" className="premium-button-accent min-h-12 sm:min-w-[180px]">
+                <Link href="#contact" className="premium-button-accent button-invest min-h-12 sm:min-w-[180px]">
                   Get Started
                   <ArrowRight size={16} />
                 </Link>
                 <Link
                   href="#real-estate"
-                  className="premium-button min-h-12 rounded-full border border-white/25 bg-white/10 px-7 py-4 text-sm font-semibold text-white hover:bg-white/15"
+                  className="premium-button button-view min-h-12 rounded-full border border-white/25 bg-white/10 px-7 py-4 text-sm font-semibold text-white hover:bg-white/15"
                 >
                   View Properties
+                  <ArrowRight size={16} />
                 </Link>
               </div>
 
@@ -528,7 +529,7 @@ export default function Home() {
                     achieved with patience and structure.
                   </p>
                 </div>
-                <Link href="#contact" className="premium-button-primary min-h-12">
+                <Link href="#contact" className="premium-button-primary button-save min-h-12">
                   Start Saving Today
                 </Link>
               </div>
@@ -615,8 +616,9 @@ export default function Home() {
                 creating opportunities for people to live smarter, grow stronger, and own assets that truly
                 matter.
               </p>
-              <Link href="#contact" className="premium-button-accent mt-8">
+              <Link href="#contact" className="premium-button-accent button-invest mt-8">
                 Get Started With Famocity
+                <ArrowRight size={16} />
               </Link>
               <p className="mt-4 text-sm font-semibold uppercase tracking-[0.18em] text-[#c8a951]">
                 Your future starts with what you build today.

@@ -47,7 +47,7 @@ export function PropertyGallery({ images }: PropertyGalleryProps) {
               <button
                 type="button"
                 onClick={() => setActiveImage(image)}
-                className={`group relative block w-full overflow-hidden rounded-[1.35rem] bg-[linear-gradient(180deg,#eef4fb_0%,#d8e7f8_100%)] text-left ${
+                className={`button-card-view group relative block w-full overflow-hidden rounded-[1.35rem] bg-[linear-gradient(180deg,#eef4fb_0%,#d8e7f8_100%)] text-left ${
                   index === 0 ? "aspect-[16/10]" : "aspect-[4/5]"
                 }`}
                 aria-label={`Open ${image.title}`}
@@ -96,7 +96,7 @@ export function PropertyGallery({ images }: PropertyGalleryProps) {
             <button
               type="button"
               onClick={() => setActiveImage(null)}
-              className="absolute right-4 top-4 z-10 inline-flex h-11 w-11 items-center justify-center rounded-full bg-[#0b1f3a] text-white shadow-lg transition hover:bg-[#102848]"
+              className="button-close absolute right-4 top-4 z-10 inline-flex h-11 w-11 items-center justify-center rounded-full bg-[#0b1f3a] text-white shadow-lg transition hover:bg-[#102848]"
               aria-label="Close image"
             >
               <X size={18} />

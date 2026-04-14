@@ -165,35 +165,11 @@ textarea {
   z-index: -1;
 }
 
-.premium-button::after,
-.premium-button-primary::after,
-.premium-button-accent::after,
-.premium-button-secondary::after {
-  animation: fizzy-dots 1.8s ease-out infinite;
-  background:
-    radial-gradient(circle, rgba(255, 255, 255, 0.85) 0 2px, transparent 2.5px) 12% 55% / 18px 18px,
-    radial-gradient(circle, rgba(200, 169, 81, 0.85) 0 1.5px, transparent 2px) 48% 72% / 22px 22px,
-    radial-gradient(circle, rgba(255, 255, 255, 0.78) 0 1.5px, transparent 2px) 82% 48% / 20px 20px;
-  content: "";
-  inset: 0;
-  opacity: 0;
-  pointer-events: none;
-  position: absolute;
-  transform: translateY(10px) scale(0.96);
-}
-
 .premium-button:hover::before,
 .premium-button-primary:hover::before,
 .premium-button-accent:hover::before,
 .premium-button-secondary:hover::before {
   opacity: 1;
-}
-
-.premium-button:hover::after,
-.premium-button-primary:hover::after,
-.premium-button-accent:hover::after,
-.premium-button-secondary:hover::after {
-  opacity: 0.72;
 }
 
 .premium-button:active,
@@ -282,6 +258,99 @@ button:not(.premium-button):active {
   animation: button-press 220ms ease-out;
 }
 
+.button-invest,
+.button-view,
+.button-save,
+.button-email,
+.button-whatsapp,
+.button-menu,
+.button-close,
+.button-card-view {
+  isolation: isolate;
+  overflow: hidden;
+  position: relative;
+}
+
+.button-invest::after,
+.button-save::after,
+.button-email::after,
+.button-whatsapp::after,
+.button-card-view::after {
+  content: "";
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+  transform: translateX(-105%);
+  z-index: -1;
+}
+
+.button-invest::after {
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), rgba(200, 169, 81, 0.36), transparent);
+}
+
+.button-invest:hover::after {
+  animation: investment-sweep 820ms cubic-bezier(0.2, 0.9, 0.2, 1) forwards;
+}
+
+.button-invest:hover svg {
+  animation: arrow-advance 760ms ease-in-out infinite;
+}
+
+.button-view:hover,
+.button-card-view:hover {
+  animation: view-expand 780ms ease-out;
+}
+
+.button-view:hover svg,
+.button-card-view:hover svg {
+  animation: scan-focus 1s ease-in-out infinite;
+}
+
+.button-save::after {
+  background:
+    radial-gradient(circle, rgba(200, 169, 81, 0.75) 0 2px, transparent 2.5px) 18% 70% / 22px 22px,
+    radial-gradient(circle, rgba(255, 255, 255, 0.65) 0 1.5px, transparent 2px) 62% 68% / 24px 24px;
+  transform: translateY(22px);
+}
+
+.button-save:hover::after {
+  animation: coins-rise 1.25s ease-out infinite;
+}
+
+.button-email::after {
+  background: linear-gradient(90deg, transparent, rgba(200, 169, 81, 0.22), transparent);
+}
+
+.button-email:hover::after {
+  animation: mail-send 900ms ease-out forwards;
+}
+
+.button-email:hover svg {
+  animation: mail-lift 900ms ease-in-out infinite;
+}
+
+.button-whatsapp::after {
+  border: 1px solid rgba(37, 211, 102, 0.35);
+  border-radius: inherit;
+  transform: scale(0.82);
+}
+
+.button-whatsapp:hover::after {
+  animation: chat-ping 1.2s ease-out infinite;
+}
+
+.button-whatsapp:hover svg {
+  animation: chat-wiggle 900ms ease-in-out infinite;
+}
+
+.button-menu:hover {
+  animation: menu-pulse 820ms ease-out;
+}
+
+.button-close:hover {
+  animation: close-spin 420ms ease-out;
+}
+
 input:focus,
 textarea:focus {
   animation: focus-pulse 520ms ease-out;
@@ -325,30 +394,6 @@ nav a:hover {
   }
 }
 
-@keyframes fizzy-dots {
-  0% {
-    background-position:
-      12% 65%,
-      48% 82%,
-      82% 60%;
-    transform: translateY(10px) scale(0.96);
-  }
-  55% {
-    background-position:
-      14% 35%,
-      50% 44%,
-      80% 30%;
-    transform: translateY(-3px) scale(1);
-  }
-  100% {
-    background-position:
-      12% 20%,
-      48% 28%,
-      82% 16%;
-    transform: translateY(-8px) scale(1.04);
-  }
-}
-
 @keyframes card-tile-fade {
   0%,
   100% {
@@ -356,6 +401,126 @@ nav a:hover {
   }
   50% {
     background-position: 22px 18px, 18px 22px;
+  }
+}
+
+@keyframes investment-sweep {
+  0% {
+    transform: translateX(-105%) skewX(-12deg);
+  }
+  100% {
+    transform: translateX(105%) skewX(-12deg);
+  }
+}
+
+@keyframes arrow-advance {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(4px);
+  }
+}
+
+@keyframes view-expand {
+  0%,
+  100% {
+    box-shadow: inherit;
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(200, 169, 81, 0.18), var(--shadow-premium);
+  }
+}
+
+@keyframes scan-focus {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.14);
+  }
+}
+
+@keyframes coins-rise {
+  0% {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  35% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-18px);
+  }
+}
+
+@keyframes mail-send {
+  0% {
+    opacity: 0;
+    transform: translateX(-105%) skewX(-10deg);
+  }
+  35% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(105%) skewX(-10deg);
+  }
+}
+
+@keyframes mail-lift {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  45% {
+    transform: translate(3px, -2px) rotate(-5deg);
+  }
+}
+
+@keyframes chat-ping {
+  0% {
+    opacity: 0.65;
+    transform: scale(0.84);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.16);
+  }
+}
+
+@keyframes chat-wiggle {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  30% {
+    transform: rotate(-8deg);
+  }
+  60% {
+    transform: rotate(6deg);
+  }
+}
+
+@keyframes menu-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(200, 169, 81, 0);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(200, 169, 81, 0.16);
+  }
+}
+
+@keyframes close-spin {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  100% {
+    transform: rotate(90deg) scale(1.04);
   }
 }
 

@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { ArrowRight, Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 
 const leftLinks = [
@@ -87,9 +87,10 @@ export function Navbar() {
 
             <Link
               href="#contact"
-              className="rounded-full border border-[#0b1f3a]/12 bg-[#0b1f3a] px-5 py-3 text-sm font-semibold uppercase tracking-[0.18em] text-white transition hover:bg-[#102848]"
+              className="button-invest inline-flex items-center justify-center gap-2 rounded-full border border-[#0b1f3a]/12 bg-[#0b1f3a] px-5 py-3 text-sm font-semibold uppercase tracking-[0.18em] text-white transition hover:bg-[#102848]"
             >
               Get Started
+              <ArrowRight size={14} />
             </Link>
           </div>
         </div>
@@ -108,7 +109,7 @@ export function Navbar() {
 
           <button
             aria-label={open ? "Close menu" : "Open menu"}
-            className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-slate-200 bg-slate-50 text-slate-700"
+            className="button-menu inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-slate-200 bg-slate-50 text-slate-700"
             onClick={() => setOpen((value) => !value)}
             type="button"
           >
@@ -140,10 +141,11 @@ export function Navbar() {
               ))}
               <Link
                 href="#contact"
-                className="mt-2 rounded-2xl bg-[#0b1f3a] px-4 py-3 text-center text-sm font-semibold uppercase tracking-[0.18em] text-white"
+                className="button-invest mt-2 inline-flex items-center justify-center gap-2 rounded-2xl bg-[#0b1f3a] px-4 py-3 text-center text-sm font-semibold uppercase tracking-[0.18em] text-white"
                 onClick={() => setOpen(false)}
               >
                 Get Started
+                <ArrowRight size={14} />
               </Link>
             </nav>
           </motion.div>

@@ -128,7 +128,7 @@ export function ContactForm() {
       <div className="flex flex-col gap-3 sm:flex-row">
         <button
           type="submit"
-          className="inline-flex items-center justify-center gap-2 rounded-full bg-[linear-gradient(135deg,#0b1f3a_0%,#123a67_100%)] px-7 py-4 text-sm font-semibold text-white shadow-[0_16px_32px_rgba(11,31,58,0.18)] transition duration-300 hover:-translate-y-0.5 hover:scale-[1.01]"
+          className="button-email inline-flex items-center justify-center gap-2 rounded-full bg-[linear-gradient(135deg,#0b1f3a_0%,#123a67_100%)] px-7 py-4 text-sm font-semibold text-white shadow-[0_16px_32px_rgba(11,31,58,0.18)] transition duration-300 hover:-translate-y-0.5 hover:scale-[1.01]"
         >
           <Mail size={16} />
           Send via Email
@@ -136,7 +136,7 @@ export function ContactForm() {
         <button
           type="button"
           onClick={handleWhatsAppClick}
-          className="inline-flex items-center justify-center gap-2 rounded-full border border-[#0b1f3a]/15 bg-white px-7 py-4 text-sm font-semibold text-[#0b1f3a] shadow-sm transition duration-300 hover:-translate-y-0.5 hover:scale-[1.01] hover:border-[#c8a951] hover:text-[#0b1f3a]"
+          className="button-whatsapp inline-flex items-center justify-center gap-2 rounded-full border border-[#0b1f3a]/15 bg-white px-7 py-4 text-sm font-semibold text-[#0b1f3a] shadow-sm transition duration-300 hover:-translate-y-0.5 hover:scale-[1.01] hover:border-[#c8a951] hover:text-[#0b1f3a]"
         >
           <MessageCircle size={16} />
           Send via WhatsApp
