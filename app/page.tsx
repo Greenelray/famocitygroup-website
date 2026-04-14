@@ -118,7 +118,7 @@ export default function Home() {
     <main className="relative overflow-x-hidden bg-white">
       <Navbar />
 
-      <section id="home" className="relative -mt-24 overflow-hidden pb-20 pt-32 sm:pb-24">
+      <section id="home" className="relative overflow-hidden pb-20 pt-40 sm:pb-24 sm:pt-44">
         <div className="absolute inset-0">
           <Image
             src="/hero-real-estate.svg"

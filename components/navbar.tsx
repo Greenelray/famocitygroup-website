@@ -32,7 +32,7 @@ export function Navbar() {
   }, []);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-slate-200/70 bg-white/95 backdrop-blur-xl">
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-slate-200/70 bg-white/95 shadow-[0_12px_36px_rgba(11,31,58,0.08)] backdrop-blur-xl">
       <motion.div
         animate={{
           paddingTop: scrolled ? "0.75rem" : "1rem",
