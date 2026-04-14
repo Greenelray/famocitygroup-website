@@ -71,19 +71,44 @@ textarea {
 
 .glass-card {
   @apply rounded-[1.65rem] border border-slate-200/80 bg-white shadow-[0_18px_48px_rgba(15,23,42,0.08)];
+  background:
+    linear-gradient(#ffffff, #ffffff) padding-box,
+    conic-gradient(from var(--glow-angle, 0deg), transparent, rgba(200, 169, 81, 0.35), transparent 34%) border-box;
+  position: relative;
   transition:
     border-color 320ms ease,
     box-shadow 320ms ease,
     transform 320ms ease;
 }
 
+.glass-card::before {
+  animation: card-tile-fade 4.6s ease-in-out infinite;
+  background-image:
+    linear-gradient(rgba(200, 169, 81, 0.11) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(200, 169, 81, 0.11) 1px, transparent 1px);
+  background-size: 22px 22px;
+  border-radius: inherit;
+  content: "";
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  transition: opacity 320ms ease;
+}
+
 .glass-card:hover {
   border-color: rgba(200, 169, 81, 0.34);
   box-shadow: var(--shadow-premium);
+  transform: translateY(-3px);
+}
+
+.glass-card:hover::before {
+  opacity: 0.42;
 }
 
 .premium-card {
   @apply rounded-[1.85rem] border border-slate-200/80 bg-white p-7 shadow-[0_22px_60px_rgba(11,31,58,0.10)] sm:p-8;
+  position: relative;
   transition:
     border-color 320ms ease,
     box-shadow 320ms ease,
@@ -103,6 +128,8 @@ textarea {
 
 .section-title {
   @apply mt-5 text-3xl font-bold leading-[1.08] text-slate-950 sm:text-4xl lg:text-5xl;
+  animation: title-breathe 8s ease-in-out infinite;
+  transform-origin: left center;
 }
 
 .section-copy {
@@ -128,7 +155,7 @@ textarea {
 .premium-button-primary::before,
 .premium-button-accent::before,
 .premium-button-secondary::before {
-  animation: button-shine 5.8s ease-in-out infinite;
+  animation: button-shine 4.6s ease-in-out infinite;
   background: linear-gradient(110deg, transparent 20%, rgba(255, 255, 255, 0.38) 48%, transparent 78%);
   content: "";
   inset: -35% -75%;
@@ -138,11 +165,35 @@ textarea {
   z-index: -1;
 }
 
+.premium-button::after,
+.premium-button-primary::after,
+.premium-button-accent::after,
+.premium-button-secondary::after {
+  animation: fizzy-dots 1.8s ease-out infinite;
+  background:
+    radial-gradient(circle, rgba(255, 255, 255, 0.85) 0 2px, transparent 2.5px) 12% 55% / 18px 18px,
+    radial-gradient(circle, rgba(200, 169, 81, 0.85) 0 1.5px, transparent 2px) 48% 72% / 22px 22px,
+    radial-gradient(circle, rgba(255, 255, 255, 0.78) 0 1.5px, transparent 2px) 82% 48% / 20px 20px;
+  content: "";
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  transform: translateY(10px) scale(0.96);
+}
+
 .premium-button:hover::before,
 .premium-button-primary:hover::before,
 .premium-button-accent:hover::before,
 .premium-button-secondary:hover::before {
   opacity: 1;
+}
+
+.premium-button:hover::after,
+.premium-button-primary:hover::after,
+.premium-button-accent:hover::after,
+.premium-button-secondary:hover::after {
+  opacity: 0.72;
 }
 
 .premium-button:active,
@@ -187,8 +238,48 @@ textarea {
   transform: translateX(-130%);
 }
 
+.section-shell nav a::before {
+  background: radial-gradient(circle, rgba(200, 169, 81, 0.32), transparent 70%);
+  border-radius: 999px;
+  content: "";
+  height: 2.8rem;
+  left: 50%;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%) scale(0.72);
+  transition:
+    opacity 300ms ease,
+    transform 300ms ease;
+  width: 120%;
+  z-index: -1;
+}
+
+.section-shell nav a:hover::before {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.section-shell nav a span {
+  animation: nav-underline-breathe 2.4s ease-in-out infinite;
+}
+
+.group button,
+.group img {
+  will-change: transform;
+}
+
 .group:hover .group-hover\:scale-\[1\.02\] {
   animation: image-breathe 1.4s ease-in-out infinite alternate;
+}
+
+button:not(.premium-button):hover {
+  animation: soft-pop 520ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+button:not(.premium-button):active {
+  animation: button-press 220ms ease-out;
 }
 
 input:focus,
@@ -231,6 +322,73 @@ nav a:hover {
   }
   100% {
     filter: brightness(1);
+  }
+}
+
+@keyframes fizzy-dots {
+  0% {
+    background-position:
+      12% 65%,
+      48% 82%,
+      82% 60%;
+    transform: translateY(10px) scale(0.96);
+  }
+  55% {
+    background-position:
+      14% 35%,
+      50% 44%,
+      80% 30%;
+    transform: translateY(-3px) scale(1);
+  }
+  100% {
+    background-position:
+      12% 20%,
+      48% 28%,
+      82% 16%;
+    transform: translateY(-8px) scale(1.04);
+  }
+}
+
+@keyframes card-tile-fade {
+  0%,
+  100% {
+    background-position: 0 0, 0 0;
+  }
+  50% {
+    background-position: 22px 18px, 18px 22px;
+  }
+}
+
+@keyframes title-breathe {
+  0%,
+  100% {
+    letter-spacing: -0.02em;
+  }
+  50% {
+    letter-spacing: -0.012em;
+  }
+}
+
+@keyframes nav-underline-breathe {
+  0%,
+  100% {
+    opacity: 0.86;
+  }
+  50% {
+    opacity: 1;
+    box-shadow: 0 0 12px rgba(200, 169, 81, 0.5);
+  }
+}
+
+@keyframes soft-pop {
+  0% {
+    transform: translateY(0) scale(1);
+  }
+  55% {
+    transform: translateY(-2px) scale(1.015);
+  }
+  100% {
+    transform: translateY(0) scale(1);
   }
 }
 
