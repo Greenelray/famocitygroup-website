@@ -83,14 +83,14 @@ export function PropertyGallery({ images }: PropertyGalleryProps) {
 
       {activeImage ? (
         <div
-          className="fixed inset-0 z-[90] flex items-center justify-center bg-[#061326]/88 p-4 backdrop-blur-sm"
+          className="fixed inset-0 z-[90] flex items-center justify-center overflow-y-auto bg-[#061326]/88 p-3 backdrop-blur-sm sm:p-5"
           onClick={() => setActiveImage(null)}
           role="dialog"
           aria-modal="true"
           aria-label={activeImage.title}
         >
           <div
-            className="relative w-full max-w-5xl rounded-[2rem] bg-white p-3 shadow-[0_30px_80px_rgba(0,0,0,0.35)] sm:p-4"
+            className="relative my-auto w-full max-w-5xl rounded-[2rem] bg-white p-3 shadow-[0_30px_80px_rgba(0,0,0,0.35)] sm:p-4"
             onClick={(event) => event.stopPropagation()}
           >
             <button
@@ -102,12 +102,12 @@ export function PropertyGallery({ images }: PropertyGalleryProps) {
               <X size={18} />
             </button>
 
-            <div className="relative aspect-[4/3] overflow-hidden rounded-[1.5rem] bg-[linear-gradient(180deg,#eef4fb_0%,#d8e7f8_100%)]">
+            <div className="relative h-[72svh] min-h-[420px] overflow-hidden rounded-[1.5rem] bg-[linear-gradient(180deg,#eef4fb_0%,#d8e7f8_100%)] sm:h-[78svh]">
               <Image
                 src={activeImage.src}
                 alt={activeImage.alt}
                 fill
-                className="object-contain p-4 sm:p-6"
+                className="object-contain p-3 sm:p-5"
                 sizes="90vw"
                 priority
               />
