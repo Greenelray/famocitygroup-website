@@ -87,7 +87,7 @@ export function Navbar() {
 
             <Link
               href="#contact"
-              className="button-invest inline-flex items-center justify-center gap-2 rounded-full border border-[#0b1f3a]/12 bg-[#0b1f3a] px-5 py-3 text-sm font-semibold uppercase tracking-[0.18em] text-white transition hover:bg-[#102848]"
+              className="button-header-start inline-flex min-w-[172px] shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-full border border-[#0b1f3a]/12 bg-[#0b1f3a] px-6 py-3 text-sm font-semibold uppercase tracking-[0.12em] text-white transition hover:bg-[#102848]"
             >
               Get Started
               <ArrowRight size={14} />
@@ -141,7 +141,7 @@ export function Navbar() {
               ))}
               <Link
                 href="#contact"
-                className="button-invest mt-2 inline-flex items-center justify-center gap-2 rounded-2xl bg-[#0b1f3a] px-4 py-3 text-center text-sm font-semibold uppercase tracking-[0.18em] text-white"
+                className="button-header-start mt-2 inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-2xl bg-[#0b1f3a] px-5 py-3 text-center text-sm font-semibold uppercase tracking-[0.12em] text-white"
                 onClick={() => setOpen(false)}
               >
                 Get Started
