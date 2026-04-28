@@ -2,27 +2,47 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight, Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
+import { isAdminEmail } from "@/lib/admin-emails";
 
 const leftLinks = [
-  { label: "Home", href: "#home" },
-  { label: "About", href: "#about" },
-  { label: "Services", href: "#services" }
+  { label: "Home", href: "/#home" },
+  { label: "About", href: "/#about" },
+  { label: "Services", href: "/#services" },
+  { label: "Courses", href: "/courses" }
 ];
 
-const rightLinks = [
-  { label: "Famosave", href: "#famosave" },
-  { label: "Team", href: "#team" },
-  { label: "Contact", href: "#contact" }
+const baseRightLinks = [
+  { label: "Famosave", href: "/#famosave" },
+  { label: "Team", href: "/#team" },
+  { label: "Contact", href: "/#contact" },
+  { label: "My Courses", href: "/my-courses" }
 ];
 
-const mobileLinks = [...leftLinks, ...rightLinks];
+type NavbarProps = {
+  userEmail?: string | null;
+};
 
-export function Navbar() {
+export function Navbar({ userEmail }: NavbarProps) {
+  const pathname = usePathname();
+  const rightLinks = isAdminEmail(userEmail)
+    ? [...baseRightLinks, { label: "Admin", href: "/admin" }]
+    : baseRightLinks;
+
+  const mobileLinks = [
+  { label: "Home", href: "/#home" },
+  { label: "About", href: "/#about" },
+  { label: "Services", href: "/#services" },
+  { label: "Courses", href: "/courses" },
+  ...rightLinks
+  ];
+
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [currentHash, setCurrentHash] = useState("");
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 16);
@@ -30,6 +50,24 @@ export function Navbar() {
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  useEffect(() => {
+    const syncHash = () => setCurrentHash(window.location.hash || "#home");
+    syncHash();
+    window.addEventListener("hashchange", syncHash);
+    return () => window.removeEventListener("hashchange", syncHash);
+  }, []);
+
+  const isLinkActive = (href: string) => {
+    const [path, hash] = href.split("#");
+    const normalizedPath = path || "/";
+
+    if (hash) {
+      return pathname === normalizedPath && currentHash === `#${hash}`;
+    }
+
+    return pathname === normalizedPath;
+  };
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-slate-200/70 bg-white/95 shadow-[0_12px_36px_rgba(11,31,58,0.08)] backdrop-blur-xl">
@@ -40,63 +78,74 @@ export function Navbar() {
         }}
         className="section-shell"
       >
-        <div className="hidden items-center justify-between gap-8 lg:flex">
-          <nav aria-label="Primary navigation left" className="flex min-w-0 flex-1 items-center justify-end gap-8 xl:gap-10">
+        <div className="hidden items-center justify-between gap-6 xl:flex">
+          <nav aria-label="Primary navigation left" className="flex min-w-0 flex-1 items-center justify-end gap-5 2xl:gap-7">
             {leftLinks.map((link, index) => (
+              (() => {
+                const active = isLinkActive(link.href);
+                return (
               <Link
                 key={link.href}
                 href={link.href}
-                className={`group relative text-sm font-semibold uppercase tracking-[0.22em] transition ${
-                  index === 0 ? "text-[#0b1f3a]" : "text-slate-500 hover:text-[#0b1f3a]"
+                className={`group relative text-xs font-semibold uppercase tracking-[0.18em] transition 2xl:text-sm 2xl:tracking-[0.22em] ${
+                  active ? "text-[#0b1f3a]" : "text-slate-500 hover:text-[#0b1f3a]"
                 }`}
+                aria-current={active ? "page" : undefined}
               >
                 {link.label}
                 <span
                   className={`absolute -bottom-2 left-0 h-[2px] rounded-full bg-[#c8a951] transition-all ${
-                    index === 0 ? "w-full" : "w-0 group-hover:w-full"
+                    active ? "w-full" : "w-0 group-hover:w-full"
                   }`}
                 />
               </Link>
+                );
+              })()
             ))}
           </nav>
 
-          <Link aria-label="Famocity home" className="flex shrink-0 flex-col items-center" href="#home">
+          <Link aria-label="Famocity home" className="flex shrink-0 flex-col items-center" href="/#home">
             <Image
               src="/famocity-header-logo-cropped.png"
               alt="Famocity Real Estate and Constructions Ltd logo"
               width={1177}
               height={278}
-              className="h-16 w-auto xl:h-20"
+              className="h-10 w-auto max-w-[260px] 2xl:h-12 2xl:max-w-[320px]"
               priority
             />
           </Link>
 
-          <div className="flex min-w-0 flex-1 items-center justify-start gap-8 xl:gap-10">
-            <nav aria-label="Primary navigation right" className="flex items-center gap-8 xl:gap-10">
+          <div className="flex min-w-0 flex-1 items-center justify-end">
+            <nav aria-label="Primary navigation right" className="flex min-w-0 items-center gap-4 2xl:gap-6">
               {rightLinks.map((link) => (
+                (() => {
+                  const active = isLinkActive(link.href);
+                  return (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="group relative text-sm font-semibold uppercase tracking-[0.22em] text-slate-500 transition hover:text-[#0b1f3a]"
+                  className={`group relative text-[11px] font-semibold uppercase tracking-[0.14em] transition 2xl:text-sm 2xl:tracking-[0.22em] ${
+                    active ? "text-[#0b1f3a]" : "text-slate-500 hover:text-[#0b1f3a]"
+                  }`}
+                  aria-current={active ? "page" : undefined}
                 >
                   {link.label}
-                  <span className="absolute -bottom-2 left-0 h-[2px] w-0 rounded-full bg-[#c8a951] transition-all group-hover:w-full" />
+                  <span
+                    className={`absolute -bottom-2 left-0 h-[2px] rounded-full bg-[#c8a951] transition-all ${
+                      active ? "w-full" : "w-0 group-hover:w-full"
+                    }`}
+                  />
                 </Link>
+                  );
+                })()
               ))}
             </nav>
 
-            <Link
-              href="#contact"
-              className="button-header-start inline-flex min-w-[172px] shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-full border border-[#0b1f3a]/12 bg-[#0b1f3a] px-6 py-3 text-sm font-semibold uppercase tracking-[0.12em] text-white transition hover:bg-[#102848]"
-            >
-              Get Started
-              <ArrowRight size={14} />
-            </Link>
           </div>
         </div>
 
-        <div className="flex items-center justify-between gap-3 lg:hidden">
-          <Link aria-label="Famocity home" className="min-w-0" href="#home">
+        <div className="flex items-center justify-between gap-3 xl:hidden">
+          <Link aria-label="Famocity home" className="min-w-0" href="/#home">
             <Image
               src="/famocity-header-logo-cropped.png"
               alt="Famocity Real Estate and Constructions Ltd logo"
@@ -126,25 +175,35 @@ export function Navbar() {
             initial={{ opacity: 0, y: -12 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
-            className="section-shell border-t border-slate-200 bg-white py-4 lg:hidden"
+            className="section-shell border-t border-slate-200 bg-white py-4 xl:hidden"
           >
             <nav aria-label="Mobile navigation" className="flex flex-col gap-2">
               {mobileLinks.map((link) => (
+                (() => {
+                  const active = isLinkActive(link.href);
+                  return (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="rounded-2xl px-4 py-3 text-sm font-semibold uppercase tracking-[0.18em] text-slate-700 transition hover:bg-slate-50 hover:text-[#0b1f3a]"
+                  className={`rounded-2xl px-4 py-3 text-sm font-semibold uppercase tracking-[0.18em] transition ${
+                    active
+                      ? "bg-[#0b1f3a] text-white"
+                      : "text-slate-700 hover:bg-slate-50 hover:text-[#0b1f3a]"
+                  }`}
                   onClick={() => setOpen(false)}
+                  aria-current={active ? "page" : undefined}
                 >
                   {link.label}
                 </Link>
+                  );
+                })()
               ))}
               <Link
-                href="#contact"
+                href="/courses"
                 className="button-header-start mt-2 inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-2xl bg-[#0b1f3a] px-5 py-3 text-center text-sm font-semibold uppercase tracking-[0.12em] text-white"
                 onClick={() => setOpen(false)}
               >
-                Get Started
+                Start Learning
                 <ArrowRight size={14} />
               </Link>
             </nav>

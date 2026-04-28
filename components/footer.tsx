@@ -4,10 +4,10 @@ import { Facebook, Instagram, Mail, MapPin, Phone, Youtube } from "lucide-react"
 import logo from "../logo.png";
 
 const quickLinks = [
-  { label: "About", href: "#about" },
-  { label: "Services", href: "#services" },
-  { label: "Team", href: "#team" },
-  { label: "Contact", href: "#contact" }
+  { label: "About", href: "/#about" },
+  { label: "Services", href: "/#services" },
+  { label: "Courses", href: "/courses" },
+  { label: "Contact", href: "/#contact" }
 ];
 
 const socialLinks = [
@@ -106,7 +106,7 @@ export function Footer() {
         </div>
       </div>
       <div className="section-shell relative border-t border-white/10 py-5 text-xs text-white/55">
-        <p>© {new Date().getFullYear()} Famocity Real Estate and Construction Limited. All rights reserved.</p>
+        <p>&copy; {new Date().getFullYear()} Famocity Real Estate and Construction Limited. All rights reserved.</p>
       </div>
     </footer>
   );

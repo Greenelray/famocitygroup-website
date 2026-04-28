@@ -22,10 +22,12 @@ import managerPhoto from "../manager (2).jpeg";
 import managingDirectorPhoto from "../md.jpeg";
 import promisePhoto from "../md2.jpeg";
 import { ContactForm } from "@/components/contact-form";
+import { CourseCard } from "@/components/course-card";
 import { Footer } from "@/components/footer";
 import { Navbar } from "@/components/navbar";
 import { PropertyGallery } from "@/components/property-gallery";
 import { Reveal } from "@/components/reveal";
+import { listCourses } from "@/lib/course-data";
 
 const stats = [
   { value: "4", label: "Integrated business pillars" },
@@ -113,7 +115,9 @@ const team = [
   { name: "Blessing Okpor", role: "Business Auditor", image: auditorPhoto }
 ];
 
-export default function Home() {
+export default async function Home() {
+  const courses = await listCourses();
+
   return (
     <main className="relative overflow-x-hidden bg-white">
       <Navbar />
@@ -625,6 +629,39 @@ export default function Home() {
               </p>
             </div>
           </Reveal>
+        </div>
+      </section>
+
+      <section id="academy" className="section-block bg-white">
+        <div className="section-shell">
+          <Reveal>
+            <div className="grid gap-8 lg:grid-cols-[1fr_0.9fr] lg:items-end">
+              <div>
+                <span className="section-label">Famocity Academy</span>
+                <h2 className="section-title">Learn the ownership principles behind the brand.</h2>
+                <p className="section-copy">
+                  Famocity now includes a course platform where students can sign up, pay on the website, and return to a protected learning dashboard anytime.
+                </p>
+              </div>
+              <div className="glass-card p-6">
+                <p className="text-sm leading-7 text-slate-600">
+                  This is the learning arm of the business, designed for practical training around ownership, real estate discipline, and structured growth.
+                </p>
+                <Link href="/courses" className="premium-button-primary mt-5">
+                  Explore courses
+                  <ArrowRight size={16} />
+                </Link>
+              </div>
+            </div>
+          </Reveal>
+
+          <div className="mt-12 grid gap-6 lg:grid-cols-2 xl:grid-cols-3">
+            {courses.map((course, index) => (
+              <Reveal key={course.slug} delay={0.08 * index}>
+                <CourseCard course={course} />
+              </Reveal>
+            ))}
+          </div>
         </div>
       </section>
 

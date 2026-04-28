@@ -1,18 +1,5 @@
 import type { Metadata } from "next";
-import { Poppins, Roboto } from "next/font/google";
 import "./globals.css";
-
-const display = Poppins({
-  subsets: ["latin"],
-  variable: "--font-display",
-  weight: ["600", "700", "800"]
-});
-
-const body = Roboto({
-  subsets: ["latin"],
-  variable: "--font-body",
-  weight: ["400", "500", "600", "700", "800"]
-});
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://famocitygroup.org"),
@@ -54,7 +41,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="scroll-smooth">
-      <body className={`${display.variable} ${body.variable} bg-white text-slate-800 antialiased`}>
+      <body className="bg-white text-slate-800 antialiased">
         {children}
       </body>
     </html>
