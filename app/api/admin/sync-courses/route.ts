@@ -3,19 +3,21 @@ import { fallbackCourses } from "@/lib/course-data";
 import { getAdminAccess } from "@/lib/admin";
 import { createSupabaseAdminClient, isSupabaseConfigured } from "@/lib/supabase";
 
+const redirect303 = (url: URL | string) => NextResponse.redirect(url, { status: 303 });
+
 export async function POST(request: Request) {
   const adminAccess = await getAdminAccess();
 
   if (adminAccess.reason === "unauthenticated") {
-    return NextResponse.redirect(new URL("/login?next=/admin&error=Please+log+in+with+an+admin+account.", request.url));
+    return redirect303(new URL("/login?next=/admin&error=Please+log+in+with+an+admin+account.", request.url));
   }
 
   if (!adminAccess.allowed) {
-    return NextResponse.redirect(new URL("/my-courses?error=You+do+not+have+admin+access.", request.url));
+    return redirect303(new URL("/my-courses?error=You+do+not+have+admin+access.", request.url));
   }
 
   if (!isSupabaseConfigured()) {
-    return NextResponse.redirect(new URL("/admin?error=Supabase+is+not+configured+yet.", request.url));
+    return redirect303(new URL("/admin?error=Supabase+is+not+configured+yet.", request.url));
   }
 
   try {
@@ -97,8 +99,8 @@ export async function POST(request: Request) {
       }
     }
 
-    return NextResponse.redirect(new URL("/admin?imported=success", request.url));
+    return redirect303(new URL("/admin?imported=success", request.url));
   } catch {
-    return NextResponse.redirect(new URL("/admin?error=Course+import+failed.+Please+check+that+the+course-content+schema+has+been+run+in+Supabase.", request.url));
+    return redirect303(new URL("/admin?error=Course+import+failed.+Please+check+that+the+course-content+schema+has+been+run+in+Supabase.", request.url));
   }
 }

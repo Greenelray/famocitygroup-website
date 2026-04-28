@@ -3,6 +3,8 @@ import { getAdminAccess } from "@/lib/admin";
 import { createSupabaseAdminClient, isSupabaseConfigured } from "@/lib/supabase";
 import { uploadCourseImage, uploadCourseVideo } from "@/lib/storage";
 
+const redirect303 = (url: URL | string) => NextResponse.redirect(url, { status: 303 });
+
 type UpdateCourseRouteProps = {
   params: Promise<{ slug: string }>;
 };
@@ -52,15 +54,15 @@ export async function POST(request: Request, { params }: UpdateCourseRouteProps)
   const adminAccess = await getAdminAccess();
 
   if (adminAccess.reason === "unauthenticated") {
-    return NextResponse.redirect(new URL("/login?next=/admin&error=Please+log+in+with+an+admin+account.", request.url));
+    return redirect303(new URL("/login?next=/admin&error=Please+log+in+with+an+admin+account.", request.url));
   }
 
   if (!adminAccess.allowed) {
-    return NextResponse.redirect(new URL("/my-courses?error=You+do+not+have+admin+access.", request.url));
+    return redirect303(new URL("/my-courses?error=You+do+not+have+admin+access.", request.url));
   }
 
   if (!isSupabaseConfigured()) {
-    return NextResponse.redirect(new URL("/admin?error=Supabase+is+not+configured+yet.", request.url));
+    return redirect303(new URL("/admin?error=Supabase+is+not+configured+yet.", request.url));
   }
 
   const routeParams = await params;
@@ -71,7 +73,7 @@ export async function POST(request: Request, { params }: UpdateCourseRouteProps)
     const payload = parsePayload(formData);
 
     if (!payload) {
-      return NextResponse.redirect(new URL(`/admin/courses/${routeParams.slug}?error=Missing+course+payload.`, request.url));
+      return redirect303(new URL(`/admin/courses/${routeParams.slug}?error=Missing+course+payload.`, request.url));
     }
 
     const existingCourse = await supabase
@@ -81,7 +83,7 @@ export async function POST(request: Request, { params }: UpdateCourseRouteProps)
       .single();
 
     if (existingCourse.error || !existingCourse.data) {
-      return NextResponse.redirect(new URL("/admin?error=That+course+could+not+be+found+for+editing.", request.url));
+      return redirect303(new URL("/admin?error=That+course+could+not+be+found+for+editing.", request.url));
     }
 
     const thumbnail = formData.get("thumbnail");
@@ -117,7 +119,7 @@ export async function POST(request: Request, { params }: UpdateCourseRouteProps)
       .eq("id", existingCourse.data.id);
 
     if (courseResult.error) {
-      return NextResponse.redirect(new URL(`/admin/courses/${routeParams.slug}?error=Could+not+update+the+course+record.`, request.url));
+      return redirect303(new URL(`/admin/courses/${routeParams.slug}?error=Could+not+update+the+course+record.`, request.url));
     }
 
     await supabase.from("course_modules").delete().eq("course_id", existingCourse.data.id);
@@ -136,7 +138,7 @@ export async function POST(request: Request, { params }: UpdateCourseRouteProps)
         .single();
 
       if (moduleResult.error || !moduleResult.data) {
-        return NextResponse.redirect(new URL(`/admin/courses/${routeParams.slug}?error=Could+not+rebuild+the+course+modules.`, request.url));
+        return redirect303(new URL(`/admin/courses/${routeParams.slug}?error=Could+not+rebuild+the+course+modules.`, request.url));
       }
 
       for (const [lessonIndex, lesson] of module.lessons.entries()) {
@@ -166,13 +168,13 @@ export async function POST(request: Request, { params }: UpdateCourseRouteProps)
         });
 
         if (lessonResult.error) {
-          return NextResponse.redirect(new URL(`/admin/courses/${routeParams.slug}?error=Could+not+save+one+of+the+lessons.`, request.url));
+          return redirect303(new URL(`/admin/courses/${routeParams.slug}?error=Could+not+save+one+of+the+lessons.`, request.url));
         }
       }
     }
 
-    return NextResponse.redirect(new URL(`/admin/courses/${payload.slug}?updated=success`, request.url));
+    return redirect303(new URL(`/admin/courses/${payload.slug}?updated=success`, request.url));
   } catch {
-    return NextResponse.redirect(new URL(`/admin/courses/${routeParams.slug}?error=Course+update+failed.+Please+check+your+inputs+and+try+again.`, request.url));
+    return redirect303(new URL(`/admin/courses/${routeParams.slug}?error=Course+update+failed.+Please+check+your+inputs+and+try+again.`, request.url));
   }
 }

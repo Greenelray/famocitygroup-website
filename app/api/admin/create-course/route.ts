@@ -3,6 +3,8 @@ import { getAdminAccess } from "@/lib/admin";
 import { createSupabaseAdminClient, isSupabaseConfigured } from "@/lib/supabase";
 import { uploadCourseImage, uploadCourseVideo } from "@/lib/storage";
 
+const redirect303 = (url: URL | string) => NextResponse.redirect(url, { status: 303 });
+
 function parseLines(value: string) {
   return value
     .split("\n")
@@ -14,15 +16,15 @@ export async function POST(request: Request) {
   const adminAccess = await getAdminAccess();
 
   if (adminAccess.reason === "unauthenticated") {
-    return NextResponse.redirect(new URL("/login?next=/admin&error=Please+log+in+with+an+admin+account.", request.url));
+    return redirect303(new URL("/login?next=/admin&error=Please+log+in+with+an+admin+account.", request.url));
   }
 
   if (!adminAccess.allowed) {
-    return NextResponse.redirect(new URL("/my-courses?error=You+do+not+have+admin+access.", request.url));
+    return redirect303(new URL("/my-courses?error=You+do+not+have+admin+access.", request.url));
   }
 
   if (!isSupabaseConfigured()) {
-    return NextResponse.redirect(new URL("/admin?error=Supabase+is+not+configured+yet.", request.url));
+    return redirect303(new URL("/admin?error=Supabase+is+not+configured+yet.", request.url));
   }
 
   try {
@@ -72,7 +74,7 @@ export async function POST(request: Request) {
       !(heroImage instanceof File) ||
       !(lessonVideo instanceof File)
     ) {
-      return NextResponse.redirect(new URL("/admin?error=Please+complete+all+required+course+fields+before+uploading.", request.url));
+      return redirect303(new URL("/admin?error=Please+complete+all+required+course+fields+before+uploading.", request.url));
     }
 
     const [thumbnailUrl, heroImageUrl, videoUrl] = await Promise.all([
@@ -113,7 +115,7 @@ export async function POST(request: Request) {
       .single();
 
     if (courseResult.error || !courseResult.data) {
-      return NextResponse.redirect(new URL("/admin?error=Could+not+save+the+course+record.+Please+check+that+the+slug+is+unique.", request.url));
+      return redirect303(new URL("/admin?error=Could+not+save+the+course+record.+Please+check+that+the+slug+is+unique.", request.url));
     }
 
     const moduleResult = await supabase
@@ -129,7 +131,7 @@ export async function POST(request: Request) {
       .single();
 
     if (moduleResult.error || !moduleResult.data) {
-      return NextResponse.redirect(new URL("/admin?error=Course+saved+but+the+module+could+not+be+created.", request.url));
+      return redirect303(new URL("/admin?error=Course+saved+but+the+module+could+not+be+created.", request.url));
     }
 
     const lessonResult = await supabase.from("course_lessons").insert({
@@ -146,11 +148,11 @@ export async function POST(request: Request) {
     });
 
     if (lessonResult.error) {
-      return NextResponse.redirect(new URL("/admin?error=Course+and+module+saved+but+the+lesson+could+not+be+created.", request.url));
+      return redirect303(new URL("/admin?error=Course+and+module+saved+but+the+lesson+could+not+be+created.", request.url));
     }
 
-    return NextResponse.redirect(new URL("/admin?created=success", request.url));
+    return redirect303(new URL("/admin?created=success", request.url));
   } catch {
-    return NextResponse.redirect(new URL("/admin?error=Course+upload+failed.+Please+check+your+files+and+try+again.", request.url));
+    return redirect303(new URL("/admin?error=Course+upload+failed.+Please+check+your+files+and+try+again.", request.url));
   }
 }

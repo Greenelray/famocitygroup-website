@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { createSessionCookie } from "@/lib/session";
 import { createSupabaseAdminClient, isSupabaseConfigured } from "@/lib/supabase";
 
+const redirect303 = (url: URL | string) => NextResponse.redirect(url, { status: 303 });
+
 export async function POST(request: Request) {
   const formData = await request.formData();
   const name = formData.get("name")?.toString().trim();
@@ -10,12 +12,12 @@ export async function POST(request: Request) {
   const next = formData.get("next")?.toString() || "/my-courses";
 
   if (!name || !email) {
-    return NextResponse.redirect(new URL("/signup?error=Please+enter+your+name+and+email.", request.url));
+    return redirect303(new URL("/signup?error=Please+enter+your+name+and+email.", request.url));
   }
 
   if (isSupabaseConfigured()) {
     if (!password || password.length < 8) {
-      return NextResponse.redirect(new URL("/signup?error=Please+use+a+password+with+at+least+8+characters.", request.url));
+      return redirect303(new URL("/signup?error=Please+use+a+password+with+at+least+8+characters.", request.url));
     }
 
     const supabase = createSupabaseAdminClient();
@@ -29,7 +31,7 @@ export async function POST(request: Request) {
     });
 
     if (error || !data.user) {
-      return NextResponse.redirect(new URL("/signup?error=We+could+not+create+that+account.+Please+try+a+different+email.", request.url));
+      return redirect303(new URL("/signup?error=We+could+not+create+that+account.+Please+try+a+different+email.", request.url));
     }
 
     await supabase.from("profiles").upsert({
@@ -38,7 +40,7 @@ export async function POST(request: Request) {
       email
     });
 
-    const response = NextResponse.redirect(new URL(next, request.url));
+    const response = redirect303(new URL(next, request.url));
     response.cookies.set(
       createSessionCookie({
         id: data.user.id,
@@ -49,7 +51,7 @@ export async function POST(request: Request) {
     return response;
   }
 
-  const response = NextResponse.redirect(new URL(next, request.url));
+  const response = redirect303(new URL(next, request.url));
   response.cookies.set(createSessionCookie({ name, email }));
   return response;
 }

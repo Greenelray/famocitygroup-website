@@ -3,14 +3,16 @@ import { getCourseBySlug } from "@/lib/course-data";
 import { getSessionUser } from "@/lib/session";
 import { initializePaystackTransaction, isPaystackConfigured } from "@/lib/paystack";
 
+const redirect303 = (url: URL | string) => NextResponse.redirect(url, { status: 303 });
+
 export async function POST(request: Request) {
   const user = await getSessionUser();
   if (!user) {
-    return NextResponse.redirect(new URL("/login?next=/courses", request.url));
+    return redirect303(new URL("/login?next=/courses", request.url));
   }
 
   if (!isPaystackConfigured()) {
-    return NextResponse.redirect(new URL("/my-courses?error=Paystack+keys+are+not+configured+yet.", request.url));
+    return redirect303(new URL("/my-courses?error=Paystack+keys+are+not+configured+yet.", request.url));
   }
 
   const formData = await request.formData();
@@ -18,7 +20,7 @@ export async function POST(request: Request) {
   const course = courseSlug ? await getCourseBySlug(courseSlug) : null;
 
   if (!course) {
-    return NextResponse.redirect(new URL("/courses?error=Course+not+found.", request.url));
+    return redirect303(new URL("/courses?error=Course+not+found.", request.url));
   }
 
   const callbackUrl = new URL("/api/paystack/callback", request.url).toString();
@@ -36,11 +38,11 @@ export async function POST(request: Request) {
     });
 
     if (!result.status || !result.data?.authorization_url) {
-      return NextResponse.redirect(new URL(`/courses/${course.slug}?error=Could+not+start+payment.`, request.url));
+      return redirect303(new URL(`/courses/${course.slug}?error=Could+not+start+payment.`, request.url));
     }
 
-    return NextResponse.redirect(result.data.authorization_url);
+    return NextResponse.redirect(result.data.authorization_url, { status: 303 });
   } catch {
-    return NextResponse.redirect(new URL(`/courses/${course.slug}?error=Payment+initialization+failed.`, request.url));
+    return redirect303(new URL(`/courses/${course.slug}?error=Payment+initialization+failed.`, request.url));
   }
 }

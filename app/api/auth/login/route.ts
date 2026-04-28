@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { createSessionCookie } from "@/lib/session";
 import { createSupabaseAuthClient, isSupabaseConfigured } from "@/lib/supabase";
 
+const redirect303 = (url: URL | string) => NextResponse.redirect(url, { status: 303 });
+
 export async function POST(request: Request) {
   const formData = await request.formData();
   const name = formData.get("name")?.toString().trim();
@@ -10,12 +12,12 @@ export async function POST(request: Request) {
   const next = formData.get("next")?.toString() || "/my-courses";
 
   if (!name || !email) {
-    return NextResponse.redirect(new URL("/login?error=Please+enter+your+name+and+email.", request.url));
+    return redirect303(new URL("/login?error=Please+enter+your+name+and+email.", request.url));
   }
 
   if (isSupabaseConfigured()) {
     if (!password) {
-      return NextResponse.redirect(new URL("/login?error=Please+enter+your+password.", request.url));
+      return redirect303(new URL("/login?error=Please+enter+your+password.", request.url));
     }
 
     const supabase = createSupabaseAuthClient();
@@ -25,10 +27,10 @@ export async function POST(request: Request) {
     });
 
     if (error || !data.user) {
-      return NextResponse.redirect(new URL("/login?error=Invalid+email+or+password.", request.url));
+      return redirect303(new URL("/login?error=Invalid+email+or+password.", request.url));
     }
 
-    const response = NextResponse.redirect(new URL(next, request.url));
+    const response = redirect303(new URL(next, request.url));
     response.cookies.set(
       createSessionCookie({
         id: data.user.id,
@@ -39,7 +41,7 @@ export async function POST(request: Request) {
     return response;
   }
 
-  const response = NextResponse.redirect(new URL(next, request.url));
+  const response = redirect303(new URL(next, request.url));
   response.cookies.set(createSessionCookie({ name, email }));
   return response;
 }

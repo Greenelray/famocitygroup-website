@@ -116,7 +116,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
 
             {!supabaseConfigured ? (
               <div className="mt-5 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-700">
-                Add your Supabase keys to <code>.env.local</code> before importing content.
+                Add your Supabase keys to your environment variables before importing content on live.
               </div>
             ) : null}
 
