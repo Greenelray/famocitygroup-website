@@ -7,8 +7,8 @@ export const metadata: Metadata = {
   description:
     "Premium real estate and construction company helping people build wealth through property, construction, gadgets, and disciplined savings.",
   icons: {
-    icon: "/icon.png",
-    shortcut: "/icon.png",
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
     apple: "/icon.png"
   },
   keywords: [
