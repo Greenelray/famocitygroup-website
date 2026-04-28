@@ -27,7 +27,7 @@ export default async function CoursePage({ params }: CoursePageProps) {
 
   return (
     <main className="relative overflow-x-hidden bg-white">
-      <Navbar />
+      <Navbar userEmail={user?.email} />
 
       <section className="section-surface pb-16 pt-36 sm:pb-20 sm:pt-40">
         <div className="section-shell grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">

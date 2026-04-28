@@ -123,7 +123,7 @@ export default async function ProfilePage({ searchParams }: ProfilePageProps) {
                   <h2 className="text-2xl font-semibold text-slate-900">Change password</h2>
                 </div>
                 <p className="mt-3 text-sm leading-7 text-slate-600">
-                  Choose a strong password and use the checkbox below if you want to see what you are typing.
+                  Choose a strong password and use the eye icon in each field if you want to see what you are typing.
                 </p>
 
                 <div className="mt-6">

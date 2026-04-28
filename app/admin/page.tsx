@@ -31,7 +31,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
 
   return (
     <main className="bg-white">
-      <Navbar />
+      <Navbar userEmail={adminAccess.user.email} />
 
       <section className="section-surface pb-16 pt-36 sm:pb-20 sm:pt-40">
         <div className="section-shell">

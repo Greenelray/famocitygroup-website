@@ -33,7 +33,7 @@ export default async function LessonPage({ params }: LessonPageProps) {
 
   return (
     <main className="bg-white">
-      <Navbar />
+      <Navbar userEmail={user.email} />
 
       <section className="section-surface pb-16 pt-36 sm:pb-20 sm:pt-40">
         <div className="section-shell">

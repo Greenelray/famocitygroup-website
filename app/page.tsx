@@ -28,6 +28,7 @@ import { Navbar } from "@/components/navbar";
 import { PropertyGallery } from "@/components/property-gallery";
 import { Reveal } from "@/components/reveal";
 import { listCourses } from "@/lib/course-data";
+import { getSessionUser } from "@/lib/session";
 
 const stats = [
   { value: "4", label: "Integrated business pillars" },
@@ -117,10 +118,11 @@ const team = [
 
 export default async function Home() {
   const courses = await listCourses();
+  const user = await getSessionUser();
 
   return (
     <main className="relative overflow-x-hidden bg-white">
-      <Navbar />
+      <Navbar userEmail={user?.email} />
 
       <section id="home" className="relative overflow-hidden pb-20 pt-40 sm:pb-24 sm:pt-44">
         <div className="absolute inset-0">

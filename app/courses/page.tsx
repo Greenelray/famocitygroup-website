@@ -4,13 +4,15 @@ import { CourseCard } from "@/components/course-card";
 import { Footer } from "@/components/footer";
 import { Navbar } from "@/components/navbar";
 import { listCourses } from "@/lib/course-data";
+import { getSessionUser } from "@/lib/session";
 
 export default async function CoursesPage() {
   const courses = await listCourses();
+  const user = await getSessionUser();
 
   return (
     <main className="relative overflow-x-hidden bg-white">
-      <Navbar />
+      <Navbar userEmail={user?.email} />
 
       <section className="section-surface pb-16 pt-36 sm:pb-20 sm:pt-40">
         <div className="section-shell">
