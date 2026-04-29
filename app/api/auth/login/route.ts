@@ -3,6 +3,7 @@ import { syncProfile } from "@/lib/profile-access";
 import { getSafeRedirectPath, isTrustedFormRequest } from "@/lib/request-security";
 import { createSessionCookie } from "@/lib/session";
 import { createSupabaseAuthClient, isSupabaseConfigured } from "@/lib/supabase";
+import { isSessionSecretConfigured } from "@/lib/secure-cookie";
 
 const redirect303 = (url: URL | string) => NextResponse.redirect(url, { status: 303 });
 const isJsonRequest = (request: Request) => request.headers.get("x-famocity-request") === "json";
@@ -63,11 +64,28 @@ export async function POST(request: Request) {
         return redirect303(new URL("/login?error=Invalid+email+or+password.", request.url));
       }
 
+      const fullName =
+        (typeof data.user.user_metadata === "object" &&
+        data.user.user_metadata &&
+        "full_name" in data.user.user_metadata
+          ? String(data.user.user_metadata.full_name || "")
+          : "") ||
+        data.user.email ||
+        email;
+
       await syncProfile({
         id: data.user.id,
         email: data.user.email || email,
-        name: data.user.user_metadata.full_name || data.user.email || email
+        name: fullName
       });
+
+      if (!isSessionSecretConfigured()) {
+        if (isJsonRequest(request)) {
+          return jsonError("Session security is not configured yet.", 500);
+        }
+
+        return redirect303(new URL("/login?error=Session+security+is+not+configured+yet.", request.url));
+      }
 
       const response = isJsonRequest(request)
         ? NextResponse.json({
@@ -78,11 +96,19 @@ export async function POST(request: Request) {
       response.cookies.set(
         createSessionCookie({
           id: data.user.id,
-          name: data.user.user_metadata.full_name || data.user.email || email,
+          name: fullName,
           email: data.user.email || email
         })
       );
       return response;
+    }
+
+    if (!isSessionSecretConfigured()) {
+      if (isJsonRequest(request)) {
+        return jsonError("Session security is not configured yet.", 500);
+      }
+
+      return redirect303(new URL("/login?error=Session+security+is+not+configured+yet.", request.url));
     }
 
     const response = isJsonRequest(request)
