@@ -5,9 +5,24 @@ import { createSessionCookie } from "@/lib/session";
 import { createSupabaseAuthClient, isSupabaseConfigured } from "@/lib/supabase";
 
 const redirect303 = (url: URL | string) => NextResponse.redirect(url, { status: 303 });
+const isJsonRequest = (request: Request) => request.headers.get("x-famocity-request") === "json";
+
+function jsonError(message: string, status = 400) {
+  return NextResponse.json(
+    {
+      ok: false,
+      error: message
+    },
+    { status }
+  );
+}
 
 export async function POST(request: Request) {
   if (!isTrustedFormRequest(request)) {
+    if (isJsonRequest(request)) {
+      return jsonError("Could not verify your request.", 403);
+    }
+
     return redirect303(new URL("/login?error=Could+not+verify+your+request.", request.url));
   }
 
@@ -17,11 +32,19 @@ export async function POST(request: Request) {
   const next = getSafeRedirectPath(formData.get("next")?.toString(), "/my-courses");
 
   if (!email) {
+    if (isJsonRequest(request)) {
+      return jsonError("Please enter your email address.");
+    }
+
     return redirect303(new URL("/login?error=Please+enter+your+email+address.", request.url));
   }
 
   if (isSupabaseConfigured()) {
     if (!password) {
+      if (isJsonRequest(request)) {
+        return jsonError("Please enter your password.");
+      }
+
       return redirect303(new URL("/login?error=Please+enter+your+password.", request.url));
     }
 
@@ -32,6 +55,10 @@ export async function POST(request: Request) {
     });
 
     if (error || !data.user) {
+      if (isJsonRequest(request)) {
+        return jsonError("Invalid email or password.", 401);
+      }
+
       return redirect303(new URL("/login?error=Invalid+email+or+password.", request.url));
     }
 
@@ -41,7 +68,12 @@ export async function POST(request: Request) {
       name: data.user.user_metadata.full_name || data.user.email || email
     });
 
-    const response = redirect303(new URL(next, request.url));
+    const response = isJsonRequest(request)
+      ? NextResponse.json({
+          ok: true,
+          redirectTo: next
+        })
+      : redirect303(new URL(next, request.url));
     response.cookies.set(
       createSessionCookie({
         id: data.user.id,
@@ -52,7 +84,12 @@ export async function POST(request: Request) {
     return response;
   }
 
-  const response = redirect303(new URL(next, request.url));
+  const response = isJsonRequest(request)
+    ? NextResponse.json({
+        ok: true,
+        redirectTo: next
+      })
+    : redirect303(new URL(next, request.url));
   response.cookies.set(createSessionCookie({ name: email, email }));
   return response;
 }
