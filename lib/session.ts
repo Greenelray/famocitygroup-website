@@ -1,5 +1,5 @@
 import { cookies } from "next/headers";
-import { decodeSigned, encodeSigned } from "@/lib/secure-cookie";
+import { decodeSigned, encodeSigned, isSessionSecretConfigured } from "@/lib/secure-cookie";
 import { createSupabaseAdminClient, isSupabaseConfigured } from "@/lib/supabase";
 
 export type SessionUser = {
@@ -11,6 +11,10 @@ export type SessionUser = {
 const SESSION_COOKIE = "famocity_session";
 
 export async function getSessionUser() {
+  if (!isSessionSecretConfigured()) {
+    return null;
+  }
+
   const store = await cookies();
   const session = decodeSigned<SessionUser>(store.get(SESSION_COOKIE)?.value);
 
@@ -18,8 +22,12 @@ export async function getSessionUser() {
     return null;
   }
 
-  if (!isSupabaseConfigured() || !session.id) {
+  if (!isSupabaseConfigured()) {
     return session;
+  }
+
+  if (!session.id) {
+    return null;
   }
 
   try {
@@ -31,7 +39,7 @@ export async function getSessionUser() {
       .maybeSingle();
 
     if (!data) {
-      return session;
+      return null;
     }
 
     return {
@@ -40,7 +48,7 @@ export async function getSessionUser() {
       name: data.full_name || session.name || data.email
     };
   } catch {
-    return session;
+    return null;
   }
 }
 

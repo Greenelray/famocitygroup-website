@@ -1,15 +1,21 @@
 import { NextResponse } from "next/server";
+import { syncProfile } from "@/lib/profile-access";
+import { getSafeRedirectPath, isTrustedFormRequest } from "@/lib/request-security";
 import { createSessionCookie } from "@/lib/session";
 import { createSupabaseAuthClient, isSupabaseConfigured } from "@/lib/supabase";
 
 const redirect303 = (url: URL | string) => NextResponse.redirect(url, { status: 303 });
 
 export async function POST(request: Request) {
+  if (!isTrustedFormRequest(request)) {
+    return redirect303(new URL("/login?error=Could+not+verify+your+request.", request.url));
+  }
+
   const formData = await request.formData();
   const name = formData.get("name")?.toString().trim();
   const email = formData.get("email")?.toString().trim().toLowerCase();
   const password = formData.get("password")?.toString();
-  const next = formData.get("next")?.toString() || "/my-courses";
+  const next = getSafeRedirectPath(formData.get("next")?.toString(), "/my-courses");
 
   if (!name || !email) {
     return redirect303(new URL("/login?error=Please+enter+your+name+and+email.", request.url));
@@ -29,6 +35,12 @@ export async function POST(request: Request) {
     if (error || !data.user) {
       return redirect303(new URL("/login?error=Invalid+email+or+password.", request.url));
     }
+
+    await syncProfile({
+      id: data.user.id,
+      email: data.user.email || email,
+      name: data.user.user_metadata.full_name || name || data.user.email || email
+    });
 
     const response = redirect303(new URL(next, request.url));
     response.cookies.set(

@@ -1,13 +1,21 @@
 import { createHmac, timingSafeEqual } from "crypto";
 
-const DEFAULT_SECRET = "famocity-dev-secret-change-me";
-
 function getSecret() {
-  return process.env.SESSION_SECRET ?? DEFAULT_SECRET;
+  return process.env.SESSION_SECRET?.trim() || null;
+}
+
+export function isSessionSecretConfigured() {
+  return Boolean(getSecret());
 }
 
 function sign(value: string) {
-  return createHmac("sha256", getSecret()).update(value).digest("base64url");
+  const secret = getSecret();
+
+  if (!secret) {
+    throw new Error("SESSION_SECRET is not configured.");
+  }
+
+  return createHmac("sha256", secret).update(value).digest("base64url");
 }
 
 export function encodeSigned<T>(payload: T) {
@@ -17,7 +25,7 @@ export function encodeSigned<T>(payload: T) {
 }
 
 export function decodeSigned<T>(input?: string | null) {
-  if (!input) {
+  if (!input || !isSessionSecretConfigured()) {
     return null;
   }
 

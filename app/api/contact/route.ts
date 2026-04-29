@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { isTrustedFormRequest } from "@/lib/request-security";
 
 type ContactPayload = {
   name?: string;
@@ -7,6 +8,10 @@ type ContactPayload = {
 };
 
 export async function POST(request: Request) {
+  if (!isTrustedFormRequest(request)) {
+    return NextResponse.json({ message: "Could not verify your request." }, { status: 403 });
+  }
+
   const body = (await request.json()) as ContactPayload;
 
   if (!body.name || !body.email || !body.message) {

@@ -512,7 +512,7 @@ export function AdminCourseForm({ action, submitLabel, initialCourse }: AdminCou
           <input
             name="thumbnail"
             type="file"
-            accept="image/png,image/jpeg,image/webp,image/svg+xml"
+            accept="image/png,image/jpeg,image/webp"
             required={!initialCourse}
             className="w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm outline-none transition file:mr-4 file:rounded-full file:border-0 file:bg-slate-100 file:px-4 file:py-2 file:font-semibold focus:border-[#c8a951]"
           />
@@ -541,7 +541,7 @@ export function AdminCourseForm({ action, submitLabel, initialCourse }: AdminCou
           <input
             name="heroImage"
             type="file"
-            accept="image/png,image/jpeg,image/webp,image/svg+xml"
+            accept="image/png,image/jpeg,image/webp"
             required={!initialCourse}
             className="w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm outline-none transition file:mr-4 file:rounded-full file:border-0 file:bg-slate-100 file:px-4 file:py-2 file:font-semibold focus:border-[#c8a951]"
           />

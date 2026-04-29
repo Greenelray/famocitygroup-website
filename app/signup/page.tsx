@@ -2,6 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Footer } from "@/components/footer";
 import { Navbar } from "@/components/navbar";
+import { getSafeRedirectPath } from "@/lib/request-security";
 import { getSessionUser } from "@/lib/session";
 
 type SignupPageProps = {
@@ -10,10 +11,11 @@ type SignupPageProps = {
 
 export default async function SignupPage({ searchParams }: SignupPageProps) {
   const params = await searchParams;
+  const next = getSafeRedirectPath(params.next, "/my-courses");
   const user = await getSessionUser();
 
   if (user) {
-    redirect(params.next || "/my-courses");
+    redirect(next);
   }
 
   return (
@@ -36,7 +38,7 @@ export default async function SignupPage({ searchParams }: SignupPageProps) {
             ) : null}
 
             <form action="/api/auth/signup" method="POST" className="mt-8 space-y-4">
-              <input type="hidden" name="next" value={params.next || "/my-courses"} />
+              <input type="hidden" name="next" value={next} />
               <label className="block">
                 <span className="mb-2 block text-sm font-semibold text-slate-700">Full name</span>
                 <input
@@ -74,7 +76,7 @@ export default async function SignupPage({ searchParams }: SignupPageProps) {
 
             <p className="mt-5 text-sm text-slate-600">
               Already have an account?{" "}
-              <Link href={`/login${params.next ? `?next=${encodeURIComponent(params.next)}` : ""}`} className="font-semibold text-[#0b1f3a]">
+              <Link href={`/login${next !== "/my-courses" ? `?next=${encodeURIComponent(next)}` : ""}`} className="font-semibold text-[#0b1f3a]">
                 Log in here
               </Link>
             </p>

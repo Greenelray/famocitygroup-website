@@ -12,7 +12,11 @@ const ENROLLMENTS_COOKIE = "famocity_enrollments";
 export async function getEnrollmentSlugs() {
   const session = await getSessionUser();
 
-  if (isSupabaseConfigured() && session?.id) {
+  if (isSupabaseConfigured()) {
+    if (!session?.id) {
+      return [];
+    }
+
     try {
       const supabase = createSupabaseAdminClient();
       const { data, error } = await supabase
@@ -24,8 +28,10 @@ export async function getEnrollmentSlugs() {
         return data.map((row) => row.course_slug);
       }
     } catch {
-      // Fall back to the cookie-based prototype mode when the database is not ready.
+      return [];
     }
+
+    return [];
   }
 
   const store = await cookies();

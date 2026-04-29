@@ -1,11 +1,16 @@
 import { NextResponse } from "next/server";
 import { getCourseBySlug } from "@/lib/course-data";
+import { isTrustedFormRequest } from "@/lib/request-security";
 import { getSessionUser } from "@/lib/session";
 import { initializePaystackTransaction, isPaystackConfigured } from "@/lib/paystack";
 
 const redirect303 = (url: URL | string) => NextResponse.redirect(url, { status: 303 });
 
 export async function POST(request: Request) {
+  if (!isTrustedFormRequest(request)) {
+    return redirect303(new URL("/my-courses?error=Could+not+verify+your+request.", request.url));
+  }
+
   const user = await getSessionUser();
   if (!user) {
     return redirect303(new URL("/login?next=/courses", request.url));

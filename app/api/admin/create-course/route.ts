@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getAdminAccess } from "@/lib/admin";
+import { isTrustedFormRequest } from "@/lib/request-security";
 import { createSupabaseAdminClient, isSupabaseConfigured } from "@/lib/supabase";
 import { uploadCourseImage, uploadCourseVideo } from "@/lib/storage";
 
@@ -45,6 +46,10 @@ function parsePayload(formData: FormData) {
 }
 
 export async function POST(request: Request) {
+  if (!isTrustedFormRequest(request)) {
+    return redirect303(new URL("/admin?error=Could+not+verify+your+request.", request.url));
+  }
+
   const adminAccess = await getAdminAccess();
 
   if (adminAccess.reason === "unauthenticated") {

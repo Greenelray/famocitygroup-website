@@ -1,10 +1,15 @@
 import { NextResponse } from "next/server";
+import { isTrustedFormRequest } from "@/lib/request-security";
 import { createSessionCookie, getSessionUser } from "@/lib/session";
 import { createSupabaseAdminClient, isSupabaseConfigured } from "@/lib/supabase";
 
 const redirect303 = (url: URL | string) => NextResponse.redirect(url, { status: 303 });
 
 export async function POST(request: Request) {
+  if (!isTrustedFormRequest(request)) {
+    return redirect303(new URL("/profile?error=Could+not+verify+your+request.", request.url));
+  }
+
   const session = await getSessionUser();
 
   if (!session) {

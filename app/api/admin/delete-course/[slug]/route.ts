@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getAdminAccess } from "@/lib/admin";
+import { isTrustedFormRequest } from "@/lib/request-security";
 import { createSupabaseAdminClient, isSupabaseConfigured } from "@/lib/supabase";
 
 const redirect303 = (url: URL | string) => NextResponse.redirect(url, { status: 303 });
@@ -9,6 +10,10 @@ type DeleteCourseRouteProps = {
 };
 
 export async function POST(request: Request, { params }: DeleteCourseRouteProps) {
+  if (!isTrustedFormRequest(request)) {
+    return redirect303(new URL("/admin?error=Could+not+verify+your+request.", request.url));
+  }
+
   const adminAccess = await getAdminAccess();
 
   if (adminAccess.reason === "unauthenticated") {

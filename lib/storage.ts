@@ -1,5 +1,10 @@
 import { COURSE_IMAGES_BUCKET, COURSE_VIDEOS_BUCKET, createSupabaseAdminClient } from "@/lib/supabase";
 
+const IMAGE_MIME_TYPES = ["image/png", "image/jpeg", "image/webp"];
+const VIDEO_MIME_TYPES = ["video/mp4", "video/webm", "video/quicktime", "video/x-matroska"];
+const MAX_IMAGE_BYTES = 10 * 1024 * 1024;
+const MAX_VIDEO_BYTES = 500 * 1024 * 1024;
+
 async function ensureBucket(name: string, options: { public: boolean; fileSizeLimit?: string; allowedMimeTypes?: string[] }) {
   const supabase = createSupabaseAdminClient();
   const { data: bucket } = await supabase.storage.getBucket(name);
@@ -18,11 +23,27 @@ function sanitizeFileName(fileName: string) {
     .replace(/-+/g, "-");
 }
 
+function validateUpload(file: File, options: { allowedMimeTypes: string[]; fieldLabel: string; maxBytes: number }) {
+  if (!options.allowedMimeTypes.includes(file.type)) {
+    throw new Error(`${options.fieldLabel} uses an unsupported file type.`);
+  }
+
+  if (file.size <= 0 || file.size > options.maxBytes) {
+    throw new Error(`${options.fieldLabel} exceeds the allowed file size.`);
+  }
+}
+
 export async function uploadCourseImage(file: File, slug: string, kind: "hero" | "thumbnail") {
+  validateUpload(file, {
+    allowedMimeTypes: IMAGE_MIME_TYPES,
+    fieldLabel: "Course image",
+    maxBytes: MAX_IMAGE_BYTES
+  });
+
   await ensureBucket(COURSE_IMAGES_BUCKET, {
     public: true,
     fileSizeLimit: "10MB",
-    allowedMimeTypes: ["image/png", "image/jpeg", "image/webp", "image/svg+xml"]
+    allowedMimeTypes: IMAGE_MIME_TYPES
   });
 
   const supabase = createSupabaseAdminClient();
@@ -42,10 +63,16 @@ export async function uploadCourseImage(file: File, slug: string, kind: "hero" |
 }
 
 export async function uploadCourseVideo(file: File, slug: string, lessonSlug: string) {
+  validateUpload(file, {
+    allowedMimeTypes: VIDEO_MIME_TYPES,
+    fieldLabel: "Lesson video",
+    maxBytes: MAX_VIDEO_BYTES
+  });
+
   await ensureBucket(COURSE_VIDEOS_BUCKET, {
     public: true,
     fileSizeLimit: "500MB",
-    allowedMimeTypes: ["video/mp4", "video/webm", "video/quicktime", "video/x-matroska"]
+    allowedMimeTypes: VIDEO_MIME_TYPES
   });
 
   const supabase = createSupabaseAdminClient();

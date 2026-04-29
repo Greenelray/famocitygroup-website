@@ -1,15 +1,21 @@
 import { NextResponse } from "next/server";
+import { syncProfile } from "@/lib/profile-access";
+import { getSafeRedirectPath, isTrustedFormRequest } from "@/lib/request-security";
 import { createSessionCookie } from "@/lib/session";
-import { createSupabaseAdminClient, isSupabaseConfigured } from "@/lib/supabase";
+import { createSupabaseAuthClient, isSupabaseConfigured } from "@/lib/supabase";
 
 const redirect303 = (url: URL | string) => NextResponse.redirect(url, { status: 303 });
 
 export async function POST(request: Request) {
+  if (!isTrustedFormRequest(request)) {
+    return redirect303(new URL("/signup?error=Could+not+verify+your+request.", request.url));
+  }
+
   const formData = await request.formData();
   const name = formData.get("name")?.toString().trim();
   const email = formData.get("email")?.toString().trim().toLowerCase();
   const password = formData.get("password")?.toString();
-  const next = formData.get("next")?.toString() || "/my-courses";
+  const next = getSafeRedirectPath(formData.get("next")?.toString(), "/my-courses");
 
   if (!name || !email) {
     return redirect303(new URL("/signup?error=Please+enter+your+name+and+email.", request.url));
@@ -20,13 +26,14 @@ export async function POST(request: Request) {
       return redirect303(new URL("/signup?error=Please+use+a+password+with+at+least+8+characters.", request.url));
     }
 
-    const supabase = createSupabaseAdminClient();
-    const { data, error } = await supabase.auth.admin.createUser({
+    const supabase = createSupabaseAuthClient();
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
-      email_confirm: true,
-      user_metadata: {
-        full_name: name
+      options: {
+        data: {
+          full_name: name
+        }
       }
     });
 
@@ -34,10 +41,16 @@ export async function POST(request: Request) {
       return redirect303(new URL("/signup?error=We+could+not+create+that+account.+Please+try+a+different+email.", request.url));
     }
 
-    await supabase.from("profiles").upsert({
+    if (!data.session) {
+      return redirect303(
+        new URL("/login?message=Check+your+email+to+verify+your+account+before+logging+in.", request.url)
+      );
+    }
+
+    await syncProfile({
       id: data.user.id,
-      full_name: name,
-      email
+      email,
+      name
     });
 
     const response = redirect303(new URL(next, request.url));
