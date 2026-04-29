@@ -7,11 +7,15 @@ type ProfileIdentity = {
 };
 
 export async function syncProfile(identity: ProfileIdentity) {
-  const supabase = createSupabaseAdminClient();
+  try {
+    const supabase = createSupabaseAdminClient();
 
-  await supabase.from("profiles").upsert({
-    id: identity.id,
-    email: identity.email,
-    full_name: identity.name
-  });
+    await supabase.from("profiles").upsert({
+      id: identity.id,
+      email: identity.email,
+      full_name: identity.name
+    });
+  } catch (error) {
+    console.error("Profile sync failed.", error);
+  }
 }

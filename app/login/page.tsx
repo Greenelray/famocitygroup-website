@@ -46,16 +46,6 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
             <form action="/api/auth/login" method="POST" className="mt-8 space-y-4">
               <input type="hidden" name="next" value={next} />
               <label className="block">
-                <span className="mb-2 block text-sm font-semibold text-slate-700">Full name</span>
-                <input
-                  name="name"
-                  type="text"
-                  required
-                  className="w-full rounded-2xl border border-slate-200 px-4 py-3 outline-none transition focus:border-[#c8a951]"
-                  placeholder="Your full name"
-                />
-              </label>
-              <label className="block">
                 <span className="mb-2 block text-sm font-semibold text-slate-700">Email address</span>
                 <input
                   name="email"

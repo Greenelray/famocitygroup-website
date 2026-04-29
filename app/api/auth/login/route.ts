@@ -12,13 +12,12 @@ export async function POST(request: Request) {
   }
 
   const formData = await request.formData();
-  const name = formData.get("name")?.toString().trim();
   const email = formData.get("email")?.toString().trim().toLowerCase();
   const password = formData.get("password")?.toString();
   const next = getSafeRedirectPath(formData.get("next")?.toString(), "/my-courses");
 
-  if (!name || !email) {
-    return redirect303(new URL("/login?error=Please+enter+your+name+and+email.", request.url));
+  if (!email) {
+    return redirect303(new URL("/login?error=Please+enter+your+email+address.", request.url));
   }
 
   if (isSupabaseConfigured()) {
@@ -39,14 +38,14 @@ export async function POST(request: Request) {
     await syncProfile({
       id: data.user.id,
       email: data.user.email || email,
-      name: data.user.user_metadata.full_name || name || data.user.email || email
+      name: data.user.user_metadata.full_name || data.user.email || email
     });
 
     const response = redirect303(new URL(next, request.url));
     response.cookies.set(
       createSessionCookie({
         id: data.user.id,
-        name: data.user.user_metadata.full_name || name,
+        name: data.user.user_metadata.full_name || data.user.email || email,
         email: data.user.email || email
       })
     );
@@ -54,6 +53,6 @@ export async function POST(request: Request) {
   }
 
   const response = redirect303(new URL(next, request.url));
-  response.cookies.set(createSessionCookie({ name, email }));
+  response.cookies.set(createSessionCookie({ name: email, email }));
   return response;
 }
