@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useRef, useState } from "react";
 import type { Course } from "@/lib/course-data";
 
@@ -492,6 +493,22 @@ export function AdminCourseForm({ action, submitLabel, initialCourse }: AdminCou
           <span className="mb-2 block text-sm font-semibold text-slate-700">
             Thumbnail image {initialCourse ? "(optional for edit)" : ""}
           </span>
+          {initialCourse ? (
+            <div className="mb-3 overflow-hidden rounded-2xl border border-slate-200 bg-slate-50">
+              <div className="relative aspect-[16/10]">
+                <Image
+                  src={initialCourse.thumbnail}
+                  alt={`${initialCourse.title} thumbnail`}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 1024px) 100vw, 20rem"
+                />
+              </div>
+              <div className="px-4 py-3 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+                Current thumbnail
+              </div>
+            </div>
+          ) : null}
           <input
             name="thumbnail"
             type="file"
@@ -505,6 +522,22 @@ export function AdminCourseForm({ action, submitLabel, initialCourse }: AdminCou
           <span className="mb-2 block text-sm font-semibold text-slate-700">
             Hero image {initialCourse ? "(optional for edit)" : ""}
           </span>
+          {initialCourse ? (
+            <div className="mb-3 overflow-hidden rounded-2xl border border-slate-200 bg-slate-50">
+              <div className="relative aspect-[16/10]">
+                <Image
+                  src={initialCourse.heroImage}
+                  alt={`${initialCourse.title} hero`}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 1024px) 100vw, 20rem"
+                />
+              </div>
+              <div className="px-4 py-3 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+                Current hero image
+              </div>
+            </div>
+          ) : null}
           <input
             name="heroImage"
             type="file"
