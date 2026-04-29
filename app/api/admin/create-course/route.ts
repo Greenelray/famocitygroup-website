@@ -5,11 +5,43 @@ import { uploadCourseImage, uploadCourseVideo } from "@/lib/storage";
 
 const redirect303 = (url: URL | string) => NextResponse.redirect(url, { status: 303 });
 
-function parseLines(value: string) {
-  return value
+type CoursePayload = {
+  modules: Array<{
+    slug: string;
+    title: string;
+    summary: string;
+    lessons: Array<{
+      slug: string;
+      title: string;
+      duration: string;
+      summary: string;
+      body: string[];
+      preview: boolean;
+      videoMode: "upload" | "url";
+      videoUrl: string;
+      videoFieldName: string;
+      resources: Array<{
+        title: string;
+        href: string;
+      }>;
+    }>;
+  }>;
+};
+
+function parseLines(value: string | null) {
+  return (value ?? "")
     .split("\n")
     .map((item) => item.trim())
     .filter(Boolean);
+}
+
+function parsePayload(formData: FormData) {
+  const raw = formData.get("coursePayload")?.toString();
+  if (!raw) {
+    return null;
+  }
+
+  return JSON.parse(raw) as CoursePayload;
 }
 
 export async function POST(request: Request) {
@@ -29,6 +61,7 @@ export async function POST(request: Request) {
 
   try {
     const formData = await request.formData();
+    const payload = parsePayload(formData);
     const title = formData.get("title")?.toString().trim();
     const slug = formData.get("slug")?.toString().trim().toLowerCase();
     const tagline = formData.get("tagline")?.toString().trim();
@@ -37,24 +70,38 @@ export async function POST(request: Request) {
     const level = formData.get("level")?.toString().trim();
     const duration = formData.get("duration")?.toString().trim();
     const format = formData.get("format")?.toString().trim();
-    const outcomes = parseLines(formData.get("outcomes")?.toString() ?? "");
-    const audience = parseLines(formData.get("audience")?.toString() ?? "");
-    const moduleTitle = formData.get("moduleTitle")?.toString().trim();
-    const moduleSlug = formData.get("moduleSlug")?.toString().trim().toLowerCase();
-    const moduleSummary = formData.get("moduleSummary")?.toString().trim();
-    const lessonTitle = formData.get("lessonTitle")?.toString().trim();
-    const lessonSlug = formData.get("lessonSlug")?.toString().trim().toLowerCase();
-    const lessonDuration = formData.get("lessonDuration")?.toString().trim();
-    const lessonSummary = formData.get("lessonSummary")?.toString().trim();
-    const lessonBody = parseLines(formData.get("lessonBody")?.toString() ?? "");
-    const lessonPreview = formData.get("lessonPreview") === "on";
-    const resourceTitle = formData.get("resourceTitle")?.toString().trim();
-    const resourceHref = formData.get("resourceHref")?.toString().trim();
+    const outcomes = parseLines(formData.get("outcomes")?.toString() ?? null);
+    const audience = parseLines(formData.get("audience")?.toString() ?? null);
     const thumbnail = formData.get("thumbnail");
     const heroImage = formData.get("heroImage");
-    const lessonVideo = formData.get("lessonVideo");
+    const modules = payload?.modules ?? [];
+
+    const hasInvalidModules =
+      !modules.length ||
+      modules.some(
+        (module) =>
+          !module.slug.trim() ||
+          !module.title.trim() ||
+          !module.summary.trim() ||
+          !module.lessons.length ||
+          module.lessons.some((lesson) => {
+            const needsUpload = lesson.videoMode === "upload";
+            const uploadedVideo = formData.get(lesson.videoFieldName);
+            return (
+              !lesson.slug.trim() ||
+              !lesson.title.trim() ||
+              !lesson.duration.trim() ||
+              !lesson.summary.trim() ||
+              !lesson.body.length ||
+              (needsUpload
+                ? !(uploadedVideo instanceof File) || uploadedVideo.size === 0
+                : !lesson.videoUrl.trim())
+            );
+          })
+      );
 
     if (
+      !payload ||
       !title ||
       !slug ||
       !tagline ||
@@ -62,36 +109,17 @@ export async function POST(request: Request) {
       !level ||
       !duration ||
       !format ||
-      !moduleTitle ||
-      !moduleSlug ||
-      !moduleSummary ||
-      !lessonTitle ||
-      !lessonSlug ||
-      !lessonDuration ||
-      !lessonSummary ||
-      !lessonBody.length ||
       !(thumbnail instanceof File) ||
       !(heroImage instanceof File) ||
-      !(lessonVideo instanceof File)
+      hasInvalidModules
     ) {
       return redirect303(new URL("/admin?error=Please+complete+all+required+course+fields+before+uploading.", request.url));
     }
 
-    const [thumbnailUrl, heroImageUrl, videoUrl] = await Promise.all([
+    const [thumbnailUrl, heroImageUrl] = await Promise.all([
       uploadCourseImage(thumbnail, slug, "thumbnail"),
-      uploadCourseImage(heroImage, slug, "hero"),
-      uploadCourseVideo(lessonVideo, slug, lessonSlug)
+      uploadCourseImage(heroImage, slug, "hero")
     ]);
-
-    const resources =
-      resourceTitle && resourceHref
-        ? [
-            {
-              title: resourceTitle,
-              href: resourceHref
-            }
-          ]
-        : [];
 
     const supabase = createSupabaseAdminClient();
     const courseResult = await supabase
@@ -118,37 +146,46 @@ export async function POST(request: Request) {
       return redirect303(new URL("/admin?error=Could+not+save+the+course+record.+Please+check+that+the+slug+is+unique.", request.url));
     }
 
-    const moduleResult = await supabase
-      .from("course_modules")
-      .insert({
-        course_id: courseResult.data.id,
-        slug: moduleSlug,
-        title: moduleTitle,
-        summary: moduleSummary,
-        position: 0
-      })
-      .select("id")
-      .single();
+    for (const [moduleIndex, module] of modules.entries()) {
+      const moduleResult = await supabase
+        .from("course_modules")
+        .insert({
+          course_id: courseResult.data.id,
+          slug: module.slug,
+          title: module.title,
+          summary: module.summary,
+          position: moduleIndex
+        })
+        .select("id")
+        .single();
 
-    if (moduleResult.error || !moduleResult.data) {
-      return redirect303(new URL("/admin?error=Course+saved+but+the+module+could+not+be+created.", request.url));
-    }
+      if (moduleResult.error || !moduleResult.data) {
+        return redirect303(new URL("/admin?error=Course+saved+but+the+module+could+not+be+created.", request.url));
+      }
 
-    const lessonResult = await supabase.from("course_lessons").insert({
-      module_id: moduleResult.data.id,
-      slug: lessonSlug,
-      title: lessonTitle,
-      duration: lessonDuration,
-      preview: lessonPreview,
-      summary: lessonSummary,
-      video_url: videoUrl,
-      resources,
-      body: lessonBody,
-      position: 0
-    });
+      for (const [lessonIndex, lesson] of module.lessons.entries()) {
+        const videoUrl =
+          lesson.videoMode === "upload"
+            ? await uploadCourseVideo(formData.get(lesson.videoFieldName) as File, slug, lesson.slug)
+            : lesson.videoUrl;
 
-    if (lessonResult.error) {
-      return redirect303(new URL("/admin?error=Course+and+module+saved+but+the+lesson+could+not+be+created.", request.url));
+        const lessonResult = await supabase.from("course_lessons").insert({
+          module_id: moduleResult.data.id,
+          slug: lesson.slug,
+          title: lesson.title,
+          duration: lesson.duration,
+          preview: lesson.preview,
+          summary: lesson.summary,
+          video_url: videoUrl,
+          resources: lesson.resources,
+          body: lesson.body,
+          position: lessonIndex
+        });
+
+        if (lessonResult.error) {
+          return redirect303(new URL("/admin?error=Course+and+module+saved+but+one+lesson+could+not+be+created.", request.url));
+        }
+      }
     }
 
     return redirect303(new URL("/admin?created=success", request.url));

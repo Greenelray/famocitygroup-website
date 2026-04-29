@@ -284,8 +284,12 @@ export async function listCourses() {
           .order("position", { ascending: true })
       ]);
 
-    if (courseError || moduleError || lessonError || !courseRows?.length) {
+    if (courseError || moduleError || lessonError || !courseRows) {
       return fallbackCourses;
+    }
+
+    if (courseRows.length === 0) {
+      return [];
     }
 
     return mapDbCourses(courseRows as CourseRow[], (moduleRows ?? []) as ModuleRow[], (lessonRows ?? []) as LessonRow[]);

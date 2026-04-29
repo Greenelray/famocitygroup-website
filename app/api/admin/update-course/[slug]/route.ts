@@ -10,16 +10,6 @@ type UpdateCourseRouteProps = {
 };
 
 type CoursePayload = {
-  slug: string;
-  title: string;
-  tagline: string;
-  description: string;
-  priceNaira: number;
-  level: string;
-  duration: string;
-  format: string;
-  outcomes: string[];
-  audience: string[];
   modules: Array<{
     slug: string;
     title: string;
@@ -50,6 +40,13 @@ function parsePayload(formData: FormData) {
   return JSON.parse(raw) as CoursePayload;
 }
 
+function parseLines(value: string | null) {
+  return (value ?? "")
+    .split("\n")
+    .map((item) => item.trim())
+    .filter(Boolean);
+}
+
 export async function POST(request: Request, { params }: UpdateCourseRouteProps) {
   const adminAccess = await getAdminAccess();
 
@@ -71,8 +68,28 @@ export async function POST(request: Request, { params }: UpdateCourseRouteProps)
     const supabase = createSupabaseAdminClient();
     const formData = await request.formData();
     const payload = parsePayload(formData);
+    const title = formData.get("title")?.toString().trim();
+    const slug = formData.get("slug")?.toString().trim().toLowerCase();
+    const tagline = formData.get("tagline")?.toString().trim();
+    const description = formData.get("description")?.toString().trim();
+    const priceNaira = Number(formData.get("priceNaira")?.toString() ?? "0");
+    const level = formData.get("level")?.toString().trim();
+    const duration = formData.get("duration")?.toString().trim();
+    const format = formData.get("format")?.toString().trim();
+    const outcomes = parseLines(formData.get("outcomes")?.toString() ?? null);
+    const audience = parseLines(formData.get("audience")?.toString() ?? null);
 
-    if (!payload) {
+    if (
+      !payload ||
+      !title ||
+      !slug ||
+      !tagline ||
+      !description ||
+      !level ||
+      !duration ||
+      !format ||
+      !payload.modules.length
+    ) {
       return redirect303(new URL(`/admin/courses/${routeParams.slug}?error=Missing+course+payload.`, request.url));
     }
 
@@ -91,29 +108,29 @@ export async function POST(request: Request, { params }: UpdateCourseRouteProps)
 
     const thumbnailUrl =
       thumbnail instanceof File && thumbnail.size > 0
-        ? await uploadCourseImage(thumbnail, payload.slug, "thumbnail")
+        ? await uploadCourseImage(thumbnail, slug, "thumbnail")
         : existingCourse.data.thumbnail;
 
     const heroImageUrl =
       heroImage instanceof File && heroImage.size > 0
-        ? await uploadCourseImage(heroImage, payload.slug, "hero")
+        ? await uploadCourseImage(heroImage, slug, "hero")
         : existingCourse.data.hero_image;
 
     const courseResult = await supabase
       .from("courses")
       .update({
-        slug: payload.slug,
-        title: payload.title,
-        tagline: payload.tagline,
-        description: payload.description,
-        price_naira: payload.priceNaira,
-        level: payload.level,
-        duration: payload.duration,
-        format: payload.format,
+        slug,
+        title,
+        tagline,
+        description,
+        price_naira: priceNaira,
+        level,
+        duration,
+        format,
         hero_image: heroImageUrl,
         thumbnail: thumbnailUrl,
-        outcomes: payload.outcomes,
-        audience: payload.audience,
+        outcomes,
+        audience,
         is_published: true
       })
       .eq("id", existingCourse.data.id);
@@ -147,7 +164,7 @@ export async function POST(request: Request, { params }: UpdateCourseRouteProps)
             ? (() => {
                 const uploadedVideo = formData.get(lesson.videoFieldName);
                 return uploadedVideo instanceof File && uploadedVideo.size > 0
-                  ? uploadCourseVideo(uploadedVideo, payload.slug, lesson.slug)
+                  ? uploadCourseVideo(uploadedVideo, slug, lesson.slug)
                   : Promise.resolve(lesson.videoUrl);
               })()
             : Promise.resolve(lesson.videoUrl);
@@ -173,7 +190,7 @@ export async function POST(request: Request, { params }: UpdateCourseRouteProps)
       }
     }
 
-    return redirect303(new URL(`/admin/courses/${payload.slug}?updated=success`, request.url));
+    return redirect303(new URL(`/admin/courses/${slug}?updated=success`, request.url));
   } catch {
     return redirect303(new URL(`/admin/courses/${routeParams.slug}?error=Course+update+failed.+Please+check+your+inputs+and+try+again.`, request.url));
   }
