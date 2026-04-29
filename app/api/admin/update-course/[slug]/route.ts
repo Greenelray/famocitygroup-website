@@ -3,6 +3,7 @@ import { getAdminAccess } from "@/lib/admin";
 import { isTrustedFormRequest } from "@/lib/request-security";
 import { createSupabaseAdminClient, isSupabaseConfigured } from "@/lib/supabase";
 import { uploadCourseImage, uploadCourseVideo } from "@/lib/storage";
+import { normalizeVideoUrl } from "@/lib/video-url";
 
 const redirect303 = (url: URL | string) => NextResponse.redirect(url, { status: 303 });
 
@@ -170,9 +171,9 @@ export async function POST(request: Request, { params }: UpdateCourseRouteProps)
                 const uploadedVideo = formData.get(lesson.videoFieldName);
                 return uploadedVideo instanceof File && uploadedVideo.size > 0
                   ? uploadCourseVideo(uploadedVideo, slug, lesson.slug)
-                  : Promise.resolve(lesson.videoUrl);
+                  : Promise.resolve(normalizeVideoUrl(lesson.videoUrl));
               })()
-            : Promise.resolve(lesson.videoUrl);
+            : Promise.resolve(normalizeVideoUrl(lesson.videoUrl));
 
         const resolvedVideoUrl = await videoUrl;
 

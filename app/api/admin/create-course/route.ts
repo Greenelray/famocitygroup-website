@@ -3,6 +3,7 @@ import { getAdminAccess } from "@/lib/admin";
 import { isTrustedFormRequest } from "@/lib/request-security";
 import { createSupabaseAdminClient, isSupabaseConfigured } from "@/lib/supabase";
 import { uploadCourseImage, uploadCourseVideo } from "@/lib/storage";
+import { normalizeVideoUrl } from "@/lib/video-url";
 
 const redirect303 = (url: URL | string) => NextResponse.redirect(url, { status: 303 });
 
@@ -172,7 +173,7 @@ export async function POST(request: Request) {
         const videoUrl =
           lesson.videoMode === "upload"
             ? await uploadCourseVideo(formData.get(lesson.videoFieldName) as File, slug, lesson.slug)
-            : lesson.videoUrl;
+            : normalizeVideoUrl(lesson.videoUrl);
 
         const lessonResult = await supabase.from("course_lessons").insert({
           module_id: moduleResult.data.id,

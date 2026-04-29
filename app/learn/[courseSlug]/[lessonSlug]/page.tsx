@@ -6,6 +6,7 @@ import { Navbar } from "@/components/navbar";
 import { getLesson } from "@/lib/course-data";
 import { hasEnrollment } from "@/lib/enrollments";
 import { getSessionUser } from "@/lib/session";
+import { normalizeVideoUrl } from "@/lib/video-url";
 
 type LessonPageProps = {
   params: Promise<{ courseSlug: string; lessonSlug: string }>;
@@ -30,6 +31,7 @@ export default async function LessonPage({ params }: LessonPageProps) {
   }
 
   const { course, module, lesson } = lessonData;
+  const videoUrl = normalizeVideoUrl(lesson.videoUrl);
 
   return (
     <main className="bg-white">
@@ -53,7 +55,7 @@ export default async function LessonPage({ params }: LessonPageProps) {
               <div className="glass-card overflow-hidden">
                 <div className="aspect-video bg-slate-950">
                   <iframe
-                    src={lesson.videoUrl}
+                    src={videoUrl}
                     title={lesson.title}
                     className="h-full w-full"
                     allow="autoplay; fullscreen; picture-in-picture"

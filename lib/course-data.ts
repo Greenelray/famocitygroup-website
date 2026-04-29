@@ -1,4 +1,5 @@
 import { createSupabaseAdminClient, isSupabaseConfigured } from "@/lib/supabase";
+import { normalizeVideoUrl } from "@/lib/video-url";
 
 export type Lesson = {
   slug: string;
@@ -240,7 +241,7 @@ function mapDbCourses(courseRows: CourseRow[], moduleRows: ModuleRow[], lessonRo
             duration: lessonRow.duration,
             preview: lessonRow.preview,
             summary: lessonRow.summary,
-            videoUrl: lessonRow.video_url,
+            videoUrl: normalizeVideoUrl(lessonRow.video_url),
             resources: ensureResources(lessonRow.resources),
             body: ensureStringArray(lessonRow.body)
           }))
