@@ -158,6 +158,10 @@ export const fallbackCourses: Course[] = [
   }
 ];
 
+function shouldUseFallbackCourses() {
+  return process.env.NODE_ENV !== "production";
+}
+
 type CourseRow = {
   id: string;
   slug: string;
@@ -262,7 +266,7 @@ function mapDbCourses(courseRows: CourseRow[], moduleRows: ModuleRow[], lessonRo
 
 export async function listCourses() {
   if (!isSupabaseConfigured()) {
-    return fallbackCourses;
+    return shouldUseFallbackCourses() ? fallbackCourses : [];
   }
 
   try {
@@ -285,7 +289,7 @@ export async function listCourses() {
       ]);
 
     if (courseError || moduleError || lessonError || !courseRows) {
-      return fallbackCourses;
+      return shouldUseFallbackCourses() ? fallbackCourses : [];
     }
 
     if (courseRows.length === 0) {
@@ -294,7 +298,7 @@ export async function listCourses() {
 
     return mapDbCourses(courseRows as CourseRow[], (moduleRows ?? []) as ModuleRow[], (lessonRows ?? []) as LessonRow[]);
   } catch {
-    return fallbackCourses;
+    return shouldUseFallbackCourses() ? fallbackCourses : [];
   }
 }
 
