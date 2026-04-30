@@ -16,6 +16,10 @@ export async function POST(request: Request) {
   const email = formData.get("email")?.toString().trim().toLowerCase();
   const password = formData.get("password")?.toString();
   const next = getSafeRedirectPath(formData.get("next")?.toString(), "/my-courses");
+  const emailRedirectTo = new URL(
+    "/login?message=Your+email+has+been+verified.+Please+log+in.",
+    request.url
+  ).toString();
 
   if (!name || !email) {
     return redirect303(new URL("/signup?error=Please+enter+your+name+and+email.", request.url));
@@ -31,6 +35,7 @@ export async function POST(request: Request) {
       email,
       password,
       options: {
+        emailRedirectTo,
         data: {
           full_name: name
         }
