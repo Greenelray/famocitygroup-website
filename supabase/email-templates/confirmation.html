@@ -1,0 +1,34 @@
+<div style="margin:0; padding:32px 16px; background:#f3f6fb; font-family:Arial,Helvetica,sans-serif; color:#0b1f3a;">
+  <div style="max-width:640px; margin:0 auto; background:#ffffff; border-radius:24px; overflow:hidden; border:1px solid #d9e2f2; box-shadow:0 20px 50px rgba(11,31,58,0.08);">
+    <div style="padding:28px 32px 18px; background:linear-gradient(135deg,#0b1f3a 0%,#173763 100%);">
+      <img src="https://famocitygroup.org/famocity-header-logo-cropped.png" alt="Famocity" style="display:block; max-width:280px; width:100%; height:auto;">
+    </div>
+    <div style="padding:32px;">
+      <div style="display:inline-block; padding:10px 16px; border:1px solid #e4c770; border-radius:999px; font-size:12px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:#9b7b26;">
+        Email Verification
+      </div>
+      <h1 style="margin:22px 0 16px; font-size:36px; line-height:1.1; color:#0b1f3a;">Confirm your Famocity account.</h1>
+      <p style="margin:0 0 14px; font-size:16px; line-height:1.8; color:#43536d;">
+        Hello{{ if .Data.full_name }} {{ .Data.full_name }}{{ end }}, welcome to Famocity Academy.
+      </p>
+      <p style="margin:0 0 28px; font-size:16px; line-height:1.8; color:#43536d;">
+        Please verify your email address so we can secure your learner profile and connect your paid courses to the right account.
+      </p>
+      <a href="{{ .ConfirmationURL }}" style="display:inline-block; background:#0b1f3a; color:#ffffff; text-decoration:none; padding:16px 28px; border-radius:999px; font-weight:700; font-size:15px;">
+        Verify my email
+      </a>
+      <p style="margin:28px 0 0; font-size:14px; line-height:1.8; color:#6b7a90;">
+        If the button does not work, copy and paste this link into your browser:
+      </p>
+      <p style="margin:8px 0 0; word-break:break-word; font-size:13px; line-height:1.7; color:#0b1f3a;">
+        {{ .ConfirmationURL }}
+      </p>
+    </div>
+    <div style="padding:20px 32px 30px; border-top:1px solid #e8edf6; background:#fbfcfe;">
+      <p style="margin:0; font-size:13px; line-height:1.8; color:#6b7a90;">
+        Famocity Real Estate and Construction Limited<br>
+        Ownership. Structure. Long-term value.
+      </p>
+    </div>
+  </div>
+</div>
