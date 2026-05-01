@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { createEnrollmentsCookie, getEnrollmentSlugs } from "@/lib/enrollments";
 import { getCourseBySlug } from "@/lib/course-data";
 import { verifyPaystackTransaction } from "@/lib/paystack";
+import { isResendConfigured, sendCourseReceiptEmail } from "@/lib/resend";
 import { getSessionUser } from "@/lib/session";
 import { createSupabaseAdminClient, isSupabaseConfigured } from "@/lib/supabase";
 
@@ -25,6 +26,11 @@ export async function GET(request: Request) {
       return redirect303(new URL("/my-courses?error=Payment+could+not+be+verified.", request.url));
     }
 
+    const amountNaira = Math.round((result.data?.amount ?? 0) / 100);
+    const customerEmail = result.data?.customer?.email;
+    const customerName = result.data?.metadata?.customerName;
+    const loginUrl = new URL("/my-courses", request.url).toString();
+
     if (isSupabaseConfigured()) {
       const session = await getSessionUser();
 
@@ -33,7 +39,6 @@ export async function GET(request: Request) {
       }
 
       const supabase = createSupabaseAdminClient();
-      const amountNaira = Math.round((result.data?.amount ?? 0) / 100);
       const paidAt = new Date().toISOString();
 
       const purchaseResult = await supabase
@@ -72,6 +77,21 @@ export async function GET(request: Request) {
         return redirect303(new URL("/my-courses?error=Payment+was+verified+but+course+access+could+not+be+saved.", request.url));
       }
 
+      if (isResendConfigured() && customerEmail) {
+        try {
+          await sendCourseReceiptEmail({
+            amountNaira,
+            courseTitle: course.title,
+            customerEmail,
+            customerName: session.name || customerName,
+            loginUrl,
+            orderReference: reference
+          });
+        } catch (error) {
+          console.error("Course receipt email failed.", error);
+        }
+      }
+
       return redirect303(new URL("/my-courses?purchase=success", request.url));
     }
 
@@ -79,6 +99,22 @@ export async function GET(request: Request) {
     const nextEnrollments = Array.from(new Set([...existing, course.slug]));
     const response = redirect303(new URL("/my-courses?purchase=success", request.url));
     response.cookies.set(createEnrollmentsCookie(nextEnrollments));
+
+    if (isResendConfigured() && customerEmail) {
+      try {
+        await sendCourseReceiptEmail({
+          amountNaira,
+          courseTitle: course.title,
+          customerEmail,
+          customerName,
+          loginUrl,
+          orderReference: reference
+        });
+      } catch (error) {
+        console.error("Course receipt email failed.", error);
+      }
+    }
+
     return response;
   } catch {
     return redirect303(new URL("/my-courses?error=Unable+to+verify+payment+right+now.", request.url));
