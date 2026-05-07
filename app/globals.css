@@ -423,6 +423,81 @@ button:not(.premium-button):active {
   animation: close-spin 420ms ease-out;
 }
 
+.loader-logo-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 13rem;
+  height: 13rem;
+}
+
+.loader-glow {
+  position: absolute;
+  inset: auto;
+  width: 8.5rem;
+  height: 8.5rem;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(200, 169, 81, 0.28) 0%, rgba(200, 169, 81, 0.08) 45%, transparent 72%);
+  filter: blur(8px);
+  animation: loader-glow-pulse 2.6s ease-in-out infinite;
+}
+
+.loader-ring {
+  position: absolute;
+  border-radius: 999px;
+  border: 1px solid rgba(200, 169, 81, 0.24);
+  animation: loader-ring-spin 7s linear infinite;
+}
+
+.loader-ring-one {
+  width: 10.5rem;
+  height: 10.5rem;
+}
+
+.loader-ring-two {
+  width: 12.5rem;
+  height: 12.5rem;
+  border-color: rgba(11, 31, 58, 0.12);
+  animation-direction: reverse;
+  animation-duration: 9.5s;
+}
+
+.loader-logo-card {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 1.2rem;
+  border-radius: 1.8rem;
+  border: 1px solid rgba(200, 169, 81, 0.24);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(248, 250, 252, 0.98) 100%);
+  box-shadow: 0 20px 40px rgba(11, 31, 58, 0.12);
+  animation: loader-card-float 2.4s ease-in-out infinite;
+}
+
+.loader-logo-image {
+  width: auto;
+  height: 4.4rem;
+}
+
+.loader-dot {
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 999px;
+  background: #c8a951;
+  animation: loader-dot-bounce 1.2s ease-in-out infinite;
+}
+
+.loader-dot:nth-child(2) {
+  animation-delay: 0.16s;
+}
+
+.loader-dot:nth-child(3) {
+  animation-delay: 0.32s;
+}
+
 input:focus,
 textarea:focus {
   animation: focus-pulse 520ms ease-out;
@@ -761,6 +836,50 @@ nav a:hover {
   }
   50% {
     transform: translate3d(18px, -22px, 0) scale(1.06);
+  }
+}
+
+@keyframes loader-card-float {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-7px) scale(1.015);
+  }
+}
+
+@keyframes loader-ring-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes loader-glow-pulse {
+  0%,
+  100% {
+    opacity: 0.6;
+    transform: scale(0.94);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes loader-dot-bounce {
+  0%,
+  80%,
+  100% {
+    opacity: 0.35;
+    transform: translateY(0) scale(0.92);
+  }
+  40% {
+    opacity: 1;
+    transform: translateY(-5px) scale(1);
   }
 }
 
