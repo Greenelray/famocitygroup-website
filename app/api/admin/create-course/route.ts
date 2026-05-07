@@ -1,3 +1,4 @@
+import { revalidateTag } from "next/cache";
 import { NextResponse } from "next/server";
 import { getAdminAccess } from "@/lib/admin";
 import { isTrustedFormRequest } from "@/lib/request-security";
@@ -194,6 +195,7 @@ export async function POST(request: Request) {
       }
     }
 
+    revalidateTag("courses", "max");
     return redirect303(new URL("/admin?created=success", request.url));
   } catch {
     return redirect303(new URL("/admin?error=Course+upload+failed.+Please+check+your+files+and+try+again.", request.url));

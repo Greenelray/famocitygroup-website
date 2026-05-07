@@ -1,3 +1,4 @@
+import { unstable_cache } from "next/cache";
 import { createSupabaseAdminClient, isSupabaseConfigured } from "@/lib/supabase";
 import { normalizeVideoUrl } from "@/lib/video-url";
 
@@ -265,7 +266,7 @@ function mapDbCourses(courseRows: CourseRow[], moduleRows: ModuleRow[], lessonRo
   });
 }
 
-export async function listCourses() {
+async function fetchCoursesFromSource() {
   if (!isSupabaseConfigured()) {
     return shouldUseFallbackCourses() ? fallbackCourses : [];
   }
@@ -303,8 +304,37 @@ export async function listCourses() {
   }
 }
 
+const getCachedCourses = unstable_cache(fetchCoursesFromSource, ["famocity-courses"], {
+  revalidate: 300,
+  tags: ["courses"]
+});
+
+const getCachedCourseBySlug = unstable_cache(
+  async (slug: string) => {
+    const courses = await fetchCoursesFromSource();
+    return courses.find((course) => course.slug === slug) ?? null;
+  },
+  ["famocity-course-by-slug"],
+  {
+    revalidate: 300,
+    tags: ["courses"]
+  }
+);
+
+export async function listCourses() {
+  if (process.env.NODE_ENV === "production") {
+    return getCachedCourses();
+  }
+
+  return fetchCoursesFromSource();
+}
+
 export async function getCourseBySlug(slug: string) {
-  const courses = await listCourses();
+  if (process.env.NODE_ENV === "production") {
+    return getCachedCourseBySlug(slug);
+  }
+
+  const courses = await fetchCoursesFromSource();
   return courses.find((course) => course.slug === slug);
 }
 

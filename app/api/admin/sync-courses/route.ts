@@ -1,3 +1,4 @@
+import { revalidateTag } from "next/cache";
 import { NextResponse } from "next/server";
 import { fallbackCourses } from "@/lib/course-data";
 import { getAdminAccess } from "@/lib/admin";
@@ -104,6 +105,7 @@ export async function POST(request: Request) {
       }
     }
 
+    revalidateTag("courses", "max");
     return redirect303(new URL("/admin?imported=success", request.url));
   } catch {
     return redirect303(new URL("/admin?error=Course+import+failed.+Please+check+that+the+course-content+schema+has+been+run+in+Supabase.", request.url));

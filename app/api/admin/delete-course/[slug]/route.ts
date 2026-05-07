@@ -1,3 +1,4 @@
+import { revalidateTag } from "next/cache";
 import { NextResponse } from "next/server";
 import { getAdminAccess } from "@/lib/admin";
 import { isTrustedFormRequest } from "@/lib/request-security";
@@ -38,6 +39,7 @@ export async function POST(request: Request, { params }: DeleteCourseRouteProps)
       return redirect303(new URL("/admin?error=Could+not+delete+that+course.", request.url));
     }
 
+    revalidateTag("courses", "max");
     return redirect303(new URL("/admin?deleted=success", request.url));
   } catch {
     return redirect303(new URL("/admin?error=Course+deletion+failed.", request.url));

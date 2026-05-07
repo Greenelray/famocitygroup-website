@@ -23,7 +23,6 @@ export function PageLoading({
                 width={160}
                 height={80}
                 className="loader-logo-image"
-                priority
               />
             </div>
           </div>

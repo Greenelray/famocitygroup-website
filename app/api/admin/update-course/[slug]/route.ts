@@ -1,3 +1,4 @@
+import { revalidateTag } from "next/cache";
 import { NextResponse } from "next/server";
 import { getAdminAccess } from "@/lib/admin";
 import { isTrustedFormRequest } from "@/lib/request-security";
@@ -196,6 +197,7 @@ export async function POST(request: Request, { params }: UpdateCourseRouteProps)
       }
     }
 
+    revalidateTag("courses", "max");
     return redirect303(new URL(`/admin/courses/${slug}?updated=success`, request.url));
   } catch {
     return redirect303(new URL(`/admin/courses/${routeParams.slug}?error=Course+update+failed.+Please+check+your+inputs+and+try+again.`, request.url));
