@@ -61,9 +61,9 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
 
             <div className="glass-card p-7">
               <CheckCircle2 className="text-[#c8a951]" size={22} />
-              <h2 className="mt-4 text-2xl font-semibold text-slate-900">Next upgrade</h2>
+              <h2 className="mt-4 text-2xl font-semibold text-slate-900">Preview workflow</h2>
               <p className="mt-3 text-sm leading-7 text-slate-600">
-                The next step after import is a full browser-based editor for courses, modules, and lessons.
+                Each course now needs only preview content here on the website and a Selar public link for the actual purchase flow.
               </p>
             </div>
           </div>
@@ -72,7 +72,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
             <div className="mb-8">
               <h2 className="text-2xl font-semibold text-slate-900">Create a new course</h2>
               <p className="mt-2 max-w-3xl text-sm leading-7 text-slate-600">
-                Upload the course preview details, pricing, images, and the Selar public link here. Each course can now carry its own Selar URL for the Buy button.
+                Add only the premium preview details that should appear on the website, plus the specific Selar public link that should open when someone clicks Buy.
               </p>
             </div>
 

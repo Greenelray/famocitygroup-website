@@ -31,6 +31,7 @@ export type Course = {
   priceNaira: number;
   level: string;
   duration: string;
+  lessonCount: number;
   format: string;
   heroImage: string;
   thumbnail: string;
@@ -50,6 +51,7 @@ export const fallbackCourses: Course[] = [
     priceNaira: 75000,
     level: "Beginner to intermediate",
     duration: "6 weeks",
+    lessonCount: 6,
     format: "Video lessons, worksheets, and guided action steps",
     heroImage: "/premium-garden-city.jpeg",
     thumbnail: "/villa-abraka.jpeg",
@@ -178,6 +180,7 @@ type CourseRow = {
   price_naira: number;
   level: string;
   duration: string;
+  lesson_count: number | null;
   format: string;
   hero_image: string;
   thumbnail: string;
@@ -262,6 +265,10 @@ function mapDbCourses(courseRows: CourseRow[], moduleRows: ModuleRow[], lessonRo
       priceNaira: courseRow.price_naira,
       level: courseRow.level,
       duration: courseRow.duration,
+      lessonCount:
+        typeof courseRow.lesson_count === "number"
+          ? courseRow.lesson_count
+          : modules.reduce((count, module) => count + module.lessons.length, 0),
       format: courseRow.format,
       heroImage: courseRow.hero_image,
       thumbnail: courseRow.thumbnail,
@@ -281,7 +288,7 @@ async function fetchCoursesFromSource() {
     const supabase = createSupabaseAdminClient();
     const courseQuery = supabase
       .from("courses")
-      .select("id, slug, title, tagline, description, selar_url, price_naira, level, duration, format, hero_image, thumbnail, outcomes, audience, is_published")
+      .select("id, slug, title, tagline, description, selar_url, price_naira, level, duration, lesson_count, format, hero_image, thumbnail, outcomes, audience, is_published")
       .eq("is_published", true)
       .order("created_at", { ascending: true });
 
@@ -305,7 +312,7 @@ async function fetchCoursesFromSource() {
     if (courseError) {
       const { data: legacyCourseRows, error: legacyCourseError } = await supabase
         .from("courses")
-        .select("id, slug, title, tagline, description, price_naira, level, duration, format, hero_image, thumbnail, outcomes, audience, is_published")
+        .select("id, slug, title, tagline, description, price_naira, level, duration, lesson_count, format, hero_image, thumbnail, outcomes, audience, is_published")
         .eq("is_published", true)
         .order("created_at", { ascending: true });
 
@@ -390,5 +397,9 @@ export async function getLesson(courseSlug: string, lessonSlug: string) {
 }
 
 export function getLessonCount(course: Course) {
+  if (typeof course.lessonCount === "number" && course.lessonCount > 0) {
+    return course.lessonCount;
+  }
+
   return course.modules.reduce((count, module) => count + module.lessons.length, 0);
 }

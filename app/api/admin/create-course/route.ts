@@ -3,49 +3,9 @@ import { NextResponse } from "next/server";
 import { getAdminAccess } from "@/lib/admin";
 import { isTrustedFormRequest } from "@/lib/request-security";
 import { createSupabaseAdminClient, isSupabaseConfigured } from "@/lib/supabase";
-import { uploadCourseImage, uploadCourseVideo } from "@/lib/storage";
-import { normalizeVideoUrl } from "@/lib/video-url";
+import { uploadCourseImage } from "@/lib/storage";
 
 const redirect303 = (url: URL | string) => NextResponse.redirect(url, { status: 303 });
-
-type CoursePayload = {
-  modules: Array<{
-    slug: string;
-    title: string;
-    summary: string;
-    lessons: Array<{
-      slug: string;
-      title: string;
-      duration: string;
-      summary: string;
-      body: string[];
-      preview: boolean;
-      videoMode: "upload" | "url";
-      videoUrl: string;
-      videoFieldName: string;
-      resources: Array<{
-        title: string;
-        href: string;
-      }>;
-    }>;
-  }>;
-};
-
-function parseLines(value: string | null) {
-  return (value ?? "")
-    .split("\n")
-    .map((item) => item.trim())
-    .filter(Boolean);
-}
-
-function parsePayload(formData: FormData) {
-  const raw = formData.get("coursePayload")?.toString();
-  if (!raw) {
-    return null;
-  }
-
-  return JSON.parse(raw) as CoursePayload;
-}
 
 export async function POST(request: Request) {
   if (!isTrustedFormRequest(request)) {
@@ -68,7 +28,6 @@ export async function POST(request: Request) {
 
   try {
     const formData = await request.formData();
-    const payload = parsePayload(formData);
     const title = formData.get("title")?.toString().trim();
     const slug = formData.get("slug")?.toString().trim().toLowerCase();
     const tagline = formData.get("tagline")?.toString().trim();
@@ -77,39 +36,11 @@ export async function POST(request: Request) {
     const priceNaira = Number(formData.get("priceNaira")?.toString() ?? "0");
     const level = formData.get("level")?.toString().trim();
     const duration = formData.get("duration")?.toString().trim();
-    const format = formData.get("format")?.toString().trim();
-    const outcomes = parseLines(formData.get("outcomes")?.toString() ?? null);
-    const audience = parseLines(formData.get("audience")?.toString() ?? null);
+    const lessonCount = Number(formData.get("lessonCount")?.toString() ?? "0");
     const thumbnail = formData.get("thumbnail");
     const heroImage = formData.get("heroImage");
-    const modules = payload?.modules ?? [];
-
-    const hasInvalidModules =
-      !modules.length ||
-      modules.some(
-        (module) =>
-          !module.slug.trim() ||
-          !module.title.trim() ||
-          !module.summary.trim() ||
-          !module.lessons.length ||
-          module.lessons.some((lesson) => {
-            const needsUpload = lesson.videoMode === "upload";
-            const uploadedVideo = formData.get(lesson.videoFieldName);
-            return (
-              !lesson.slug.trim() ||
-              !lesson.title.trim() ||
-              !lesson.duration.trim() ||
-              !lesson.summary.trim() ||
-              !lesson.body.length ||
-              (needsUpload
-                ? !(uploadedVideo instanceof File) || uploadedVideo.size === 0
-                : !lesson.videoUrl.trim())
-            );
-          })
-      );
 
     if (
-      !payload ||
       !title ||
       !slug ||
       !tagline ||
@@ -117,10 +48,10 @@ export async function POST(request: Request) {
       !selarUrl ||
       !level ||
       !duration ||
-      !format ||
+      Number.isNaN(priceNaira) ||
+      Number.isNaN(lessonCount) ||
       !(thumbnail instanceof File) ||
-      !(heroImage instanceof File) ||
-      hasInvalidModules
+      !(heroImage instanceof File)
     ) {
       return redirect303(new URL("/admin?error=Please+complete+all+required+course+fields+before+uploading.", request.url));
     }
@@ -142,64 +73,23 @@ export async function POST(request: Request) {
         price_naira: priceNaira,
         level,
         duration,
-        format,
+        lesson_count: Math.max(0, lessonCount),
+        format: "Selar hosted course",
         hero_image: heroImageUrl,
         thumbnail: thumbnailUrl,
-        outcomes,
-        audience,
+        outcomes: [],
+        audience: [],
         is_published: true
       })
       .select("id")
       .single();
 
     if (courseResult.error || !courseResult.data) {
-      if (courseResult.error?.message?.includes("selar_url")) {
-        return redirect303(new URL("/admin?error=Run+the+selar-link.sql+update+in+Supabase+before+saving+course+links.", request.url));
+      if (courseResult.error?.message?.includes("selar_url") || courseResult.error?.message?.includes("lesson_count")) {
+        return redirect303(new URL("/admin?error=Run+the+latest+Selar+preview+SQL+update+in+Supabase+before+saving+course+previews.", request.url));
       }
 
       return redirect303(new URL("/admin?error=Could+not+save+the+course+record.+Please+check+that+the+slug+is+unique.", request.url));
-    }
-
-    for (const [moduleIndex, module] of modules.entries()) {
-      const moduleResult = await supabase
-        .from("course_modules")
-        .insert({
-          course_id: courseResult.data.id,
-          slug: module.slug,
-          title: module.title,
-          summary: module.summary,
-          position: moduleIndex
-        })
-        .select("id")
-        .single();
-
-      if (moduleResult.error || !moduleResult.data) {
-        return redirect303(new URL("/admin?error=Course+saved+but+the+module+could+not+be+created.", request.url));
-      }
-
-      for (const [lessonIndex, lesson] of module.lessons.entries()) {
-        const videoUrl =
-          lesson.videoMode === "upload"
-            ? await uploadCourseVideo(formData.get(lesson.videoFieldName) as File, slug, lesson.slug)
-            : normalizeVideoUrl(lesson.videoUrl);
-
-        const lessonResult = await supabase.from("course_lessons").insert({
-          module_id: moduleResult.data.id,
-          slug: lesson.slug,
-          title: lesson.title,
-          duration: lesson.duration,
-          preview: lesson.preview,
-          summary: lesson.summary,
-          video_url: videoUrl,
-          resources: lesson.resources,
-          body: lesson.body,
-          position: lessonIndex
-        });
-
-        if (lessonResult.error) {
-          return redirect303(new URL("/admin?error=Course+and+module+saved+but+one+lesson+could+not+be+created.", request.url));
-        }
-      }
     }
 
     revalidateTag("courses", "max");

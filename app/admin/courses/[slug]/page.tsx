@@ -38,7 +38,7 @@ export default async function EditCoursePage({ params, searchParams }: EditCours
           <span className="section-label">Edit Course</span>
           <h1 className="section-title">Update {course.title}</h1>
           <p className="section-copy">
-            Edit the course details, add modules and lessons, and replace media where needed.
+            Edit the website preview details, images, lesson count, and the Selar link for this course.
           </p>
 
           {query.updated === "success" ? (
