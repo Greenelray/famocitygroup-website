@@ -9,6 +9,8 @@ import { getCourseBySlug, getLessonCount } from "@/lib/course-data";
 import { hasEnrollment } from "@/lib/enrollments";
 import { getSessionUser } from "@/lib/session";
 
+const SELAR_COURSE_URL = "https://selar.com/7gw8c7g787";
+
 type CoursePageProps = {
   params: Promise<{ slug: string }>;
 };
@@ -55,15 +57,10 @@ export default async function CoursePage({ params }: CoursePageProps) {
                   Continue learning
                   <ArrowRight size={16} />
                 </Link>
-              ) : user ? (
-                <div className="w-full max-w-sm">
-                  <CoursePurchaseForm courseSlug={course.slug} />
-                </div>
               ) : (
-                <Link href={`/login?next=/courses/${course.slug}`} className="premium-button-primary w-full sm:w-auto">
-                  Log in to buy this course
-                  <ArrowRight size={16} />
-                </Link>
+                <div className="w-full max-w-sm">
+                  <CoursePurchaseForm href={SELAR_COURSE_URL} />
+                </div>
               )}
               <Link href="/my-courses" className="premium-button-secondary w-full sm:w-auto">
                 View my courses
@@ -152,25 +149,23 @@ export default async function CoursePage({ params }: CoursePageProps) {
                 <h2 className="text-2xl font-semibold text-slate-900">Access flow</h2>
               </div>
               <div className="mt-5 space-y-3 text-sm leading-7 text-slate-600">
-                <p>Create your learner account on Famocity.</p>
-                <p>Pay securely through Paystack.</p>
-                <p>Return instantly to your protected dashboard after payment verification.</p>
+                <p>Open the secure Selar checkout for this course.</p>
+                <p>Complete your payment directly on Selar.</p>
+                <p>Continue accessing the course through your live Selar course page.</p>
               </div>
             </div>
 
-            {!user ? (
-              <div className="glass-card bg-[#061326] p-7 text-white">
-                <p className="text-sm font-semibold uppercase tracking-[0.24em] text-[#eadba6]">Ready to join?</p>
-                <h2 className="mt-3 text-2xl font-semibold">Create your account before checkout.</h2>
-                <p className="mt-3 text-sm leading-7 text-slate-200">
-                  This keeps each course linked to the right student dashboard and gives learners a secure return path.
-                </p>
-                <Link href={`/signup?next=/courses/${course.slug}`} className="premium-button-accent mt-5 w-full sm:w-auto">
-                  Create account
-                  <ArrowRight size={16} />
-                </Link>
-              </div>
-            ) : null}
+            <div className="glass-card bg-[#061326] p-7 text-white">
+              <p className="text-sm font-semibold uppercase tracking-[0.24em] text-[#eadba6]">Ready to enroll?</p>
+              <h2 className="mt-3 text-2xl font-semibold">Buy this course on Selar.</h2>
+              <p className="mt-3 text-sm leading-7 text-slate-200">
+                We now use Selar as the live checkout and delivery platform for this course, so purchases are completed there directly.
+              </p>
+              <a href={SELAR_COURSE_URL} target="_blank" rel="noreferrer" className="premium-button-accent mt-5 w-full sm:w-auto">
+                Go to Selar
+                <ArrowRight size={16} />
+              </a>
+            </div>
           </div>
         </div>
       </section>

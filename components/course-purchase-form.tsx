@@ -1,30 +1,23 @@
-"use client";
-
-import { useState } from "react";
-
 type CoursePurchaseFormProps = {
-  courseSlug: string;
   disabled?: boolean;
+  href: string;
 };
 
-export function CoursePurchaseForm({ courseSlug, disabled }: CoursePurchaseFormProps) {
-  const [loading, setLoading] = useState(false);
-
+export function CoursePurchaseForm({ disabled, href }: CoursePurchaseFormProps) {
   return (
-    <form
-      action="/api/paystack/initialize"
-      method="POST"
-      onSubmit={() => setLoading(true)}
-      className="w-full"
+    <a
+      href={href}
+      target="_blank"
+      rel="noreferrer"
+      className={`w-full ${disabled ? "pointer-events-none opacity-60" : ""}`}
+      aria-disabled={disabled}
     >
-      <input name="courseSlug" type="hidden" value={courseSlug} />
-      <button
-        type="submit"
-        disabled={disabled || loading}
-        className="premium-button-accent w-full disabled:cursor-not-allowed disabled:opacity-60"
+      <span
+        role="button"
+        className="premium-button-accent inline-flex w-full"
       >
-        {loading ? "Redirecting to payment..." : "Buy this course"}
-      </button>
-    </form>
+        Buy on Selar
+      </span>
+    </a>
   );
 }

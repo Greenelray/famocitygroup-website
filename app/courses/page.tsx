@@ -6,6 +6,8 @@ import { Navbar } from "@/components/navbar";
 import { listCourses } from "@/lib/course-data";
 import { getSessionUser } from "@/lib/session";
 
+const SELAR_COURSE_URL = "https://selar.com/7gw8c7g787";
+
 export default async function CoursesPage() {
   const courses = await listCourses();
   const user = await getSessionUser();
@@ -21,16 +23,16 @@ export default async function CoursesPage() {
             <div>
               <h1 className="section-title">Course experiences you own on your own website.</h1>
               <p className="section-copy">
-                Browse premium Famocity learning programs, pay directly on the site, and unlock your student dashboard instantly after successful payment verification.
+                Browse premium Famocity learning programs, then continue to our live Selar checkout and course delivery page when you are ready to enroll.
               </p>
             </div>
             <div className="glass-card p-6">
               <p className="text-sm font-semibold uppercase tracking-[0.22em] text-[#9b7b26]">What students get</p>
               <div className="mt-4 space-y-3 text-sm leading-7 text-slate-600">
                 {[
-                  "Protected lesson access tied to each paid course.",
-                  "A My Courses dashboard for returning students.",
-                  "Paystack-ready checkout and payment verification flow."
+                  "A clear course overview before purchase.",
+                  "A direct path to the live Selar checkout.",
+                  "Selar-hosted course access for enrolled students."
                 ].map((item) => (
                   <div key={item} className="flex items-start gap-3">
                     <ShieldCheck size={18} className="mt-1 text-[#c8a951]" />
@@ -49,13 +51,13 @@ export default async function CoursesPage() {
 
           <div className="mt-12 flex flex-col gap-4 rounded-[1.8rem] bg-[#061326] p-6 text-white shadow-xl sm:flex-row sm:items-center sm:justify-between sm:p-8">
             <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.24em] text-[#eadba6]">Need a student account?</p>
-              <h2 className="mt-3 text-xl font-semibold sm:text-2xl">Create your learner profile before checkout.</h2>
+              <p className="text-sm font-semibold uppercase tracking-[0.24em] text-[#eadba6]">Ready to enroll?</p>
+              <h2 className="mt-3 text-xl font-semibold sm:text-2xl">Open the live Selar course page.</h2>
             </div>
-            <Link href="/signup" className="premium-button-accent w-full sm:w-auto">
-              Create account
+            <a href={SELAR_COURSE_URL} target="_blank" rel="noreferrer" className="premium-button-accent w-full sm:w-auto">
+              Buy on Selar
               <ArrowRight size={16} />
-            </Link>
+            </a>
           </div>
         </div>
       </section>

@@ -69,9 +69,9 @@ After that, the live course pages will start reading from Supabase first.
 1. Go to `/signup`
 2. Create a learner account with name, email, and password
 3. Go to `/courses`
-4. Buy a course through Paystack test mode
-5. Complete payment
-6. Confirm the course appears in `/my-courses`
+4. Open the live Selar course link from the course page
+5. Complete the purchase on Selar
+6. Confirm your live Selar course access works as expected
 
 ## What is now real
 

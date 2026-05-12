@@ -6,7 +6,6 @@ import { Footer } from "@/components/footer";
 import { Navbar } from "@/components/navbar";
 import { getAdminAccess } from "@/lib/admin";
 import { listCourses } from "@/lib/course-data";
-import { isPaystackConfigured } from "@/lib/paystack";
 import { isSupabaseConfigured } from "@/lib/supabase";
 
 type AdminPageProps = {
@@ -25,7 +24,6 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   }
 
   const courses = await listCourses();
-  const paystackConfigured = isPaystackConfigured();
   const supabaseConfigured = isSupabaseConfigured();
   const params = await searchParams;
 
@@ -38,7 +36,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
           <span className="section-label">Admin Starter</span>
           <h1 className="section-title">Course platform control center.</h1>
           <p className="section-copy">
-            This first version keeps course content inside the codebase and turns on login, protected learning pages, and Paystack-ready checkout. When you are ready, the next upgrade is moving courses and student records into Supabase.
+            This version keeps course content inside the website while sending buyers to your live Selar checkout and course page. Supabase still powers your content management and protected internal learning pages where needed.
           </p>
           <p className="mt-3 text-sm text-slate-500">
             Signed in as <span className="font-semibold text-slate-800">{adminAccess.user.email}</span>
@@ -55,11 +53,9 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
 
             <div className="glass-card p-7">
               <Wallet className="text-[#c8a951]" size={22} />
-              <h2 className="mt-4 text-2xl font-semibold text-slate-900">Paystack status</h2>
+              <h2 className="mt-4 text-2xl font-semibold text-slate-900">Sales channel</h2>
               <p className="mt-3 text-sm leading-7 text-slate-600">
-                {paystackConfigured
-                  ? "Paystack environment variables are present, so checkout can be tested."
-                  : "Paystack keys are not configured yet. Add them in .env.local before testing purchases."}
+                Your course purchase flow now points visitors to Selar instead of processing checkout directly on this website.
               </p>
             </div>
 
