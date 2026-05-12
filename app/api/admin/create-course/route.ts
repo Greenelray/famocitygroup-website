@@ -73,6 +73,7 @@ export async function POST(request: Request) {
     const slug = formData.get("slug")?.toString().trim().toLowerCase();
     const tagline = formData.get("tagline")?.toString().trim();
     const description = formData.get("description")?.toString().trim();
+    const selarUrl = formData.get("selarUrl")?.toString().trim();
     const priceNaira = Number(formData.get("priceNaira")?.toString() ?? "0");
     const level = formData.get("level")?.toString().trim();
     const duration = formData.get("duration")?.toString().trim();
@@ -113,6 +114,7 @@ export async function POST(request: Request) {
       !slug ||
       !tagline ||
       !description ||
+      !selarUrl ||
       !level ||
       !duration ||
       !format ||
@@ -136,6 +138,7 @@ export async function POST(request: Request) {
         title,
         tagline,
         description,
+        selar_url: selarUrl,
         price_naira: priceNaira,
         level,
         duration,
@@ -150,6 +153,10 @@ export async function POST(request: Request) {
       .single();
 
     if (courseResult.error || !courseResult.data) {
+      if (courseResult.error?.message?.includes("selar_url")) {
+        return redirect303(new URL("/admin?error=Run+the+selar-link.sql+update+in+Supabase+before+saving+course+links.", request.url));
+      }
+
       return redirect303(new URL("/admin?error=Could+not+save+the+course+record.+Please+check+that+the+slug+is+unique.", request.url));
     }
 

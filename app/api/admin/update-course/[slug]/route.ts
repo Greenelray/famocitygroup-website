@@ -79,6 +79,7 @@ export async function POST(request: Request, { params }: UpdateCourseRouteProps)
     const slug = formData.get("slug")?.toString().trim().toLowerCase();
     const tagline = formData.get("tagline")?.toString().trim();
     const description = formData.get("description")?.toString().trim();
+    const selarUrl = formData.get("selarUrl")?.toString().trim();
     const priceNaira = Number(formData.get("priceNaira")?.toString() ?? "0");
     const level = formData.get("level")?.toString().trim();
     const duration = formData.get("duration")?.toString().trim();
@@ -92,6 +93,7 @@ export async function POST(request: Request, { params }: UpdateCourseRouteProps)
       !slug ||
       !tagline ||
       !description ||
+      !selarUrl ||
       !level ||
       !duration ||
       !format ||
@@ -130,6 +132,7 @@ export async function POST(request: Request, { params }: UpdateCourseRouteProps)
         title,
         tagline,
         description,
+        selar_url: selarUrl,
         price_naira: priceNaira,
         level,
         duration,
@@ -143,6 +146,10 @@ export async function POST(request: Request, { params }: UpdateCourseRouteProps)
       .eq("id", existingCourse.data.id);
 
     if (courseResult.error) {
+      if (courseResult.error.message?.includes("selar_url")) {
+        return redirect303(new URL(`/admin/courses/${routeParams.slug}?error=Run+the+selar-link.sql+update+in+Supabase+before+saving+course+links.`, request.url));
+      }
+
       return redirect303(new URL(`/admin/courses/${routeParams.slug}?error=Could+not+update+the+course+record.`, request.url));
     }
 

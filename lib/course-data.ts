@@ -2,6 +2,8 @@ import { unstable_cache } from "next/cache";
 import { createSupabaseAdminClient, isSupabaseConfigured } from "@/lib/supabase";
 import { normalizeVideoUrl } from "@/lib/video-url";
 
+const DEFAULT_SELAR_COURSE_URL = "https://selar.com/7gw8c7g787";
+
 export type Lesson = {
   slug: string;
   title: string;
@@ -25,6 +27,7 @@ export type Course = {
   title: string;
   tagline: string;
   description: string;
+  selarUrl: string;
   priceNaira: number;
   level: string;
   duration: string;
@@ -43,6 +46,7 @@ export const fallbackCourses: Course[] = [
     tagline: "Learn how to move from paying rent to building real asset ownership with confidence.",
     description:
       "A practical Famocity flagship program covering land verification, financing strategy, deal evaluation, and the disciplined habits that turn income into long-term property wealth.",
+    selarUrl: "https://selar.com/7gw8c7g787",
     priceNaira: 75000,
     level: "Beginner to intermediate",
     duration: "6 weeks",
@@ -170,6 +174,7 @@ type CourseRow = {
   title: string;
   tagline: string;
   description: string;
+  selar_url: string | null;
   price_naira: number;
   level: string;
   duration: string;
@@ -253,6 +258,7 @@ function mapDbCourses(courseRows: CourseRow[], moduleRows: ModuleRow[], lessonRo
       title: courseRow.title,
       tagline: courseRow.tagline,
       description: courseRow.description,
+      selarUrl: courseRow.selar_url || DEFAULT_SELAR_COURSE_URL,
       priceNaira: courseRow.price_naira,
       level: courseRow.level,
       duration: courseRow.duration,
@@ -273,13 +279,15 @@ async function fetchCoursesFromSource() {
 
   try {
     const supabase = createSupabaseAdminClient();
+    const courseQuery = supabase
+      .from("courses")
+      .select("id, slug, title, tagline, description, selar_url, price_naira, level, duration, format, hero_image, thumbnail, outcomes, audience, is_published")
+      .eq("is_published", true)
+      .order("created_at", { ascending: true });
+
     const [{ data: courseRows, error: courseError }, { data: moduleRows, error: moduleError }, { data: lessonRows, error: lessonError }] =
       await Promise.all([
-        supabase
-          .from("courses")
-          .select("id, slug, title, tagline, description, price_naira, level, duration, format, hero_image, thumbnail, outcomes, audience, is_published")
-          .eq("is_published", true)
-          .order("created_at", { ascending: true }),
+        courseQuery,
         supabase
           .from("course_modules")
           .select("id, course_id, slug, title, summary, position")
@@ -290,7 +298,34 @@ async function fetchCoursesFromSource() {
           .order("position", { ascending: true })
       ]);
 
-    if (courseError || moduleError || lessonError || !courseRows) {
+    if (moduleError || lessonError) {
+      return shouldUseFallbackCourses() ? fallbackCourses : [];
+    }
+
+    if (courseError) {
+      const { data: legacyCourseRows, error: legacyCourseError } = await supabase
+        .from("courses")
+        .select("id, slug, title, tagline, description, price_naira, level, duration, format, hero_image, thumbnail, outcomes, audience, is_published")
+        .eq("is_published", true)
+        .order("created_at", { ascending: true });
+
+      if (legacyCourseError || !legacyCourseRows) {
+        return shouldUseFallbackCourses() ? fallbackCourses : [];
+      }
+
+      const normalizedLegacyRows = legacyCourseRows.map((row) => ({
+        ...row,
+        selar_url: DEFAULT_SELAR_COURSE_URL
+      }));
+
+      if (normalizedLegacyRows.length === 0) {
+        return [];
+      }
+
+      return mapDbCourses(normalizedLegacyRows as CourseRow[], (moduleRows ?? []) as ModuleRow[], (lessonRows ?? []) as LessonRow[]);
+    }
+
+    if (!courseRows) {
       return shouldUseFallbackCourses() ? fallbackCourses : [];
     }
 

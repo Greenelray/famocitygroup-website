@@ -4,6 +4,7 @@ create table if not exists public.courses (
   title text not null,
   tagline text not null,
   description text not null,
+  selar_url text,
   price_naira integer not null default 0,
   level text not null,
   duration text not null,

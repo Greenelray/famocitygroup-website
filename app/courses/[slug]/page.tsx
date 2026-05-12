@@ -1,15 +1,10 @@
 import Image from "next/image";
-import Link from "next/link";
-import { notFound, redirect } from "next/navigation";
-import { ArrowRight, BookOpenText, CheckCircle2, LockKeyhole, PlayCircle } from "lucide-react";
+import { notFound } from "next/navigation";
 import { CoursePurchaseForm } from "@/components/course-purchase-form";
 import { Footer } from "@/components/footer";
 import { Navbar } from "@/components/navbar";
 import { getCourseBySlug, getLessonCount } from "@/lib/course-data";
-import { hasEnrollment } from "@/lib/enrollments";
 import { getSessionUser } from "@/lib/session";
-
-const SELAR_COURSE_URL = "https://selar.com/7gw8c7g787";
 
 type CoursePageProps = {
   params: Promise<{ slug: string }>;
@@ -24,8 +19,6 @@ export default async function CoursePage({ params }: CoursePageProps) {
   }
 
   const user = await getSessionUser();
-  const enrolled = await hasEnrollment(course.slug);
-  const firstLesson = course.modules[0]?.lessons[0];
 
   return (
     <main className="relative overflow-x-hidden bg-white">
@@ -52,19 +45,9 @@ export default async function CoursePage({ params }: CoursePageProps) {
             </div>
 
             <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:flex-wrap">
-              {enrolled && firstLesson ? (
-                <Link href={`/learn/${course.slug}/${firstLesson.slug}`} className="premium-button-primary w-full sm:w-auto">
-                  Continue learning
-                  <ArrowRight size={16} />
-                </Link>
-              ) : (
-                <div className="w-full max-w-sm">
-                  <CoursePurchaseForm href={SELAR_COURSE_URL} />
-                </div>
-              )}
-              <Link href="/my-courses" className="premium-button-secondary w-full sm:w-auto">
-                View my courses
-              </Link>
+              <div className="w-full max-w-sm">
+                <CoursePurchaseForm href={course.selarUrl} />
+              </div>
             </div>
           </div>
 
@@ -77,94 +60,6 @@ export default async function CoursePage({ params }: CoursePageProps) {
                 <p className="mt-2 text-2xl font-bold sm:text-3xl">NGN {course.priceNaira.toLocaleString()}</p>
                 <p className="mt-2 text-sm leading-6 text-slate-100">{course.tagline}</p>
               </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="section-block bg-white">
-        <div className="section-shell grid gap-8 lg:grid-cols-[1fr_0.85fr]">
-          <div className="space-y-8">
-            <div className="premium-card">
-              <span className="section-label">What You&apos;ll Learn</span>
-              <div className="mt-6 grid gap-4">
-                {course.outcomes.map((item) => (
-                  <div key={item} className="flex gap-3 rounded-[1.4rem] bg-slate-50 px-5 py-4 text-sm leading-7 text-slate-600">
-                    <CheckCircle2 size={18} className="mt-1 shrink-0 text-[#c8a951]" />
-                    <span>{item}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="premium-card">
-              <span className="section-label">Course Curriculum</span>
-              <div className="mt-6 space-y-5">
-                {course.modules.map((module, moduleIndex) => (
-                  <div key={module.slug} className="rounded-[1.5rem] border border-slate-200 bg-slate-50 p-5">
-                    <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#9b7b26]">Module {moduleIndex + 1}</p>
-                    <h2 className="mt-3 text-2xl font-semibold text-slate-900">{module.title}</h2>
-                    <p className="mt-2 text-sm leading-7 text-slate-600">{module.summary}</p>
-
-                    <div className="mt-5 space-y-3">
-                      {module.lessons.map((lesson) => (
-                        <div key={lesson.slug} className="flex flex-col gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-4 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
-                          <div className="flex gap-3">
-                            <PlayCircle size={18} className="mt-1 shrink-0 text-[#c8a951]" />
-                            <div>
-                              <p className="font-semibold text-slate-900">{lesson.title}</p>
-                              <p className="mt-1 text-sm leading-6 text-slate-600">{lesson.summary}</p>
-                            </div>
-                          </div>
-                          <div className="pl-8 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500 sm:pl-0">
-                            {lesson.duration}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          <div className="space-y-6">
-            <div className="glass-card p-7">
-              <div className="flex items-center gap-3">
-                <BookOpenText className="text-[#c8a951]" size={20} />
-                <h2 className="text-2xl font-semibold text-slate-900">Who this is for</h2>
-              </div>
-              <div className="mt-5 space-y-3 text-sm leading-7 text-slate-600">
-                {course.audience.map((item) => (
-                  <div key={item} className="rounded-2xl bg-slate-50 px-4 py-3">
-                    {item}
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="glass-card p-7">
-              <div className="flex items-center gap-3">
-                <LockKeyhole className="text-[#c8a951]" size={20} />
-                <h2 className="text-2xl font-semibold text-slate-900">Access flow</h2>
-              </div>
-              <div className="mt-5 space-y-3 text-sm leading-7 text-slate-600">
-                <p>Open the secure Selar checkout for this course.</p>
-                <p>Complete your payment directly on Selar.</p>
-                <p>Continue accessing the course through your live Selar course page.</p>
-              </div>
-            </div>
-
-            <div className="glass-card bg-[#061326] p-7 text-white">
-              <p className="text-sm font-semibold uppercase tracking-[0.24em] text-[#eadba6]">Ready to enroll?</p>
-              <h2 className="mt-3 text-2xl font-semibold">Buy this course on Selar.</h2>
-              <p className="mt-3 text-sm leading-7 text-slate-200">
-                We now use Selar as the live checkout and delivery platform for this course, so purchases are completed there directly.
-              </p>
-              <a href={SELAR_COURSE_URL} target="_blank" rel="noreferrer" className="premium-button-accent mt-5 w-full sm:w-auto">
-                Go to Selar
-                <ArrowRight size={16} />
-              </a>
             </div>
           </div>
         </div>

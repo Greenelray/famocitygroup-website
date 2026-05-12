@@ -43,6 +43,15 @@ This creates:
 - `course_modules`
 - `course_lessons`
 
+## 4b. Add Selar links to existing live projects
+
+If your project was already created before Selar links were added, run:
+
+```sql
+alter table public.courses
+add column if not exists selar_url text;
+```
+
 ## 5. Keep email confirmation simple for now
 
 Because the app creates users from the backend, you can leave email confirmation off for this first version.

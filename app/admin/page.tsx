@@ -36,7 +36,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
           <span className="section-label">Admin Starter</span>
           <h1 className="section-title">Course platform control center.</h1>
           <p className="section-copy">
-            This version keeps course content inside the website while sending buyers to your live Selar checkout and course page. Supabase still powers your content management and protected internal learning pages where needed.
+            This version keeps the website as a premium course preview while sending buyers to each course&apos;s live Selar checkout link. Add the Selar public URL per course in the admin form below.
           </p>
           <p className="mt-3 text-sm text-slate-500">
             Signed in as <span className="font-semibold text-slate-800">{adminAccess.user.email}</span>
@@ -72,7 +72,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
             <div className="mb-8">
               <h2 className="text-2xl font-semibold text-slate-900">Create a new course</h2>
               <p className="mt-2 max-w-3xl text-sm leading-7 text-slate-600">
-                Upload the course details, price, images, and first lesson here. Once submitted successfully, the new course will appear in the live course catalog because the site now reads courses from Supabase.
+                Upload the course preview details, pricing, images, and the Selar public link here. Each course can now carry its own Selar URL for the Buy button.
               </p>
             </div>
 

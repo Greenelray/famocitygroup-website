@@ -39,6 +39,7 @@ type AdminCourseFormProps = {
 };
 
 type CoursePayload = {
+  selarUrl: string;
   slug: string;
   title: string;
   tagline: string;
@@ -117,6 +118,7 @@ function mapInitialCourse(course?: Course) {
       slug: "",
       tagline: "",
       description: "",
+      selarUrl: "",
       priceNaira: 0,
       level: "",
       duration: "",
@@ -132,6 +134,7 @@ function mapInitialCourse(course?: Course) {
     slug: course.slug,
     tagline: course.tagline,
     description: course.description,
+    selarUrl: course.selarUrl,
     priceNaira: course.priceNaira,
     level: course.level,
     duration: course.duration,
@@ -190,6 +193,7 @@ export function AdminCourseForm({ action, submitLabel, initialCourse }: AdminCou
   });
 
   const payload: CoursePayload = {
+    selarUrl: defaults.selarUrl.trim(),
     slug: defaults.slug,
     title: defaults.title,
     tagline: defaults.tagline,
@@ -437,6 +441,18 @@ export function AdminCourseForm({ action, submitLabel, initialCourse }: AdminCou
             defaultValue={defaults.description}
             className="w-full rounded-2xl border border-slate-200 px-4 py-3 outline-none transition focus:border-[#c8a951]"
             placeholder="Full course description"
+          />
+        </label>
+
+        <label className="block lg:col-span-2">
+          <span className="mb-2 block text-sm font-semibold text-slate-700">Selar public link</span>
+          <input
+            name="selarUrl"
+            type="url"
+            required
+            defaultValue={defaults.selarUrl}
+            className="w-full rounded-2xl border border-slate-200 px-4 py-3 outline-none transition focus:border-[#c8a951]"
+            placeholder="https://selar.com/your-course-link"
           />
         </label>
 

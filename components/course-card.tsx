@@ -50,7 +50,7 @@ export function CourseCard({ course }: CourseCardProps) {
         </div>
 
         <Link href={`/courses/${course.slug}`} className="premium-button-primary button-card-view mt-6 w-full">
-          View Course
+          View Preview
           <ArrowRight size={16} />
         </Link>
       </div>
