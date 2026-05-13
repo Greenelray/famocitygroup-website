@@ -78,9 +78,9 @@ export function Navbar({ userEmail }: NavbarProps) {
         }}
         className="section-shell"
       >
-        <div className="hidden items-center justify-between gap-6 xl:flex">
-          <nav aria-label="Primary navigation left" className="flex min-w-0 flex-1 items-center justify-end gap-5 2xl:gap-7">
-            {leftLinks.map((link, index) => (
+        <div className="hidden grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-8 xl:grid 2xl:gap-10">
+          <nav aria-label="Primary navigation left" className="flex min-w-0 items-center justify-end gap-5 pr-2 2xl:gap-7 2xl:pr-3">
+            {leftLinks.map((link) => (
               (() => {
                 const active = isLinkActive(link.href);
                 return (
@@ -104,18 +104,18 @@ export function Navbar({ userEmail }: NavbarProps) {
             ))}
           </nav>
 
-          <Link aria-label="Famocity home" className="flex shrink-0 flex-col items-center" href="/#home">
+          <Link aria-label="Famocity home" className="flex shrink-0 items-center justify-center" href="/#home">
             <Image
               src="/famocity-header-logo-cropped.png"
               alt="Famocity Real Estate and Constructions Ltd logo"
               width={1177}
               height={278}
-              className="h-10 w-auto max-w-[260px] 2xl:h-12 2xl:max-w-[320px]"
+              className="h-11 w-auto max-w-[320px] 2xl:h-12 2xl:max-w-[360px]"
               priority
             />
           </Link>
 
-          <div className="flex min-w-0 flex-1 items-center justify-end">
+          <div className="flex min-w-0 items-center justify-start pl-2 2xl:pl-3">
             <nav aria-label="Primary navigation right" className="flex min-w-0 items-center gap-4 2xl:gap-6">
               {rightLinks.map((link) => (
                 (() => {
