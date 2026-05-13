@@ -13,7 +13,8 @@ import {
   Phone,
   ShieldCheck,
   Sparkles,
-  Smartphone
+  Smartphone,
+  SunMedium
 } from "lucide-react";
 import auditorPhoto from "../auditor.jpeg";
 import founderStoryPhoto from "../manager3.jpeg";
@@ -31,7 +32,7 @@ import { listCourses } from "@/lib/course-data";
 import { getSessionUser } from "@/lib/session";
 
 const stats = [
-  { value: "4", label: "Integrated business pillars" },
+  { value: "5", label: "Integrated business pillars" },
   { value: "Trust", label: "Verified, transparent guidance" },
   { value: "Long-term", label: "Asset-focused value creation" }
 ];
@@ -60,6 +61,12 @@ const services = [
     copy:
       "Helping individuals build disciplined savings habits that lead toward land ownership and real asset growth.",
     icon: BadgeDollarSign
+  },
+  {
+    title: "Solar Energy",
+    copy:
+      "Making clean energy easier to access by helping clients source quality solar solutions and connect with the right professionals.",
+    icon: SunMedium
   }
 ];
 
@@ -90,6 +97,12 @@ const profileHighlights = [
 
 const propertyImages = [
   {
+    src: "/greenland-phase-ii.jpeg",
+    alt: "Greenland Phase II Olodu Ogwashi-Uku",
+    title: "Greenland Phase II",
+    location: "Olodu Ogwashi-Uku, Delta State"
+  },
+  {
     src: "/villa-abraka.jpeg",
     alt: "Famocity Villa Abraka",
     title: "Famocity Villa Abraka",
@@ -106,6 +119,19 @@ const propertyImages = [
     alt: "Everess Palm City",
     title: "Everess Palm City",
     location: "Olodu Ibusa, Delta State"
+  }
+];
+
+const consultancyServices = [
+  {
+    title: "Real Estate Purchase Consultancy",
+    copy:
+      "We help you find and own land anywhere in Nigeria, whether you are buying for investment, land banking, or building your dream home. Our team helps you search, verify, and secure genuine properties with a process that stays smooth, transparent, and trustworthy."
+  },
+  {
+    title: "Property Legitimacy Check Consultancy",
+    copy:
+      "We verify property documents, check authenticity, and guide buyers or investors through the real risks before money changes hands. This helps you avoid costly mistakes, understand what you are buying, and move with clarity and confidence."
   }
 ];
 
@@ -370,7 +396,7 @@ export default async function Home() {
             </p>
           </Reveal>
 
-          <div className="mt-12 grid auto-rows-fr gap-6 md:grid-cols-2 xl:grid-cols-4">
+          <div className="mt-12 grid auto-rows-fr gap-6 md:grid-cols-2 xl:grid-cols-5">
             {services.map((service, index) => {
               const Icon = service.icon;
               return (
@@ -403,13 +429,39 @@ export default async function Home() {
               {[
                 "Safe and verified land opportunities.",
                 "Straightforward communication and transparent processes.",
-                "Accessible pathways into ownership for first-time buyers."
+                "Accessible pathways into ownership for first-time buyers.",
+                "Consultancy support for property search, verification, and safe decision-making."
               ].map((point) => (
                 <div key={point} className="flex items-start gap-3 text-base text-slate-600">
                   <ShieldCheck className="mt-1 text-[#c8a951]" size={18} />
                   <span>{point}</span>
                 </div>
               ))}
+            </div>
+
+            <div className="mt-10 grid gap-4">
+              {consultancyServices.map((item) => (
+                <div key={item.title} className="rounded-[1.5rem] border border-slate-200 bg-white p-5 shadow-sm">
+                  <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#9b7b26]">{item.title}</p>
+                  <p className="mt-3 text-sm leading-7 text-slate-600">{item.copy}</p>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-10 rounded-[1.8rem] border border-[#0b1f3a]/10 bg-[#0b1f3a] p-6 text-white shadow-xl">
+              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#eadba6]">Featured now</p>
+              <h3 className="mt-3 text-2xl font-semibold">Greenland Phase II</h3>
+              <p className="mt-2 text-sm uppercase tracking-[0.16em] text-slate-200">Olodu Ogwashi-Uku, Delta State</p>
+              <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                <div className="rounded-2xl bg-white/10 px-4 py-4">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#eadba6]">Price</p>
+                  <p className="mt-2 text-xl font-bold">N1.980M</p>
+                </div>
+                <div className="rounded-2xl bg-white/10 px-4 py-4">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#eadba6]">Plot size</p>
+                  <p className="mt-2 text-xl font-bold">450 SQM</p>
+                </div>
+              </div>
             </div>
           </Reveal>
 
@@ -418,7 +470,7 @@ export default async function Home() {
       </section>
 
       <section className="section-block bg-white">
-        <div className="section-shell grid gap-6 lg:grid-cols-2">
+        <div className="section-shell grid gap-6 xl:grid-cols-3">
           <Reveal>
             <div className="glass-card h-full p-8 sm:p-10">
               <div className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-[#0b1f3a] text-[#c8a951]">
@@ -443,6 +495,33 @@ export default async function Home() {
           </Reveal>
 
           <Reveal delay={0.08}>
+            <div className="glass-card h-full p-8 sm:p-10">
+              <div className="rounded-[1.5rem] border border-slate-200/80 bg-slate-50 p-5">
+                <Image
+                  src="/famocity-solar-energy.png"
+                  alt="Famocity Solar Energy logo"
+                  width={790}
+                  height={312}
+                  className="h-auto w-full"
+                />
+              </div>
+              <span className="section-label mt-6">Solar Energy</span>
+              <h2 className="mt-5 text-2xl font-semibold text-slate-900 sm:text-3xl">
+                Affordable solar access without the usual stress.
+              </h2>
+              <p className="mt-4 text-base leading-8 text-slate-600">
+                At Famocity Real Estate &amp; Construction Ltd, we understand that reliable power is essential, but it should not be expensive or complicated. Through Famocity Energy, we help make solar solutions more affordable and accessible for individuals, businesses, and property owners.
+              </p>
+              <p className="mt-4 text-base leading-8 text-slate-600">
+                We do not position ourselves as system managers. We act as trusted facilitators who help you source quality solar solutions, connect with the right professionals, and choose cost-effective options that fit your budget and energy needs.
+              </p>
+              <p className="mt-5 text-sm font-semibold uppercase tracking-[0.22em] text-[#c8a951]">
+                Simpler, smarter, within reach
+              </p>
+            </div>
+          </Reveal>
+
+          <Reveal delay={0.12}>
             <div className="glass-card h-full p-8 sm:p-10">
               <div className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-[#0b1f3a] text-[#c8a951]">
                 <Smartphone size={24} />
@@ -642,7 +721,7 @@ export default async function Home() {
                 <span className="section-label">Famocity Academy</span>
                 <h2 className="section-title">Learn the ownership principles behind the brand.</h2>
                 <p className="section-copy">
-                  Famocity now includes a course platform where students can sign up, pay on the website, and return to a protected learning dashboard anytime.
+                  Explore Famocity learning previews on the website, then continue to the dedicated Selar course page when you are ready to buy and start learning.
                 </p>
               </div>
               <div className="glass-card p-6">
