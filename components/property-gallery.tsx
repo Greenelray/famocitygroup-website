@@ -38,18 +38,12 @@ export function PropertyGallery({ images }: PropertyGalleryProps) {
     <>
       <div className="grid auto-rows-fr gap-5 sm:grid-cols-2">
         {images.map((image, index) => (
-          <Reveal
-            key={image.alt}
-            delay={0.08 * index}
-            className={index === 0 ? "sm:col-span-2" : undefined}
-          >
+          <Reveal key={image.alt} delay={0.08 * index}>
             <div className="glass-card h-full overflow-hidden p-3 transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(11,31,58,0.12)]">
               <button
                 type="button"
                 onClick={() => setActiveImage(image)}
-                className={`button-card-view group relative block w-full overflow-hidden rounded-[1.35rem] bg-[linear-gradient(180deg,#eef4fb_0%,#d8e7f8_100%)] text-left ${
-                  index === 0 ? "aspect-[16/10]" : "aspect-[4/5]"
-                }`}
+                className="button-card-view group relative block aspect-[4/5] w-full overflow-hidden rounded-[1.35rem] bg-[linear-gradient(180deg,#eef4fb_0%,#d8e7f8_100%)] text-left"
                 aria-label={`Open ${image.title}`}
               >
                 <Image

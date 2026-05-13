@@ -51,9 +51,9 @@ const services = [
     icon: Drill
   },
   {
-    title: "Gadgets",
+    title: "OUSCRAFT TECHNOLOGY HUBS",
     copy:
-      "Providing smart devices and modern tools that support productivity, convenience, and better living.",
+      "Providing smart devices and modern technology solutions that support productivity, convenience, and better living.",
     icon: Smartphone
   },
   {
@@ -523,20 +523,24 @@ export default async function Home() {
 
           <Reveal delay={0.12}>
             <div className="glass-card h-full p-8 sm:p-10">
-              <div className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-[#0b1f3a] text-[#c8a951]">
-                <Smartphone size={24} />
+              <div className="rounded-[1.5rem] border border-slate-200/80 bg-slate-50 p-5">
+                <Image
+                  src="/ouscraft-technology-hubs.png"
+                  alt="Ouscraft Technology Hubs logo"
+                  width={1280}
+                  height={720}
+                  className="h-auto w-full"
+                />
               </div>
-              <span className="section-label">Gadgets</span>
+              <span className="section-label mt-6">OUSCRAFT TECHNOLOGY HUBS</span>
               <h2 className="mt-5 text-2xl font-semibold text-slate-900 sm:text-3xl">
                 Modern tools that support smart living today.
               </h2>
               <p className="mt-4 text-base leading-8 text-slate-600">
-                Famocity also operates in the gadget space because productivity, communication, learning, and
-                modern living all depend on having the right tools in the present.
+                Ouscraft Technology Hubs is the technology and gadgets arm within the Famocity structure, created for people and businesses that want practical tools for productivity, communication, and modern living.
               </p>
               <p className="mt-4 text-base leading-8 text-slate-600">
-                While real estate and construction focus on long-term value, gadgets support day-to-day efficiency
-                and convenience. Together, they create a stronger path toward a better life.
+                While real estate, construction, and savings focus on long-term value, Ouscraft supports day-to-day efficiency and convenience. Together, they create a stronger and more complete pathway toward a better life.
               </p>
             </div>
           </Reveal>
