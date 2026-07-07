@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { Expand, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Reveal } from "@/components/reveal";
@@ -10,6 +11,7 @@ type PropertyImage = {
   alt: string;
   title: string;
   location: string;
+  href?: string;
 };
 
 type PropertyGalleryProps = {
@@ -65,9 +67,18 @@ export function PropertyGallery({ images }: PropertyGalleryProps) {
                 <h3 className="mt-2 text-lg font-semibold text-slate-900 sm:text-xl">{image.title}</h3>
                 <div className="mt-3 flex items-center justify-between gap-3">
                   <p className="text-sm text-slate-600">{image.location}</p>
-                  <span className="rounded-full border border-slate-200 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#0b1f3a]">
-                    Tap to view
-                  </span>
+                  {image.href ? (
+                    <Link
+                      href={image.href}
+                      className="rounded-full border border-slate-200 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#0b1f3a] transition hover:border-[#c8a951]"
+                    >
+                      Details
+                    </Link>
+                  ) : (
+                    <span className="rounded-full border border-slate-200 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#0b1f3a]">
+                      Tap to view
+                    </span>
+                  )}
                 </div>
               </div>
             </div>

@@ -5,7 +5,8 @@ import logo from "../logo.png";
 
 const quickLinks = [
   { label: "About", href: "/#about" },
-  { label: "Services", href: "/#services" },
+  { label: "Services", href: "/services" },
+  { label: "Properties", href: "/properties" },
   { label: "Courses", href: "/courses" },
   { label: "Contact", href: "/#contact" }
 ];

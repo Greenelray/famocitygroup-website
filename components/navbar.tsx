@@ -11,7 +11,8 @@ import { isAdminEmail } from "@/lib/admin-emails";
 const leftLinks = [
   { label: "Home", href: "/#home" },
   { label: "About", href: "/#about" },
-  { label: "Services", href: "/#services" },
+  { label: "Properties", href: "/properties" },
+  { label: "Services", href: "/services" },
   { label: "Courses", href: "/courses" }
 ];
 
@@ -35,7 +36,8 @@ export function Navbar({ userEmail }: NavbarProps) {
   const mobileLinks = [
   { label: "Home", href: "/#home" },
   { label: "About", href: "/#about" },
-  { label: "Services", href: "/#services" },
+  { label: "Properties", href: "/properties" },
+  { label: "Services", href: "/services" },
   { label: "Courses", href: "/courses" },
   ...rightLinks
   ];

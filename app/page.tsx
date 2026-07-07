@@ -26,6 +26,7 @@ import { ContactForm } from "@/components/contact-form";
 import { CourseCard } from "@/components/course-card";
 import { Footer } from "@/components/footer";
 import { Navbar } from "@/components/navbar";
+import { PremiumHeroScene } from "@/components/premium-hero-scene";
 import { PropertyGallery } from "@/components/property-gallery";
 import { Reveal } from "@/components/reveal";
 import { listCourses } from "@/lib/course-data";
@@ -42,31 +43,36 @@ const services = [
     title: "Real Estate",
     copy:
       "Helping clients acquire safe, verified lands and properties with confidence, clarity, and long-term value.",
-    icon: Landmark
+    icon: Landmark,
+    href: "/services/real-estate"
   },
   {
     title: "Construction",
     copy:
       "Delivering quality building solutions that transform land into functional, lasting, and valuable structures.",
-    icon: Drill
+    icon: Drill,
+    href: "/services/construction"
   },
   {
     title: "OUSCRAFT TECHNOLOGY HUBS",
     copy:
       "Providing smart devices and modern technology solutions that support productivity, convenience, and better living.",
-    icon: Smartphone
+    icon: Smartphone,
+    href: "/services/ouscraft-technology-hubs"
   },
   {
     title: "Famosave",
     copy:
       "Helping individuals build disciplined savings habits that lead toward land ownership and real asset growth.",
-    icon: BadgeDollarSign
+    icon: BadgeDollarSign,
+    href: "/services/famosave"
   },
   {
     title: "Solar Energy",
     copy:
       "Making clean energy easier to access by helping clients source quality solar solutions and connect with the right professionals.",
-    icon: SunMedium
+    icon: SunMedium,
+    href: "/services/solar-energy"
   }
 ];
 
@@ -100,25 +106,29 @@ const propertyImages = [
     src: "/greenland-phase-ii.jpeg",
     alt: "Greenland Phase II Olodu Ogwashi-Uku",
     title: "Greenland Phase II",
-    location: "Olodu Ogwashi-Uku, Delta State"
+    location: "Olodu Ogwashi-Uku, Delta State",
+    href: "/properties/greenland-phase-ii"
   },
   {
     src: "/villa-abraka.jpeg",
     alt: "Famocity Villa Abraka",
     title: "Famocity Villa Abraka",
-    location: "Abraka, Delta State"
+    location: "Abraka, Delta State",
+    href: "/properties/famocity-villa-abraka"
   },
   {
     src: "/premium-garden-city.jpeg",
     alt: "Premium Garden City",
     title: "Premium Garden City",
-    location: "Asaba, Delta State"
+    location: "Asaba, Delta State",
+    href: "/properties/premium-garden-city"
   },
   {
     src: "/everess-palm-city.jpeg",
     alt: "Everess Palm City",
     title: "Everess Palm City",
-    location: "Olodu Ibusa, Delta State"
+    location: "Olodu Ibusa, Delta State",
+    href: "/properties/everess-palm-city"
   }
 ];
 
@@ -159,12 +169,12 @@ export default async function Home() {
             priority
             className="object-cover"
           />
-          <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(11,31,58,0.96),rgba(11,31,58,0.84),rgba(30,41,59,0.78))]" />
-          <div className="animated-gradient-orb absolute -right-24 top-24 h-72 w-72 rounded-full bg-[#c8a951]/20 blur-3xl" />
+          <div className="absolute inset-0 bg-[linear-gradient(115deg,rgba(6,19,38,0.98)_0%,rgba(11,31,58,0.92)_42%,rgba(12,50,56,0.72)_100%)]" />
+          <PremiumHeroScene />
           <div className="absolute bottom-0 left-0 h-48 w-full bg-gradient-to-t from-[#061326]/70 to-transparent" />
         </div>
 
-        <div className="section-shell relative z-10 grid min-h-[88svh] items-center gap-14 pt-24 lg:grid-cols-[1.08fr_0.92fr]">
+        <div className="section-shell relative z-10 grid min-h-[88svh] items-center gap-14 pt-24 lg:grid-cols-[1.05fr_0.95fr]">
           <Reveal>
             <div className="max-w-3xl">
               <span className="section-label border-white/15 bg-white/10 text-[#c8a951]">
@@ -206,7 +216,7 @@ export default async function Home() {
           </Reveal>
 
           <Reveal delay={0.12}>
-            <div className="premium-shimmer mx-auto w-full max-w-[26rem] rounded-[2rem] border border-white/10 bg-white/10 p-3 shadow-2xl backdrop-blur-sm">
+            <div className="premium-shimmer mx-auto w-full max-w-[27rem] rounded-[2rem] border border-white/10 bg-white/10 p-3 shadow-2xl backdrop-blur-sm">
               <div className="relative aspect-[4/5] overflow-hidden rounded-2xl">
                 <Image
                   src={promisePhoto}
@@ -257,13 +267,13 @@ export default async function Home() {
               const Icon = item.icon;
               return (
                 <Reveal key={item.title} delay={0.08 * index}>
-                  <div className="glass-card group flex h-full min-h-52 flex-col justify-between p-7 transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(11,31,58,0.12)]">
+                  <Link href={item.href} className="glass-card group flex h-full min-h-52 flex-col justify-between p-7 transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(11,31,58,0.12)]">
                     <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-[#0b1f3a] text-white shadow-md transition group-hover:bg-[#c8a951] group-hover:text-[#0b1f3a]">
                       <Icon size={20} />
                     </div>
                     <h3 className="mt-8 text-xl font-semibold text-slate-900 sm:text-2xl">{item.title}</h3>
                     <p className="mt-3 text-sm leading-7 text-slate-600">{item.copy}</p>
-                  </div>
+                  </Link>
                 </Reveal>
               );
             })}
@@ -401,13 +411,13 @@ export default async function Home() {
               const Icon = service.icon;
               return (
                 <Reveal key={service.title} delay={0.08 * index}>
-                  <div className="glass-card group h-full p-7 transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(11,31,58,0.12)]">
+                  <Link href={service.href} className="glass-card group block h-full p-7 transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(11,31,58,0.12)]">
                     <div className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-[#0b1f3a] text-white shadow-md transition group-hover:bg-[#c8a951] group-hover:text-[#0b1f3a]">
                       <Icon size={24} />
                     </div>
                     <h3 className="mt-8 text-xl font-semibold text-slate-900">{service.title}</h3>
                     <p className="mt-4 text-sm leading-7 text-slate-600">{service.copy}</p>
-                  </div>
+                  </Link>
                 </Reveal>
               );
             })}
@@ -714,6 +724,93 @@ export default async function Home() {
               </p>
             </div>
           </Reveal>
+        </div>
+      </section>
+
+      <section className="section-block section-surface">
+        <div className="section-shell grid gap-10 lg:grid-cols-[0.82fr_1.18fr]">
+          <Reveal>
+            <div className="sticky top-28">
+              <span className="section-label">How It Works</span>
+              <h2 className="section-title">A calmer process for serious ownership decisions.</h2>
+              <p className="section-copy">
+                A premium experience is not only about visuals. It is about helping people understand the next step without confusion.
+              </p>
+            </div>
+          </Reveal>
+
+          <div className="grid gap-4">
+            {[
+              {
+                step: "01",
+                title: "Discover the right opportunity",
+                copy: "Review available properties, business arms, or consultancy options and decide what fits your goal."
+              },
+              {
+                step: "02",
+                title: "Verify before commitment",
+                copy: "Ask the right questions, request guidance, and use Famocity support to reduce avoidable risk."
+              },
+              {
+                step: "03",
+                title: "Move with structure",
+                copy: "Continue through inspection, documentation, savings planning, construction, or service facilitation with clearer direction."
+              }
+            ].map((item, index) => (
+              <Reveal key={item.step} delay={0.08 * index}>
+                <div className="grid gap-5 rounded-[1.8rem] border border-slate-200 bg-white p-6 shadow-sm sm:grid-cols-[auto_1fr] sm:p-7">
+                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#0b1f3a] text-sm font-bold text-[#eadba6]">
+                    {item.step}
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-semibold text-slate-950">{item.title}</h3>
+                    <p className="mt-2 text-sm leading-7 text-slate-600">{item.copy}</p>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section-block bg-white">
+        <div className="section-shell">
+          <Reveal>
+            <span className="section-label">Questions</span>
+            <h2 className="section-title max-w-4xl">Answers people usually need before taking the next step.</h2>
+          </Reveal>
+
+          <div className="mt-10 grid gap-5 md:grid-cols-2">
+            {[
+              {
+                question: "Can Famocity help me verify a property before I buy?",
+                answer:
+                  "Yes. Famocity provides property legitimacy check consultancy to help buyers review documents, ask better questions, and avoid costly mistakes."
+              },
+              {
+                question: "Can I buy land through Famocity from another location?",
+                answer:
+                  "Yes. The purchase consultancy is built to support buyers who need help searching, verifying, and securing genuine property from wherever they are."
+              },
+              {
+                question: "Does Famocity Solar Energy install systems directly?",
+                answer:
+                  "Famocity Energy acts as a facilitator. We help you source quality options and connect with suitable professionals based on your budget and energy needs."
+              },
+              {
+                question: "Where should I start if I am unsure what I need?",
+                answer:
+                  "Start with the contact form or WhatsApp. The team can guide you toward properties, consultancy, savings, construction, solar, or Ouscraft support."
+              }
+            ].map((item, index) => (
+              <Reveal key={item.question} delay={0.06 * index}>
+                <div className="glass-card h-full p-6">
+                  <h3 className="text-lg font-semibold text-slate-950">{item.question}</h3>
+                  <p className="mt-3 text-sm leading-7 text-slate-600">{item.answer}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
         </div>
       </section>
 
