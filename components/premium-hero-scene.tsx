@@ -49,6 +49,11 @@ export function PremiumHeroScene() {
       roughness: 0.6,
       metalness: 0.04
     });
+    const charcoalMaterial = new THREE.MeshStandardMaterial({
+      color: 0x07182d,
+      roughness: 0.38,
+      metalness: 0.18
+    });
 
     const group = new THREE.Group();
     scene.add(group);
@@ -76,6 +81,25 @@ export function PremiumHeroScene() {
     solarPanel.rotation.set(-0.5, 0.25, 0.12);
     solarPanel.position.set(1.55, 0.82, -0.95);
     group.add(solarPanel);
+
+    const expertiseOrbit = new THREE.Group();
+    const expertiseMaterials = [blueMaterial, goldMaterial, glassMaterial, greenMaterial, charcoalMaterial];
+    const expertiseRadius = 2.45;
+    for (let index = 0; index < 5; index += 1) {
+      const angle = (index / 5) * Math.PI * 2;
+      const node = new THREE.Mesh(
+        new THREE.BoxGeometry(index === 2 ? 0.48 : 0.38, 0.12, index === 2 ? 0.48 : 0.38),
+        expertiseMaterials[index]
+      );
+      node.position.set(Math.cos(angle) * expertiseRadius, 0.32 + index * 0.035, Math.sin(angle) * expertiseRadius);
+      node.rotation.y = -angle;
+      expertiseOrbit.add(node);
+
+      const pin = new THREE.Mesh(new THREE.SphereGeometry(0.08, 16, 16), goldMaterial);
+      pin.position.set(Math.cos(angle) * expertiseRadius, 0.52 + index * 0.035, Math.sin(angle) * expertiseRadius);
+      expertiseOrbit.add(pin);
+    }
+    group.add(expertiseOrbit);
 
     const pathMaterial = new THREE.MeshStandardMaterial({
       color: 0xd7c078,
@@ -111,6 +135,7 @@ export function PremiumHeroScene() {
       frame += 0.008;
       group.rotation.y = Math.sin(frame) * 0.22 - 0.28;
       group.rotation.x = Math.sin(frame * 0.7) * 0.035;
+      expertiseOrbit.rotation.y += 0.0026;
       rings.forEach((ring, index) => {
         ring.rotation.z += 0.0018 + index * 0.0007;
       });

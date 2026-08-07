@@ -8,9 +8,9 @@ import { getSessionUser } from "@/lib/session";
 import { businessPillars } from "@/lib/site-data";
 
 export const metadata: Metadata = {
-  title: "Services | Famocity",
+  title: "Expertise | Famocity Group Limited",
   description:
-    "Explore Famocity services across real estate, construction, solar energy, Ouscraft Technology Hubs, and Famosave.",
+    "Explore Famocity Group Limited expertise across real estate, property agency, interior decor, solar energy, and Ouscraft Technology Hubs.",
   alternates: {
     canonical: "/services"
   }
@@ -26,10 +26,10 @@ export default async function ServicesPage() {
       <section className="section-surface pb-16 pt-36 sm:pb-20 sm:pt-40">
         <div className="section-shell">
           <Reveal>
-            <span className="section-label">Services</span>
-            <h1 className="section-title max-w-4xl">Five connected business arms for ownership, comfort, and growth.</h1>
+            <span className="section-label">Expertise</span>
+            <h1 className="section-title max-w-4xl">Five specialist arms under Famocity Group Limited.</h1>
             <p className="section-copy">
-              Famocity brings real estate, construction, solar access, technology, and savings into one practical structure.
+              Famocity Group brings real estate, property agency, interior decor, solar energy, and technology into one professional structure.
             </p>
           </Reveal>
 

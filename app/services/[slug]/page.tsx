@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: ServicePageProps): Promise<Me
   }
 
   return {
-    title: `${pillar.title} | Famocity`,
+    title: `${pillar.title} | Famocity Group Limited`,
     description: pillar.copy,
     alternates: {
       canonical: `/services/${pillar.slug}`
@@ -63,12 +63,12 @@ export default async function ServicePage({ params }: ServicePageProps) {
               <h1 className="section-title">{pillar.title}</h1>
               <p className="section-copy">{pillar.copy}</p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                <Link href="/#contact" className="premium-button-primary">
+                <Link href="/contact" className="premium-button-primary">
                   Start Conversation
                   <ArrowRight size={16} />
                 </Link>
-                <Link href="/properties" className="premium-button-secondary">
-                  View Properties
+                <Link href="/services" className="premium-button-secondary">
+                  View All Expertise
                 </Link>
               </div>
             </div>

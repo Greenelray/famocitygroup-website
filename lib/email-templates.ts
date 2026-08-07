@@ -55,7 +55,7 @@ export function renderCourseReceiptEmail({
         </div>
         <div style="padding:20px 32px 30px; border-top:1px solid #e8edf6; background:#fbfcfe;">
           <p style="margin:0; font-size:13px; line-height:1.8; color:#6b7a90;">
-            Famocity Real Estate and Construction Limited<br>
+            Famocity Group Limited<br>
             Ownership. Structure. Long-term value.
           </p>
         </div>
@@ -72,7 +72,7 @@ export function renderCourseReceiptEmail({
     "",
     `Open your dashboard: ${loginUrl}`,
     "",
-    "Famocity Real Estate and Construction Limited"
+    "Famocity Group Limited"
   ].join("\n");
 
   return {

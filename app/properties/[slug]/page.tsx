@@ -89,7 +89,7 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                   Ask On WhatsApp
                   <MessageCircle size={16} />
                 </a>
-                <Link href="/#contact" className="premium-button-secondary">
+                <Link href="/contact" className="premium-button-secondary">
                   Contact Office
                   <Phone size={16} />
                 </Link>

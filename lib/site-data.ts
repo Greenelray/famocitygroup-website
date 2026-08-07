@@ -1,11 +1,4 @@
-import {
-  BadgeDollarSign,
-  Drill,
-  Landmark,
-  Smartphone,
-  SunMedium,
-  type LucideIcon
-} from "lucide-react";
+import { BadgeDollarSign, BriefcaseBusiness, Landmark, Paintbrush, Smartphone, SunMedium, type LucideIcon } from "lucide-react";
 
 export type PropertyListing = {
   slug: string;
@@ -104,29 +97,45 @@ export const propertyListings: PropertyListing[] = [
 export const businessPillars: BusinessPillar[] = [
   {
     slug: "real-estate",
-    title: "Real Estate",
+    title: "Famocity Real Estate",
     eyebrow: "Verified ownership",
     copy:
-      "Helping clients acquire safe, verified lands and properties with confidence, clarity, and long-term value.",
+      "Helping clients acquire safe, verified lands and property opportunities with confidence, clarity, and long-term value.",
     longCopy: [
-      "Famocity helps people approach real estate with better structure. We support land buyers, investors, and families who want to own genuine property without moving blindly.",
-      "Our real estate support includes property search, purchase guidance, legitimacy checks, and practical communication before decisions are made."
+      "Famocity Real Estate helps people approach property ownership with better structure. We support land buyers, investors, and families who want to own genuine property without moving blindly.",
+      "Our support includes available property access, purchase guidance, location communication, and practical steps before decisions are made."
     ],
     icon: Landmark,
+    logo: "/famocity-real-estate-logo.png",
     href: "/services/real-estate"
   },
   {
-    slug: "construction",
-    title: "Construction",
-    eyebrow: "Build lasting value",
+    slug: "property-agency",
+    title: "Famocity Property Agency",
+    eyebrow: "Trusted property agency",
     copy:
-      "Delivering quality building solutions that transform land into functional, lasting, and valuable structures.",
+      "Providing property agency support for finding, checking, and closing property opportunities with more confidence.",
     longCopy: [
-      "The construction arm helps clients move from owning land to creating useful, valuable spaces.",
-      "Whether the goal is a home, an investment project, or a larger development, Famocity focuses on practical execution and lasting value."
+      "Famocity Property Agency helps buyers, sellers, and investors move through property opportunities with clearer communication and better guidance.",
+      "The agency arm focuses on property search, purchase support, legitimacy checks, and practical advisory for people who want to make safer real estate decisions."
     ],
-    icon: Drill,
-    href: "/services/construction"
+    icon: BriefcaseBusiness,
+    logo: "/famocity-property-agency-logo.png",
+    href: "/services/property-agency"
+  },
+  {
+    slug: "interior-decor",
+    title: "Famocity Interior Decor",
+    eyebrow: "Spaces with taste",
+    copy:
+      "Designing and improving interiors so homes, offices, and investment spaces feel beautiful, functional, and complete.",
+    longCopy: [
+      "Famocity Interior Decor helps clients turn rooms and properties into finished spaces with personality, comfort, and practical beauty.",
+      "The interior decor arm supports homes, offices, and investment spaces with styling direction, furnishing ideas, and design-focused guidance."
+    ],
+    icon: Paintbrush,
+    logo: "/famocity-interior-decor-logo.png",
+    href: "/services/interior-decor"
   },
   {
     slug: "ouscraft-technology-hubs",
@@ -141,20 +150,6 @@ export const businessPillars: BusinessPillar[] = [
     icon: Smartphone,
     logo: "/ouscraft-technology-hubs.png",
     href: "/services/ouscraft-technology-hubs"
-  },
-  {
-    slug: "famosave",
-    title: "Famosave",
-    eyebrow: "Save with purpose",
-    copy:
-      "Helping individuals build disciplined savings habits that lead toward land ownership and real asset growth.",
-    longCopy: [
-      "Famosave gives saving a target. It helps people build discipline around a real ownership goal rather than saving without direction.",
-      "The aim is to make land and asset ownership feel more reachable through consistency, structure, and clear motivation."
-    ],
-    icon: BadgeDollarSign,
-    logo: "/famosave-logo.png",
-    href: "/services/famosave"
   },
   {
     slug: "solar-energy",
@@ -172,6 +167,21 @@ export const businessPillars: BusinessPillar[] = [
   }
 ];
 
+export const savingsPlatform: BusinessPillar = {
+  slug: "famosave",
+  title: "Famosave",
+  eyebrow: "Savings platform",
+  copy:
+    "Famocity Group's savings platform for disciplined planning toward land ownership and real asset growth.",
+  longCopy: [
+    "Famosave remains the savings platform under Famocity Group Limited. It gives saving a target and helps people build discipline around a real ownership goal.",
+    "The aim is to make land and asset ownership feel more reachable through consistency, structure, and clear motivation."
+  ],
+  icon: BadgeDollarSign,
+  logo: "/famosave-logo.png",
+  href: "/famosave"
+};
+
 export const faqs = [
   {
     question: "Can Famocity help me verify a property before I buy?",
@@ -184,9 +194,14 @@ export const faqs = [
       "Yes. The real estate purchase consultancy is designed to support buyers across locations with search, verification, and guided purchase communication."
   },
   {
-    question: "Does Famocity install solar systems directly?",
+    question: "Does Famocity Solar Energy install systems directly?",
     answer:
       "Famocity Solar Energy focuses on facilitation. We help you source quality solar options and connect with suitable professionals for your budget and needs."
+  },
+  {
+    question: "Is Famosave part of the five expertise areas?",
+    answer:
+      "Famosave remains Famocity Group's savings platform. It supports disciplined saving toward ownership goals, while the five expertise areas represent the core service arms."
   },
   {
     question: "Where do I see available properties?",

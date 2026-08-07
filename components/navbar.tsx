@@ -9,17 +9,17 @@ import { useEffect, useState } from "react";
 import { isAdminEmail } from "@/lib/admin-emails";
 
 const leftLinks = [
-  { label: "Home", href: "/#home" },
-  { label: "About", href: "/#about" },
+  { label: "Home", href: "/" },
+  { label: "About", href: "/about" },
   { label: "Properties", href: "/properties" },
-  { label: "Services", href: "/services" },
-  { label: "Courses", href: "/courses" }
+  { label: "Expertise", href: "/services" }
 ];
 
 const baseRightLinks = [
-  { label: "Famosave", href: "/#famosave" },
-  { label: "Team", href: "/#team" },
-  { label: "Contact", href: "/#contact" },
+  { label: "Famosave", href: "/famosave" },
+  { label: "Courses", href: "/courses" },
+  { label: "Team", href: "/team" },
+  { label: "Contact", href: "/contact" },
   { label: "My Courses", href: "/my-courses" }
 ];
 
@@ -34,11 +34,10 @@ export function Navbar({ userEmail }: NavbarProps) {
     : baseRightLinks;
 
   const mobileLinks = [
-  { label: "Home", href: "/#home" },
-  { label: "About", href: "/#about" },
+  { label: "Home", href: "/" },
+  { label: "About", href: "/about" },
   { label: "Properties", href: "/properties" },
-  { label: "Services", href: "/services" },
-  { label: "Courses", href: "/courses" },
+  { label: "Expertise", href: "/services" },
   ...rightLinks
   ];
 
@@ -106,13 +105,13 @@ export function Navbar({ userEmail }: NavbarProps) {
             ))}
           </nav>
 
-          <Link aria-label="Famocity home" className="flex shrink-0 items-center justify-center" href="/#home">
+          <Link aria-label="Famocity Group home" className="flex shrink-0 items-center justify-center" href="/">
             <Image
               src="/famocity-header-logo-cropped.png"
-              alt="Famocity Real Estate and Constructions Ltd logo"
+              alt="Famocity Group Limited logo"
               width={1177}
               height={278}
-              className="h-11 w-auto max-w-[320px] 2xl:h-12 2xl:max-w-[360px]"
+              className="h-10 w-auto max-w-[250px] 2xl:h-11 2xl:max-w-[300px]"
               priority
             />
           </Link>
@@ -147,10 +146,10 @@ export function Navbar({ userEmail }: NavbarProps) {
         </div>
 
         <div className="flex items-center justify-between gap-3 xl:hidden">
-          <Link aria-label="Famocity home" className="min-w-0" href="/#home">
+          <Link aria-label="Famocity Group home" className="min-w-0" href="/">
             <Image
               src="/famocity-header-logo-cropped.png"
-              alt="Famocity Real Estate and Constructions Ltd logo"
+              alt="Famocity Group Limited logo"
               width={1177}
               height={278}
               className="h-12 w-auto max-w-[16rem] sm:h-14"

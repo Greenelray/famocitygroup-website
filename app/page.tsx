@@ -1,925 +1,203 @@
 import Image from "next/image";
 import Link from "next/link";
-import {
-  ArrowRight,
-  Award,
-  BadgeDollarSign,
-  CheckCircle2,
-  Drill,
-  Landmark,
-  Mail,
-  MapPin,
-  MessageCircle,
-  Phone,
-  ShieldCheck,
-  Sparkles,
-  Smartphone,
-  SunMedium
-} from "lucide-react";
-import auditorPhoto from "../auditor.jpeg";
-import founderStoryPhoto from "../manager3.jpeg";
-import generalManagerPhoto from "../gm.jpeg";
-import managerPhoto from "../manager (2).jpeg";
-import managingDirectorPhoto from "../md.jpeg";
+import { ArrowRight, MapPin, MessageCircle } from "lucide-react";
 import promisePhoto from "../md2.jpeg";
-import { ContactForm } from "@/components/contact-form";
-import { CourseCard } from "@/components/course-card";
 import { Footer } from "@/components/footer";
 import { Navbar } from "@/components/navbar";
 import { PremiumHeroScene } from "@/components/premium-hero-scene";
-import { PropertyGallery } from "@/components/property-gallery";
 import { Reveal } from "@/components/reveal";
-import { listCourses } from "@/lib/course-data";
 import { getSessionUser } from "@/lib/session";
+import { businessPillars, propertyListings, savingsPlatform } from "@/lib/site-data";
 
-const stats = [
-  { value: "5", label: "Integrated business pillars" },
-  { value: "Trust", label: "Verified, transparent guidance" },
-  { value: "Long-term", label: "Asset-focused value creation" }
-];
-
-const services = [
-  {
-    title: "Real Estate",
-    copy:
-      "Helping clients acquire safe, verified lands and properties with confidence, clarity, and long-term value.",
-    icon: Landmark,
-    href: "/services/real-estate"
-  },
-  {
-    title: "Construction",
-    copy:
-      "Delivering quality building solutions that transform land into functional, lasting, and valuable structures.",
-    icon: Drill,
-    href: "/services/construction"
-  },
-  {
-    title: "OUSCRAFT TECHNOLOGY HUBS",
-    copy:
-      "Providing smart devices and modern technology solutions that support productivity, convenience, and better living.",
-    icon: Smartphone,
-    href: "/services/ouscraft-technology-hubs"
-  },
-  {
-    title: "Famosave",
-    copy:
-      "Helping individuals build disciplined savings habits that lead toward land ownership and real asset growth.",
-    icon: BadgeDollarSign,
-    href: "/services/famosave"
-  },
-  {
-    title: "Solar Energy",
-    copy:
-      "Making clean energy easier to access by helping clients source quality solar solutions and connect with the right professionals.",
-    icon: SunMedium,
-    href: "/services/solar-energy"
-  }
-];
-
-const chooseUs = [
-  "Verified opportunities and clear communication before decisions are made.",
-  "A practical bridge between income, disciplined saving, and real asset ownership.",
-  "Real estate, construction, gadgets, and savings working together under one structure.",
-  "A youth-conscious brand focused on long-term growth, trust, and measurable progress."
-];
-
-const profileHighlights = [
-  {
-    title: "Built for ownership",
-    copy:
-      "Famocity exists for people who want more from life than earning and spending. The brand is built around ownership, structure, discipline, and long-term value."
-  },
-  {
-    title: "Structured for real progress",
-    copy:
-      "Every business arm supports a practical outcome: safer property access, better projects, smarter living, and purposeful savings."
-  },
-  {
-    title: "A bridge to the future",
-    copy:
-      "The company connects ambition to action by helping people move from short-term survival toward confidence, ownership, and future security."
-  }
-];
-
-const propertyImages = [
-  {
-    src: "/greenland-phase-ii.jpeg",
-    alt: "Greenland Phase II Olodu Ogwashi-Uku",
-    title: "Greenland Phase II",
-    location: "Olodu Ogwashi-Uku, Delta State",
-    href: "/properties/greenland-phase-ii"
-  },
-  {
-    src: "/villa-abraka.jpeg",
-    alt: "Famocity Villa Abraka",
-    title: "Famocity Villa Abraka",
-    location: "Abraka, Delta State",
-    href: "/properties/famocity-villa-abraka"
-  },
-  {
-    src: "/premium-garden-city.jpeg",
-    alt: "Premium Garden City",
-    title: "Premium Garden City",
-    location: "Asaba, Delta State",
-    href: "/properties/premium-garden-city"
-  },
-  {
-    src: "/everess-palm-city.jpeg",
-    alt: "Everess Palm City",
-    title: "Everess Palm City",
-    location: "Olodu Ibusa, Delta State",
-    href: "/properties/everess-palm-city"
-  }
-];
-
-const consultancyServices = [
-  {
-    title: "Real Estate Purchase Consultancy",
-    copy:
-      "We help you find and own land anywhere in Nigeria, whether you are buying for investment, land banking, or building your dream home. Our team helps you search, verify, and secure genuine properties with a process that stays smooth, transparent, and trustworthy."
-  },
-  {
-    title: "Property Legitimacy Check Consultancy",
-    copy:
-      "We verify property documents, check authenticity, and guide buyers or investors through the real risks before money changes hands. This helps you avoid costly mistakes, understand what you are buying, and move with clarity and confidence."
-  }
-];
-
-const team = [
-  { name: "Famous Okpor", role: "Managing Director", image: managingDirectorPhoto },
-  { name: "Peres Ogeinne", role: "General Manager", image: generalManagerPhoto },
-  { name: "Ogbeivor-Abieu Ifeanyichukwu Evergreen", role: "Manager", image: managerPhoto },
-  { name: "Blessing Okpor", role: "Business Auditor", image: auditorPhoto }
+const homepageProof = [
+  "Five focused expertise areas under one group structure.",
+  "Property, energy, interiors, agency, and technology support.",
+  "Famosave remains the savings platform for ownership goals."
 ];
 
 export default async function Home() {
-  const courses = await listCourses();
   const user = await getSessionUser();
+  const featuredProperty = propertyListings[0];
 
   return (
     <main className="relative overflow-x-hidden bg-white">
       <Navbar userEmail={user?.email} />
 
-      <section id="home" className="relative overflow-hidden pb-20 pt-40 sm:pb-24 sm:pt-44">
+      <section id="home" className="relative overflow-hidden pb-16 pt-36 sm:pb-20 sm:pt-40">
         <div className="absolute inset-0">
-          <Image
-            src="/hero-real-estate.svg"
-            alt="Luxury real estate skyline"
-            fill
-            priority
-            className="object-cover"
-          />
-          <div className="absolute inset-0 bg-[linear-gradient(115deg,rgba(6,19,38,0.98)_0%,rgba(11,31,58,0.92)_42%,rgba(12,50,56,0.72)_100%)]" />
+          <Image src="/hero-real-estate.svg" alt="Famocity Group visual background" fill priority className="object-cover" />
+          <div className="absolute inset-0 bg-[linear-gradient(115deg,rgba(6,19,38,0.98)_0%,rgba(11,31,58,0.9)_46%,rgba(12,57,54,0.7)_100%)]" />
           <PremiumHeroScene />
-          <div className="absolute bottom-0 left-0 h-48 w-full bg-gradient-to-t from-[#061326]/70 to-transparent" />
+          <div className="absolute bottom-0 left-0 h-44 w-full bg-gradient-to-t from-[#061326]/75 to-transparent" />
         </div>
 
-        <div className="section-shell relative z-10 grid min-h-[88svh] items-center gap-14 pt-24 lg:grid-cols-[1.05fr_0.95fr]">
+        <div className="section-shell relative z-10 grid min-h-[82svh] items-center gap-12 lg:grid-cols-[1.02fr_0.98fr]">
           <Reveal>
-            <div className="max-w-3xl">
-              <span className="section-label border-white/15 bg-white/10 text-[#c8a951]">
-                Premium asset growth partner
-              </span>
-              <h1 className="mt-6 max-w-3xl text-4xl font-extrabold leading-[1.01] text-white sm:text-5xl lg:text-6xl">
-                Build Smart. Own Assets. Live Better.
+            <div className="max-w-4xl">
+              <span className="section-label border-white/15 bg-white/10 text-[#c8a951]">Famocity Group Limited</span>
+              <h1 className="mt-6 max-w-4xl text-4xl font-extrabold leading-[1.02] text-white sm:text-5xl lg:text-7xl">
+                Building ownership, comfort, energy, and modern living.
               </h1>
               <p className="mt-6 max-w-2xl text-base leading-8 text-slate-200 sm:text-lg">
-                Famocity helps individuals and families move from income to ownership through verified real estate,
-                quality construction, structured savings, and smarter everyday tools.
+                Famocity Group Limited brings together real estate, property agency, interior decor, solar energy, and Ouscraft Technology Hubs with Famosave as a focused savings platform.
               </p>
 
               <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-                <Link href="#contact" className="premium-button-accent button-hero-start min-h-12 px-8 sm:min-w-[210px]">
-                  Get Started
+                <Link href="/services" className="premium-button-accent min-h-12 px-8">
+                  Explore Expertise
                   <ArrowRight size={16} />
                 </Link>
                 <Link
-                  href="#real-estate"
-                  className="premium-button button-view min-h-12 rounded-full border border-white/25 bg-white/10 px-7 py-4 text-sm font-semibold text-white hover:bg-white/15"
+                  href="/properties"
+                  className="premium-button min-h-12 rounded-full border border-white/25 bg-white/10 px-7 py-4 text-sm font-semibold text-white hover:bg-white/15"
                 >
                   View Properties
                   <ArrowRight size={16} />
                 </Link>
               </div>
 
-              <div className="mt-12 grid auto-rows-fr gap-4 sm:grid-cols-3">
-                {stats.map((stat, index) => (
-                  <Reveal key={stat.label} delay={0.08 * index}>
-                    <div className="h-full rounded-[1.35rem] border border-white/15 bg-white/10 p-5 shadow-md backdrop-blur-sm transition duration-300 hover:bg-white/15">
-                      <p className="text-2xl font-bold text-white sm:text-3xl">{stat.value}</p>
-                      <p className="mt-2 text-sm leading-6 text-slate-200">{stat.label}</p>
-                    </div>
-                  </Reveal>
+              <div className="mt-10 grid gap-3 sm:grid-cols-3">
+                {homepageProof.map((item) => (
+                  <div key={item} className="rounded-2xl border border-white/15 bg-white/10 p-4 text-sm leading-6 text-slate-100 backdrop-blur">
+                    {item}
+                  </div>
                 ))}
               </div>
             </div>
           </Reveal>
 
           <Reveal delay={0.12}>
-            <div className="premium-shimmer mx-auto w-full max-w-[27rem] rounded-[2rem] border border-white/10 bg-white/10 p-3 shadow-2xl backdrop-blur-sm">
-              <div className="relative aspect-[4/5] overflow-hidden rounded-2xl">
-                <Image
-                  src={promisePhoto}
-                  alt="Famocity promise portrait"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 1024px) 100vw, 40vw"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0b1f3a]/88 via-[#0b1f3a]/20 to-transparent" />
-                <div className="absolute inset-x-5 bottom-5 rounded-2xl border border-white/10 bg-[linear-gradient(180deg,rgba(6,19,38,0.76),rgba(6,19,38,0.96))] p-5 text-white shadow-[0_18px_40px_rgba(0,0,0,0.28)] backdrop-blur-md">
-                  <p className="text-xs uppercase tracking-[0.24em] text-[#c8a951]">Famocity Promise</p>
+            <div className="mx-auto w-full max-w-[29rem]">
+              <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] border border-white/10 bg-white/10 p-3 shadow-2xl backdrop-blur-sm">
+                <Image src={promisePhoto} alt="Famocity Group representative" fill className="object-cover p-3" sizes="(max-width: 1024px) 100vw, 40vw" />
+                <div className="absolute inset-3 rounded-[1.6rem] bg-gradient-to-t from-[#061326]/90 via-[#061326]/20 to-transparent" />
+                <div className="absolute inset-x-8 bottom-8 rounded-[1.4rem] border border-white/10 bg-white/10 p-5 text-white backdrop-blur-md">
+                  <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#eadba6]">Group Promise</p>
                   <p className="mt-3 text-base leading-7 text-slate-100">
-                    We help everyday people move from hope to ownership with structure, trust, and smart planning.
+                    One parent brand, five specialist arms, and a clearer path for people who want to build value.
                   </p>
                 </div>
               </div>
             </div>
           </Reveal>
-        </div>
-      </section>
-
-      <section id="about" className="section-block bg-white">
-        <div className="section-shell grid gap-10 lg:grid-cols-[0.95fr_1.05fr]">
-          <Reveal>
-            <div className="premium-card h-full">
-              <span className="section-label">Who We Are</span>
-              <h2 className="section-title">Ownership, structure, and long-term value.</h2>
-              <p className="section-copy">
-                Famocity Real Estate and Construction LTD is a modern, forward-thinking company for people who want
-                to turn income into assets, projects, and lasting security.
-              </p>
-              <p className="mt-5 text-base leading-8 text-slate-600">
-                We believe true financial growth is built through ownership, clarity, discipline, and the courage to
-                make decisions that serve tomorrow, not just today.
-              </p>
-              <div className="mt-8 rounded-[1.5rem] border border-[#c8a951]/30 bg-[#c8a951]/10 p-5">
-                <p className="text-sm font-semibold uppercase tracking-[0.22em] text-[#9b7b26]">Our focus</p>
-                <p className="mt-3 text-base leading-8 text-slate-700">
-                  Verified opportunities, practical guidance, and business structures that make ownership feel
-                  reachable for growing families, young investors, and long-term thinkers.
-                </p>
-              </div>
-            </div>
-          </Reveal>
-
-          <div className="grid auto-rows-fr gap-5 sm:grid-cols-2">
-            {services.map((item, index) => {
-              const Icon = item.icon;
-              return (
-                <Reveal key={item.title} delay={0.08 * index}>
-                  <Link href={item.href} className="glass-card group flex h-full min-h-52 flex-col justify-between p-7 transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(11,31,58,0.12)]">
-                    <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-[#0b1f3a] text-white shadow-md transition group-hover:bg-[#c8a951] group-hover:text-[#0b1f3a]">
-                      <Icon size={20} />
-                    </div>
-                    <h3 className="mt-8 text-xl font-semibold text-slate-900 sm:text-2xl">{item.title}</h3>
-                    <p className="mt-3 text-sm leading-7 text-slate-600">{item.copy}</p>
-                  </Link>
-                </Reveal>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      <section className="section-block section-surface">
-        <div className="section-shell">
-          <Reveal>
-            <div className="max-w-4xl">
-              <span className="section-label">Company Profile</span>
-              <h2 className="section-title">A business designed for smart living, wealth building, and future security.</h2>
-              <p className="section-copy">
-                Famocity serves people who want to own assets, build meaningful projects, improve their lifestyle,
-                and save with purpose. Every part of the company is structured to make progress practical and
-                understandable.
-              </p>
-            </div>
-          </Reveal>
-
-          <div className="mt-12 grid auto-rows-fr gap-6 lg:grid-cols-3">
-            {profileHighlights.map((item, index) => (
-              <Reveal key={item.title} delay={0.08 * index}>
-                <div className="glass-card h-full p-8 transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(11,31,58,0.12)]">
-                  <div className="mb-6 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-[#0b1f3a] text-[#c8a951]">
-                    {index === 0 ? <Award size={20} /> : index === 1 ? <Sparkles size={20} /> : <ArrowRight size={20} />}
-                  </div>
-                  <h3 className="text-xl font-semibold text-slate-900 sm:text-2xl">{item.title}</h3>
-                  <p className="mt-4 text-base leading-8 text-slate-600">{item.copy}</p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
         </div>
       </section>
 
       <section className="section-block bg-white">
         <div className="section-shell">
-          <div className="glass-card overflow-hidden p-6 sm:p-8 lg:p-10">
-            <div className="grid items-center gap-10 lg:grid-cols-[0.9fr_1.1fr]">
-              <Reveal>
-                <div className="relative mx-auto aspect-[4/5] w-full max-w-sm overflow-hidden rounded-[1.75rem] shadow-[0_24px_70px_rgba(11,31,58,0.18)]">
-                  <Image
-                    src={founderStoryPhoto}
-                    alt="Founder story portrait"
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 1024px) 100vw, 30vw"
-                  />
-                </div>
-              </Reveal>
-
-              <Reveal delay={0.08}>
-                <span className="section-label">Founder Story</span>
-                <h2 className="section-title">My Story, My Motivation</h2>
-                <div className="mt-5 space-y-5 text-base leading-8 text-slate-600">
-                  <p>
-                    Famocity was born from a very relatable truth for many Nigerians: hard work alone does not
-                    always create security. Too many people earn, spend, and start again without building anything
-                    that lasts.
-                  </p>
-                  <p>
-                    This vision is about changing that story. From humble beginnings and real-life struggle came a
-                    decision to build structure, create opportunities, and make ownership possible for more people.
-                    The message is simple: believe bigger, act with purpose, and let your money become something
-                    meaningful.
-                  </p>
-                  <p>
-                    Famocity was created to build a bridge from the lowest point to the highest point, to create a
-                    link between the poor and the rich, and to build the qualities and character needed to create
-                    wealth. It is meant to help people rewrite their story and become the hero of their own future.
-                  </p>
-                  <p className="font-semibold text-slate-900">
-                    Join us or partner with us, and become a contributor to humanity.
-                  </p>
-                </div>
-                <div className="mt-8 border-l-4 border-[#c8a951] bg-slate-50 px-6 py-5">
-                  <p className="text-lg font-semibold leading-8 text-[#0b1f3a]">
-                    “Do not just earn and spend. Build something, save something, and own something.”
-                  </p>
-                </div>
-              </Reveal>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="section-block section-surface">
-        <div className="section-shell grid gap-6 lg:grid-cols-2">
           <Reveal>
-            <div className="glass-card h-full p-8 sm:p-10">
-              <span className="section-label">Vision</span>
-              <h2 className="mt-5 text-2xl font-semibold text-slate-900 sm:text-3xl">Make investment accessible.</h2>
-              <p className="mt-4 text-base leading-8 text-slate-600">
-                Make savings and real estate investment accessible, especially for young people.
-              </p>
-              <p className="mt-4 text-base leading-8 text-slate-600">
-                We want to close the gap for people who desire assets and a secure future but lack the right
-                platform, guidance, or opportunity to begin.
-              </p>
-            </div>
-          </Reveal>
-
-          <Reveal delay={0.08}>
-            <div className="glass-card h-full p-8 sm:p-10">
-              <span className="section-label">Mission</span>
-              <h2 className="mt-5 text-2xl font-semibold text-slate-900 sm:text-3xl">Build lasting global impact.</h2>
-              <p className="mt-4 text-base leading-8 text-slate-600">
-                Build a strong business structure, drive innovation, and create lasting impact in real estate and
-                development globally.
-              </p>
-              <p className="mt-4 text-base leading-8 text-slate-600">
-                We are building for sustainable growth, collaboration, relevance, and excellence so our work today
-                can position Famocity as a recognized force in the future of development and investment.
-              </p>
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      <section id="services" className="section-block bg-white">
-        <div className="section-shell">
-          <Reveal>
-            <span className="section-label">Services</span>
-            <h2 className="section-title">Solutions designed for ownership and growth.</h2>
+            <span className="section-label">Five Expertise</span>
+            <h2 className="section-title max-w-4xl">Specialist arms with one professional standard.</h2>
             <p className="section-copy">
-              Every Famocity service supports a bigger outcome: helping people turn income into assets, comfort,
-              and long-term value through a practical, connected business structure.
+              Each Famocity expertise has its own page, logo, role, and path for clients who need deeper details.
             </p>
           </Reveal>
 
-          <div className="mt-12 grid auto-rows-fr gap-6 md:grid-cols-2 xl:grid-cols-5">
-            {services.map((service, index) => {
-              const Icon = service.icon;
-              return (
-                <Reveal key={service.title} delay={0.08 * index}>
-                  <Link href={service.href} className="glass-card group block h-full p-7 transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(11,31,58,0.12)]">
-                    <div className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-[#0b1f3a] text-white shadow-md transition group-hover:bg-[#c8a951] group-hover:text-[#0b1f3a]">
-                      <Icon size={24} />
+          <div className="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-5">
+            {businessPillars.map((pillar, index) => (
+              <Reveal key={pillar.slug} delay={0.06 * index}>
+                <Link href={pillar.href} className="glass-card group block h-full p-5">
+                  {pillar.logo ? (
+                    <div className="flex h-32 items-center justify-center rounded-[1.2rem] bg-slate-50 p-4">
+                      <Image src={pillar.logo} alt={`${pillar.title} logo`} width={360} height={180} className="max-h-full w-auto object-contain" />
                     </div>
-                    <h3 className="mt-8 text-xl font-semibold text-slate-900">{service.title}</h3>
-                    <p className="mt-4 text-sm leading-7 text-slate-600">{service.copy}</p>
-                  </Link>
-                </Reveal>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      <section id="real-estate" className="section-block section-surface">
-        <div className="section-shell grid gap-10 lg:grid-cols-[0.95fr_1.05fr]">
-          <Reveal>
-            <span className="section-label">Real Estate</span>
-            <h2 className="section-title">Land remains one of the most reliable appreciating assets.</h2>
-            <p className="section-copy">
-              We believe real estate should be built on trust, transparency, and access. That is why Famocity
-              focuses on verified opportunities and systems that make ownership realistic for young people and
-              growing families.
-            </p>
-            <div className="mt-8 space-y-4">
-              {[
-                "Safe and verified land opportunities.",
-                "Straightforward communication and transparent processes.",
-                "Accessible pathways into ownership for first-time buyers.",
-                "Consultancy support for property search, verification, and safe decision-making."
-              ].map((point) => (
-                <div key={point} className="flex items-start gap-3 text-base text-slate-600">
-                  <ShieldCheck className="mt-1 text-[#c8a951]" size={18} />
-                  <span>{point}</span>
-                </div>
-              ))}
-            </div>
-
-            <div className="mt-10 grid gap-4">
-              {consultancyServices.map((item) => (
-                <div key={item.title} className="rounded-[1.5rem] border border-slate-200 bg-white p-5 shadow-sm">
-                  <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#9b7b26]">{item.title}</p>
-                  <p className="mt-3 text-sm leading-7 text-slate-600">{item.copy}</p>
-                </div>
-              ))}
-            </div>
-
-            <div className="mt-10 rounded-[1.8rem] border border-[#0b1f3a]/10 bg-[#0b1f3a] p-6 text-white shadow-xl">
-              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#eadba6]">Featured now</p>
-              <h3 className="mt-3 text-2xl font-semibold">Greenland Phase II</h3>
-              <p className="mt-2 text-sm uppercase tracking-[0.16em] text-slate-200">Olodu Ogwashi-Uku, Delta State</p>
-              <div className="mt-5 grid gap-3 sm:grid-cols-2">
-                <div className="rounded-2xl bg-white/10 px-4 py-4">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#eadba6]">Price</p>
-                  <p className="mt-2 text-xl font-bold">N1.980M</p>
-                </div>
-                <div className="rounded-2xl bg-white/10 px-4 py-4">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#eadba6]">Plot size</p>
-                  <p className="mt-2 text-xl font-bold">450 SQM</p>
-                </div>
-              </div>
-            </div>
-          </Reveal>
-
-          <PropertyGallery images={propertyImages} />
-        </div>
-      </section>
-
-      <section className="section-block bg-white">
-        <div className="section-shell grid gap-6 xl:grid-cols-3">
-          <Reveal>
-            <div className="glass-card h-full p-8 sm:p-10">
-              <div className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-[#0b1f3a] text-[#c8a951]">
-                <Drill size={24} />
-              </div>
-              <span className="section-label">Construction</span>
-              <h2 className="mt-5 text-2xl font-semibold text-slate-900 sm:text-3xl">
-                Turning empty land into valuable structures.
-              </h2>
-              <p className="mt-4 text-base leading-8 text-slate-600">
-                From homes to investment projects and broader developments, we turn spaces into functional value.
-                Our construction arm exists to transform raw opportunity into tangible progress.
-              </p>
-              <p className="mt-4 text-base leading-8 text-slate-600">
-                Whether the goal is a dream home, an income-generating property, or a broader development project,
-                we help clients turn owned land into something useful, lasting, and valuable.
-              </p>
-              <p className="mt-5 text-sm font-semibold uppercase tracking-[0.22em] text-[#c8a951]">
-                Turning dreams into reality
-              </p>
-            </div>
-          </Reveal>
-
-          <Reveal delay={0.08}>
-            <div className="glass-card h-full p-8 sm:p-10">
-              <div className="rounded-[1.5rem] border border-slate-200/80 bg-slate-50 p-5">
-                <Image
-                  src="/famocity-solar-energy.png"
-                  alt="Famocity Solar Energy logo"
-                  width={790}
-                  height={312}
-                  className="h-auto w-full"
-                />
-              </div>
-              <span className="section-label mt-6">Solar Energy</span>
-              <h2 className="mt-5 text-2xl font-semibold text-slate-900 sm:text-3xl">
-                Affordable solar access without the usual stress.
-              </h2>
-              <p className="mt-4 text-base leading-8 text-slate-600">
-                At Famocity Real Estate &amp; Construction Ltd, we understand that reliable power is essential, but it should not be expensive or complicated. Through Famocity Energy, we help make solar solutions more affordable and accessible for individuals, businesses, and property owners.
-              </p>
-              <p className="mt-4 text-base leading-8 text-slate-600">
-                We do not position ourselves as system managers. We act as trusted facilitators who help you source quality solar solutions, connect with the right professionals, and choose cost-effective options that fit your budget and energy needs.
-              </p>
-              <p className="mt-5 text-sm font-semibold uppercase tracking-[0.22em] text-[#c8a951]">
-                Simpler, smarter, within reach
-              </p>
-            </div>
-          </Reveal>
-
-          <Reveal delay={0.12}>
-            <div className="glass-card h-full p-8 sm:p-10">
-              <div className="rounded-[1.5rem] border border-slate-200/80 bg-slate-50 p-5">
-                <Image
-                  src="/ouscraft-technology-hubs.png"
-                  alt="Ouscraft Technology Hubs logo"
-                  width={1280}
-                  height={720}
-                  className="h-auto w-full"
-                />
-              </div>
-              <span className="section-label mt-6">OUSCRAFT TECHNOLOGY HUBS</span>
-              <h2 className="mt-5 text-2xl font-semibold text-slate-900 sm:text-3xl">
-                Modern tools that support smart living today.
-              </h2>
-              <p className="mt-4 text-base leading-8 text-slate-600">
-                Ouscraft Technology Hubs is the technology and gadgets arm within the Famocity structure, created for people and businesses that want practical tools for productivity, communication, and modern living.
-              </p>
-              <p className="mt-4 text-base leading-8 text-slate-600">
-                While real estate, construction, and savings focus on long-term value, Ouscraft supports day-to-day efficiency and convenience. Together, they create a stronger and more complete pathway toward a better life.
-              </p>
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      <section id="famosave" className="section-block section-surface">
-        <div className="section-shell grid gap-6 lg:grid-cols-[0.92fr_1.08fr]">
-          <Reveal>
-            <div className="glass-card flex h-full flex-col justify-between p-8 sm:p-10">
-              <div>
-                <span className="section-label">Meet Famosave</span>
-                <div className="mt-6 rounded-[1.5rem] border border-slate-200/80 bg-slate-50 p-5">
-                  <Image
-                    src="/famosave-logo.png"
-                    alt="Famosave logo"
-                    width={440}
-                    height={180}
-                    className="h-auto w-full max-w-sm drop-shadow-[0_8px_24px_rgba(11,31,58,0.12)]"
-                  />
-                </div>
-              </div>
-              <p className="mt-6 text-base leading-8 text-slate-600">
-                Famosave is the savings arm of Famocity, created for people who want to save with purpose and
-                direction toward something tangible and valuable.
-              </p>
-              <div className="mt-6 grid gap-3 text-sm font-semibold text-[#0b1f3a]">
-                <span className="rounded-full bg-[#c8a951]/15 px-4 py-3">Purpose-led saving</span>
-                <span className="rounded-full bg-[#c8a951]/15 px-4 py-3">Asset ownership focus</span>
-              </div>
-            </div>
-          </Reveal>
-
-          <Reveal delay={0.08}>
-            <div className="glass-card h-full p-8 sm:p-10">
-              <span className="section-label">Famosave</span>
-              <h2 className="mt-5 text-2xl font-semibold text-slate-900 sm:text-3xl">
-                Savings with purpose, discipline, and ownership in mind.
-              </h2>
-              <p className="mt-4 text-base leading-8 text-slate-600">
-                Famosave helps people build consistency around saving. Instead of saving without direction, members
-                save toward something real, measurable, and life-changing: asset ownership.
-              </p>
-              <p className="mt-4 text-base leading-8 text-slate-600">
-                Many people struggle to maintain savings because they do not have a clear target. Famosave gives
-                savers a reason to stay focused and consistent while moving closer to land and property ownership.
-              </p>
-              <p className="mt-4 text-base leading-8 text-slate-600">
-                Through Famosave, Famocity shows that wealth can begin with small, steady steps. With the right
-                structure and consistency, savings can gradually become assets.
-              </p>
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      <section className="section-block bg-white">
-        <div className="section-shell">
-          <Reveal>
-            <div className="glass-card relative overflow-hidden p-8 sm:p-10 lg:p-12">
-              <div className="absolute inset-x-0 top-0 h-1 bg-[#c8a951]" />
-              <span className="section-label">Plot Savings Plan</span>
-              <div className="relative mt-5 grid gap-10 lg:grid-cols-[1fr_auto] lg:items-center">
-                <div>
-                  <h2 className="text-3xl font-semibold leading-tight text-slate-900 sm:text-4xl">
-                    Save gradually toward land ownership.
-                  </h2>
-                  <p className="mt-4 max-w-3xl text-base leading-8 text-slate-600">
-                    The plot savings plan removes the pressure of one-time payment and replaces it with a practical,
-                    steady pathway to ownership. It is designed for people who are ready to build something real,
-                    one disciplined step at a time.
-                  </p>
-                  <p className="mt-4 max-w-3xl text-base leading-8 text-slate-600">
-                    It teaches discipline, encourages consistency, and gives people hope that major goals can be
-                    achieved with patience and structure.
-                  </p>
-                </div>
-                <Link href="#contact" className="premium-button-primary button-money-save min-h-12">
-                  Start Saving Today
+                  ) : null}
+                  <p className="mt-6 text-xs font-semibold uppercase tracking-[0.22em] text-[#9b7b26]">{pillar.eyebrow}</p>
+                  <h3 className="mt-3 text-lg font-semibold leading-7 text-slate-950">{pillar.title}</h3>
+                  <p className="mt-3 text-sm leading-7 text-slate-600">{pillar.copy}</p>
+                  <span className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-[#0b1f3a]">
+                    Open page
+                    <ArrowRight size={15} className="transition group-hover:translate-x-1" />
+                  </span>
                 </Link>
-              </div>
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      <section id="team" className="section-block section-surface">
-        <div className="section-shell">
-          <Reveal>
-            <span className="section-label">Team</span>
-            <h2 className="section-title">People driving trust, structure, and execution.</h2>
-            <p className="section-copy">
-              Our team combines leadership, planning, and accountability to keep Famocity focused on real results.
-            </p>
-          </Reveal>
-
-          <div className="mt-12 grid auto-rows-fr gap-6 sm:grid-cols-2 xl:grid-cols-4">
-            {team.map((member, index) => (
-              <Reveal key={member.name} delay={0.08 * index}>
-                <article className="glass-card group flex h-full flex-col overflow-hidden p-4 transition duration-300 hover:-translate-y-1 hover:shadow-xl">
-                  <div className="relative aspect-square overflow-hidden rounded-2xl bg-slate-100">
-                    <Image
-                      src={member.image}
-                      alt={member.name}
-                      fill
-                      className="object-cover transition duration-500 group-hover:scale-105"
-                      sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 25vw"
-                    />
-                  </div>
-                  <div className="flex flex-1 flex-col px-2 pb-2 pt-5">
-                    <h3 className="text-xl font-semibold leading-8 text-slate-900">{member.name}</h3>
-                    <p className="mt-auto pt-2 text-xs font-semibold uppercase tracking-[0.18em] text-[#c8a951]">
-                      {member.role}
-                    </p>
-                  </div>
-                </article>
               </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="section-block bg-white">
-        <div className="section-shell grid gap-10 lg:grid-cols-[0.86fr_1.14fr] lg:items-start">
+      <section className="section-block section-surface">
+        <div className="section-shell grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
           <Reveal>
-            <div className="sticky top-28">
-              <span className="section-label">Why Choose Us</span>
-              <h2 className="section-title">A premium brand with everyday accessibility.</h2>
-              <p className="section-copy">
-                Famocity combines trust, structure, and practical pathways so clients can make confident decisions
-                about property, projects, savings, and long-term growth.
+            <div>
+              <span className="section-label">Featured Property</span>
+              <h2 className="section-title">{featuredProperty.title}</h2>
+              <p className="mt-4 flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.16em] text-slate-600">
+                <MapPin size={16} className="text-[#c8a951]" />
+                {featuredProperty.location}
               </p>
-            </div>
-          </Reveal>
-
-          <div className="grid auto-rows-fr gap-4 sm:grid-cols-2">
-            {chooseUs.map((item, index) => (
-              <Reveal key={item} delay={0.08 * index}>
-                <div className="glass-card flex h-full items-start gap-4 p-6 transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(11,31,58,0.12)]">
-                  <div className="mt-1 inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[#0b1f3a] text-[#c8a951]">
-                    <CheckCircle2 size={20} />
-                  </div>
-                  <p className="text-base leading-7 text-slate-600">{item}</p>
+              <p className="section-copy">{featuredProperty.summary}</p>
+              <div className="mt-8 grid gap-3 sm:grid-cols-2">
+                <div className="rounded-2xl bg-white p-5 shadow-sm">
+                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#9b7b26]">Price</p>
+                  <p className="mt-2 text-2xl font-bold text-slate-950">{featuredProperty.price}</p>
                 </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="section-block">
-        <div className="section-shell">
-          <Reveal>
-            <div className="premium-shimmer overflow-hidden rounded-[2rem] bg-[linear-gradient(135deg,#0b1f3a_0%,#122b4b_60%,#1e293b_100%)] p-8 text-white shadow-xl sm:p-12">
-              <p className="text-sm font-semibold uppercase tracking-[0.28em] text-[#c8a951]">Our Message</p>
-              <h2 className="mt-5 max-w-4xl text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl">
-                Do not just spend money, build something, save something, and own something.
-              </h2>
-              <p className="mt-5 max-w-3xl text-base leading-8 text-slate-200">
-                The future is not built by chance. It is built by intentional action, wise decisions, and
-                consistent steps. Through real estate, construction, gadgets, and purposeful savings, Famocity is
-                creating opportunities for people to live smarter, grow stronger, and own assets that truly
-                matter.
-              </p>
-              <Link href="#contact" className="premium-button-accent button-invest mt-8">
-                Get Started With Famocity
+                <div className="rounded-2xl bg-white p-5 shadow-sm">
+                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#9b7b26]">Size</p>
+                  <p className="mt-2 text-2xl font-bold text-slate-950">{featuredProperty.size}</p>
+                </div>
+              </div>
+              <Link href={`/properties/${featuredProperty.slug}`} className="premium-button-primary mt-8">
+                View Property Details
                 <ArrowRight size={16} />
               </Link>
-              <p className="mt-4 text-sm font-semibold uppercase tracking-[0.18em] text-[#c8a951]">
-                Your future starts with what you build today.
-              </p>
+            </div>
+          </Reveal>
+
+          <Reveal delay={0.1}>
+            <div className="glass-card overflow-hidden p-3">
+              <div className="relative aspect-[4/5] overflow-hidden rounded-[1.5rem] bg-slate-100">
+                <Image src={featuredProperty.src} alt={featuredProperty.alt} fill className="object-contain p-3" sizes="(max-width: 1024px) 100vw, 45vw" />
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      <section className="section-block bg-white">
+        <div className="section-shell grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+          <Reveal>
+            <div className="rounded-[2rem] border border-slate-200 bg-slate-50 p-6">
+              <Image src={savingsPlatform.logo || "/famosave-logo.png"} alt="Famosave logo" width={520} height={220} className="h-auto w-full max-w-md" />
+            </div>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <div>
+              <span className="section-label">{savingsPlatform.eyebrow}</span>
+              <h2 className="section-title">{savingsPlatform.title} remains the savings platform.</h2>
+              <p className="section-copy">{savingsPlatform.copy}</p>
+              <Link href="/famosave" className="premium-button-secondary mt-8">
+                Learn About Famosave
+                <ArrowRight size={16} />
+              </Link>
             </div>
           </Reveal>
         </div>
       </section>
 
       <section className="section-block section-surface">
-        <div className="section-shell grid gap-10 lg:grid-cols-[0.82fr_1.18fr]">
+        <div className="section-shell">
           <Reveal>
-            <div className="sticky top-28">
-              <span className="section-label">How It Works</span>
-              <h2 className="section-title">A calmer process for serious ownership decisions.</h2>
-              <p className="section-copy">
-                A premium experience is not only about visuals. It is about helping people understand the next step without confusion.
+            <div className="rounded-[2rem] bg-[#061326] p-8 text-white shadow-xl sm:p-10 lg:p-12">
+              <p className="text-sm font-semibold uppercase tracking-[0.24em] text-[#eadba6]">Start Here</p>
+              <h2 className="mt-4 max-w-4xl text-3xl font-semibold leading-tight sm:text-4xl">
+                Tell Famocity Group what you want to build, buy, improve, power, or manage.
+              </h2>
+              <p className="mt-5 max-w-3xl text-base leading-8 text-slate-200">
+                We will direct you to the right arm of the group and the right next step.
               </p>
-            </div>
-          </Reveal>
-
-          <div className="grid gap-4">
-            {[
-              {
-                step: "01",
-                title: "Discover the right opportunity",
-                copy: "Review available properties, business arms, or consultancy options and decide what fits your goal."
-              },
-              {
-                step: "02",
-                title: "Verify before commitment",
-                copy: "Ask the right questions, request guidance, and use Famocity support to reduce avoidable risk."
-              },
-              {
-                step: "03",
-                title: "Move with structure",
-                copy: "Continue through inspection, documentation, savings planning, construction, or service facilitation with clearer direction."
-              }
-            ].map((item, index) => (
-              <Reveal key={item.step} delay={0.08 * index}>
-                <div className="grid gap-5 rounded-[1.8rem] border border-slate-200 bg-white p-6 shadow-sm sm:grid-cols-[auto_1fr] sm:p-7">
-                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#0b1f3a] text-sm font-bold text-[#eadba6]">
-                    {item.step}
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-semibold text-slate-950">{item.title}</h3>
-                    <p className="mt-2 text-sm leading-7 text-slate-600">{item.copy}</p>
-                  </div>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="section-block bg-white">
-        <div className="section-shell">
-          <Reveal>
-            <span className="section-label">Questions</span>
-            <h2 className="section-title max-w-4xl">Answers people usually need before taking the next step.</h2>
-          </Reveal>
-
-          <div className="mt-10 grid gap-5 md:grid-cols-2">
-            {[
-              {
-                question: "Can Famocity help me verify a property before I buy?",
-                answer:
-                  "Yes. Famocity provides property legitimacy check consultancy to help buyers review documents, ask better questions, and avoid costly mistakes."
-              },
-              {
-                question: "Can I buy land through Famocity from another location?",
-                answer:
-                  "Yes. The purchase consultancy is built to support buyers who need help searching, verifying, and securing genuine property from wherever they are."
-              },
-              {
-                question: "Does Famocity Solar Energy install systems directly?",
-                answer:
-                  "Famocity Energy acts as a facilitator. We help you source quality options and connect with suitable professionals based on your budget and energy needs."
-              },
-              {
-                question: "Where should I start if I am unsure what I need?",
-                answer:
-                  "Start with the contact form or WhatsApp. The team can guide you toward properties, consultancy, savings, construction, solar, or Ouscraft support."
-              }
-            ].map((item, index) => (
-              <Reveal key={item.question} delay={0.06 * index}>
-                <div className="glass-card h-full p-6">
-                  <h3 className="text-lg font-semibold text-slate-950">{item.question}</h3>
-                  <p className="mt-3 text-sm leading-7 text-slate-600">{item.answer}</p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section id="academy" className="section-block bg-white">
-        <div className="section-shell">
-          <Reveal>
-            <div className="grid gap-8 lg:grid-cols-[1fr_0.9fr] lg:items-end">
-              <div>
-                <span className="section-label">Famocity Academy</span>
-                <h2 className="section-title">Learn the ownership principles behind the brand.</h2>
-                <p className="section-copy">
-                  Explore Famocity learning previews on the website, then continue to the dedicated Selar course page when you are ready to buy and start learning.
-                </p>
-              </div>
-              <div className="glass-card p-6">
-                <p className="text-sm leading-7 text-slate-600">
-                  This is the learning arm of the business, designed for practical training around ownership, real estate discipline, and structured growth.
-                </p>
-                <Link href="/courses" className="premium-button-primary mt-5">
-                  Explore courses
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                <Link href="/contact" className="premium-button-accent">
+                  Contact Famocity
                   <ArrowRight size={16} />
                 </Link>
+                <a href="https://wa.me/2348148287468" target="_blank" rel="noreferrer" className="premium-button border border-white/20 bg-white/10 text-white">
+                  WhatsApp
+                  <MessageCircle size={16} />
+                </a>
               </div>
             </div>
           </Reveal>
-
-          <div className="mt-12 grid gap-6 lg:grid-cols-2 xl:grid-cols-3">
-            {courses.map((course, index) => (
-              <Reveal key={course.slug} delay={0.08 * index}>
-                <CourseCard course={course} />
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section id="contact" className="section-block section-surface">
-        <div className="section-shell">
-          <Reveal>
-            <span className="section-label">Contact</span>
-            <h2 className="section-title">Let&apos;s help you move from income to ownership.</h2>
-            <p className="section-copy">
-              Reach out to discuss land, construction, savings plans, gadgets, or partnership opportunities.
-            </p>
-          </Reveal>
-
-          <div className="mt-12 grid gap-6 xl:grid-cols-[0.9fr_1.1fr]">
-            <div className="grid gap-6">
-              {[
-                {
-                  icon: Phone,
-                  title: "Phone",
-                  content: "08148287468\n07038320560\n08124592833"
-                },
-                {
-                  icon: Mail,
-                  title: "Email",
-                  content: "famocityprime@gmail.com"
-                },
-                {
-                  icon: MapPin,
-                  title: "Office",
-                  content: "Grace plaza NUT junction, Abraka, New Agbor-Sapele Road, Delta State"
-                },
-                {
-                  icon: MessageCircle,
-                  title: "WhatsApp",
-                  content: "08148287468"
-                }
-              ].map((item, index) => {
-                const Icon = item.icon;
-                return (
-                  <Reveal key={item.title} delay={0.08 * index}>
-                    <div className="glass-card flex gap-4 p-6 transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(11,31,58,0.12)]">
-                      <div className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#0b1f3a] text-white shadow-md">
-                        <Icon size={20} />
-                      </div>
-                      <div>
-                        <h3 className="text-xl font-semibold text-slate-900">{item.title}</h3>
-                        <p className="mt-2 whitespace-pre-line text-sm leading-7 text-slate-600">{item.content}</p>
-                      </div>
-                    </div>
-                  </Reveal>
-                );
-              })}
-
-              <Reveal delay={0.18}>
-                <div className="glass-card overflow-hidden p-3">
-                  <iframe
-                    title="Famocity office map"
-                    src="https://www.google.com/maps?q=Grace%20plaza%20NUT%20junction%20Abraka%20New%20Agbor-Sapele%20Road%20Delta%20State&output=embed"
-                    className="h-[320px] w-full rounded-2xl border-0"
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                  />
-                </div>
-              </Reveal>
-            </div>
-
-            <Reveal delay={0.1}>
-              <div className="glass-card p-8 sm:p-10">
-                <h3 className="text-2xl font-semibold text-slate-900 sm:text-3xl">Send us a message</h3>
-                <p className="mt-3 text-base leading-7 text-slate-600">
-                  Tell us what you need. You can continue through email or WhatsApp with your message already prepared.
-                </p>
-                <ContactForm />
-              </div>
-            </Reveal>
-          </div>
         </div>
       </section>
 

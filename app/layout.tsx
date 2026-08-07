@@ -3,9 +3,9 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://famocitygroup.org"),
-  title: "Famocity Real Estate and Construction Limited",
+  title: "Famocity Group Limited",
   description:
-    "Famocity Real Estate and Construction Limited helps people build wealth through verified real estate, construction, solar energy, Ouscraft Technology Hubs, and disciplined savings.",
+    "Famocity Group Limited brings together real estate, property agency, interior decor, solar energy, Ouscraft Technology Hubs, and Famosave.",
   alternates: {
     canonical: "https://famocitygroup.org"
   },
@@ -16,9 +16,11 @@ export const metadata: Metadata = {
   },
   keywords: [
     "Famocity",
+    "Famocity Group Limited",
     "real estate Nigeria",
     "Delta State real estate",
-    "construction company",
+    "property agency Nigeria",
+    "interior decor Nigeria",
     "land investment",
     "Famosave",
     "Famocity Solar Energy",
@@ -27,26 +29,26 @@ export const metadata: Metadata = {
     "property legitimacy check"
   ],
   openGraph: {
-    title: "Famocity Real Estate and Construction Limited",
+    title: "Famocity Group Limited",
     description:
-      "Build smart. Own assets. Live better with verified real estate, construction, solar energy, technology solutions, and structured savings.",
+      "Five specialist arms across real estate, property agency, interior decor, solar energy, and technology.",
     type: "website",
     url: "https://famocitygroup.org",
     siteName: "Famocity",
     images: [
       {
         url: "/famocity-header-logo-cropped.png",
-        width: 766,
-        height: 313,
-        alt: "Famocity Real Estate and Construction Limited"
+        width: 304,
+        height: 117,
+        alt: "Famocity Group Limited"
       }
     ]
   },
   twitter: {
     card: "summary_large_image",
-    title: "Famocity Real Estate and Construction Limited",
+    title: "Famocity Group Limited",
     description:
-      "Helping you build wealth through real estate, construction, solar energy, smart savings, and future-focused investments.",
+      "Real estate, property agency, interior decor, solar energy, technology, and structured savings.",
     images: ["/famocity-header-logo-cropped.png"]
   }
 };
@@ -54,13 +56,13 @@ export const metadata: Metadata = {
 const organizationSchema = {
   "@context": "https://schema.org",
   "@type": ["Organization", "RealEstateAgent"],
-  name: "Famocity Real Estate and Construction Limited",
-  alternateName: "Famocity",
+  name: "Famocity Group Limited",
+  alternateName: "Famocity Group",
   url: "https://famocitygroup.org",
   logo: "https://famocitygroup.org/famocity-header-logo-cropped.png",
   image: "https://famocitygroup.org/famocity-header-logo-cropped.png",
   description:
-    "Famocity Real Estate and Construction Limited helps clients grow through verified real estate, construction, solar energy facilitation, technology solutions, and disciplined savings.",
+    "Famocity Group Limited helps clients through real estate, property agency, interior decor, solar energy facilitation, technology solutions, and Famosave.",
   telephone: ["+2348148287468", "+2347038320560", "+2348124592833"],
   email: "famocityprime@gmail.com",
   address: {
@@ -76,9 +78,10 @@ const organizationSchema = {
   },
   knowsAbout: [
     "Real estate",
+    "Property agency",
     "Real estate consultancy",
     "Property legitimacy checks",
-    "Construction",
+    "Interior decor",
     "Solar energy",
     "Technology hubs",
     "Structured savings"
@@ -88,21 +91,35 @@ const organizationSchema = {
       "@type": "Offer",
       itemOffered: {
         "@type": "Service",
-        name: "Real Estate Purchase Consultancy"
+        name: "Famocity Real Estate"
       }
     },
     {
       "@type": "Offer",
       itemOffered: {
         "@type": "Service",
-        name: "Property Legitimacy Check Consultancy"
+        name: "Famocity Property Agency"
       }
     },
     {
       "@type": "Offer",
       itemOffered: {
         "@type": "Service",
-        name: "Solar Energy Facilitation"
+        name: "Famocity Interior Decor"
+      }
+    },
+    {
+      "@type": "Offer",
+      itemOffered: {
+        "@type": "Service",
+        name: "Famocity Solar Energy"
+      }
+    },
+    {
+      "@type": "Offer",
+      itemOffered: {
+        "@type": "Service",
+        name: "Ouscraft Technology Hubs"
       }
     }
   ],
@@ -120,7 +137,7 @@ const websiteSchema = {
   name: "Famocity",
   url: "https://famocitygroup.org",
   description:
-    "Official website of Famocity Real Estate and Construction Limited."
+    "Official website of Famocity Group Limited."
 };
 
 export default function RootLayout({
