@@ -8,9 +8,9 @@ import { Reveal } from "@/components/reveal";
 import { getSessionUser } from "@/lib/session";
 
 export const metadata: Metadata = {
-  title: "Contact | Famocity Group Limited",
+  title: "Contact | Famocity Group Ltd",
   description:
-    "Contact Famocity Group Limited for real estate, property agency, interior decor, solar energy, technology, Famosave, and course enquiries.",
+    "Contact Famocity Group Ltd for real estate, property agency, interior decor, solar energy, technology, Famosave, and course enquiries.",
   alternates: {
     canonical: "/contact"
   }
@@ -48,7 +48,7 @@ export default async function ContactPage() {
               <span className="section-label">Contact Famocity</span>
               <h1 className="section-title">Tell us what you want to build, buy, power, design, or improve.</h1>
               <p className="section-copy">
-                Reach the Famocity Group Limited team for property enquiries, agency support, interior decor,
+                Reach the Famocity Group Ltd team for property enquiries, agency support, interior decor,
                 solar facilitation, technology solutions, Famosave, and course questions.
               </p>
 

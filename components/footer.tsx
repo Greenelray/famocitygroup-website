@@ -48,14 +48,14 @@ export function Footer() {
           <div className="inline-flex rounded-[1.5rem] border border-white/10 bg-white/[0.03] p-3">
             <Image
               src={logo}
-              alt="Famocity Group Limited logo"
+              alt="Famocity Group Ltd logo"
               width={160}
               height={80}
               className="h-16 w-auto drop-shadow-[0_10px_24px_rgba(0,0,0,0.18)]"
             />
           </div>
           <p className="mt-5 max-w-md text-sm leading-7 text-white/72">
-            Famocity Group Limited is building a future where ownership, property, interiors, energy,
+            Famocity Group Ltd is building a future where ownership, property, interiors, energy,
             technology, and structured savings create lasting value.
           </p>
           <p className="mt-6 text-xs font-semibold uppercase tracking-[0.24em] text-[#c8a951]">
@@ -108,7 +108,7 @@ export function Footer() {
         </div>
       </div>
       <div className="section-shell relative border-t border-white/10 py-5 text-xs text-white/55">
-        <p>&copy; {new Date().getFullYear()} Famocity Group Limited. All rights reserved.</p>
+        <p>&copy; {new Date().getFullYear()} Famocity Group Ltd. All rights reserved.</p>
       </div>
     </footer>
   );

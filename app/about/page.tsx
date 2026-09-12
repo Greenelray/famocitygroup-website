@@ -10,9 +10,9 @@ import { getSessionUser } from "@/lib/session";
 import { businessPillars, savingsPlatform } from "@/lib/site-data";
 
 export const metadata: Metadata = {
-  title: "About | Famocity Group Limited",
+  title: "About | Famocity Group Ltd",
   description:
-    "Learn about Famocity Group Limited, its five expertise areas, and the structure behind the brand.",
+    "Learn about Famocity Group Ltd, its five expertise areas, and the structure behind the brand.",
   alternates: {
     canonical: "/about"
   }
@@ -30,9 +30,9 @@ export default async function AboutPage() {
           <Reveal>
             <div>
               <span className="section-label">About The Group</span>
-              <h1 className="section-title">Famocity Group Limited is built around practical value creation.</h1>
+              <h1 className="section-title">Famocity Group Ltd is built around practical value creation.</h1>
               <p className="section-copy">
-                Famocity Group Limited brings focused business arms together under one parent brand: real estate, property agency, interior decor, solar energy, and technology. Famosave remains the savings platform that supports disciplined ownership goals.
+                Famocity Group Ltd brings focused business arms together under one parent brand: real estate, property agency, interior decor, solar energy, and technology. Famosave remains the savings platform that supports disciplined ownership goals.
               </p>
               <div className="mt-8 grid gap-3">
                 {[

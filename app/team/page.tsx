@@ -17,8 +17,8 @@ const team = [
 ];
 
 export const metadata: Metadata = {
-  title: "Team | Famocity Group Limited",
-  description: "Meet the leadership team behind Famocity Group Limited.",
+  title: "Team | Famocity Group Ltd",
+  description: "Meet the leadership team behind Famocity Group Ltd.",
   alternates: {
     canonical: "/team"
   }
@@ -37,7 +37,7 @@ export default async function TeamPage() {
             <span className="section-label">Team</span>
             <h1 className="section-title max-w-4xl">People driving trust, structure, and execution.</h1>
             <p className="section-copy">
-              Famocity Group Limited is led by people focused on clarity, accountability, and long-term value creation.
+              Famocity Group Ltd is led by people focused on clarity, accountability, and long-term value creation.
             </p>
           </Reveal>
 

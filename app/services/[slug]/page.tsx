@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: ServicePageProps): Promise<Me
   }
 
   return {
-    title: `${pillar.title} | Famocity Group Limited`,
+    title: `${pillar.title} | Famocity Group Ltd`,
     description: pillar.copy,
     alternates: {
       canonical: `/services/${pillar.slug}`

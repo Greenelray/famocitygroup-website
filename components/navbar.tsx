@@ -19,8 +19,7 @@ const baseRightLinks = [
   { label: "Famosave", href: "/famosave" },
   { label: "Courses", href: "/courses" },
   { label: "Team", href: "/team" },
-  { label: "Contact", href: "/contact" },
-  { label: "My Courses", href: "/my-courses" }
+  { label: "Contact", href: "/contact" }
 ];
 
 type NavbarProps = {
@@ -108,7 +107,7 @@ export function Navbar({ userEmail }: NavbarProps) {
           <Link aria-label="Famocity Group home" className="flex shrink-0 items-center justify-center" href="/">
             <Image
               src="/famocity-header-logo-cropped.png"
-              alt="Famocity Group Limited logo"
+              alt="Famocity Group Ltd logo"
               width={1177}
               height={278}
               className="h-10 w-auto max-w-[250px] 2xl:h-11 2xl:max-w-[300px]"
@@ -149,7 +148,7 @@ export function Navbar({ userEmail }: NavbarProps) {
           <Link aria-label="Famocity Group home" className="min-w-0" href="/">
             <Image
               src="/famocity-header-logo-cropped.png"
-              alt="Famocity Group Limited logo"
+              alt="Famocity Group Ltd logo"
               width={1177}
               height={278}
               className="h-12 w-auto max-w-[16rem] sm:h-14"

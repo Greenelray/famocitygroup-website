@@ -39,9 +39,9 @@ export default async function LessonPage({ params }: LessonPageProps) {
 
       <section className="section-surface pb-16 pt-36 sm:pb-20 sm:pt-40">
         <div className="section-shell">
-          <Link href="/my-courses" className="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 transition hover:text-[#0b1f3a]">
+          <Link href="/courses" className="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 transition hover:text-[#0b1f3a]">
             <ArrowLeft size={16} />
-            Back to My Courses
+            Back to Courses
           </Link>
 
           <div className="mt-6 grid gap-8 lg:grid-cols-[1.12fr_0.88fr]">

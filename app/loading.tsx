@@ -1,5 +1,5 @@
 import { PageLoading } from "@/components/page-loading";
 
 export default function Loading() {
-  return <PageLoading message="Loading your experience" />;
+  return <PageLoading message="Loading Famocity Group" />;
 }

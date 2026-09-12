@@ -34,12 +34,12 @@ export default async function Home() {
         <div className="section-shell relative z-10 grid min-h-[82svh] items-center gap-12 lg:grid-cols-[1.02fr_0.98fr]">
           <Reveal>
             <div className="max-w-4xl">
-              <span className="section-label border-white/15 bg-white/10 text-[#c8a951]">Famocity Group Limited</span>
+              <span className="section-label border-white/15 bg-white/10 text-[#c8a951]">Famocity Group Ltd</span>
               <h1 className="mt-6 max-w-4xl text-4xl font-extrabold leading-[1.02] text-white sm:text-5xl lg:text-7xl">
                 Building ownership, comfort, energy, and modern living.
               </h1>
               <p className="mt-6 max-w-2xl text-base leading-8 text-slate-200 sm:text-lg">
-                Famocity Group Limited brings together real estate, property agency, interior decor, solar energy, and Ouscraft Technology Hubs with Famosave as a focused savings platform.
+                Famocity Group Ltd brings together real estate, property agency, interior decor, solar energy, and Ouscraft Technology Hubs with Famosave as a focused savings platform.
               </p>
 
               <div className="mt-10 flex flex-col gap-4 sm:flex-row">

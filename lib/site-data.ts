@@ -174,7 +174,7 @@ export const savingsPlatform: BusinessPillar = {
   copy:
     "Famocity Group's savings platform for disciplined planning toward land ownership and real asset growth.",
   longCopy: [
-    "Famosave remains the savings platform under Famocity Group Limited. It gives saving a target and helps people build discipline around a real ownership goal.",
+    "Famosave remains the savings platform under Famocity Group Ltd. It gives saving a target and helps people build discipline around a real ownership goal.",
     "The aim is to make land and asset ownership feel more reachable through consistency, structure, and clear motivation."
   ],
   icon: BadgeDollarSign,

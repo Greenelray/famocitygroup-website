@@ -1,5 +1,4 @@
 import Image from "next/image";
-import footerLogo from "../logo.png";
 
 type PageLoadingProps = {
   message?: string;
@@ -18,11 +17,12 @@ export function PageLoading({
             <div className="loader-ring loader-ring-two" />
             <div className="loader-logo-card">
               <Image
-                src={footerLogo}
-                alt="Famocity logo"
+                src="/famocity-group-icon.png"
+                alt="Famocity Group Ltd icon"
                 width={160}
-                height={80}
+                height={160}
                 className="loader-logo-image"
+                priority
               />
             </div>
           </div>

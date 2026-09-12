@@ -9,9 +9,9 @@ import { getSessionUser } from "@/lib/session";
 import { savingsPlatform } from "@/lib/site-data";
 
 export const metadata: Metadata = {
-  title: "Famosave | Famocity Group Limited",
+  title: "Famosave | Famocity Group Ltd",
   description:
-    "Famosave is Famocity Group Limited's savings platform for disciplined planning toward land ownership and long-term asset goals.",
+    "Famosave is Famocity Group Ltd's savings platform for disciplined planning toward land ownership and long-term asset goals.",
   alternates: {
     canonical: "/famosave"
   }

@@ -3,19 +3,23 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://famocitygroup.org"),
-  title: "Famocity Group Limited",
+  title: "Famocity Group Ltd",
   description:
-    "Famocity Group Limited brings together real estate, property agency, interior decor, solar energy, Ouscraft Technology Hubs, and Famosave.",
+    "Famocity Group Ltd brings together real estate, property agency, interior decor, solar energy, Ouscraft Technology Hubs, and Famosave.",
   alternates: {
     canonical: "https://famocitygroup.org"
   },
   icons: {
-    icon: "/favicon.ico",
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/famocity-group-icon.png", type: "image/png", sizes: "512x512" }
+    ],
     shortcut: "/favicon.ico",
-    apple: "/icon.png"
+    apple: "/apple-icon.png"
   },
   keywords: [
     "Famocity",
+    "Famocity Group Ltd",
     "Famocity Group Limited",
     "real estate Nigeria",
     "Delta State real estate",
@@ -29,24 +33,24 @@ export const metadata: Metadata = {
     "property legitimacy check"
   ],
   openGraph: {
-    title: "Famocity Group Limited",
+    title: "Famocity Group Ltd",
     description:
       "Five specialist arms across real estate, property agency, interior decor, solar energy, and technology.",
     type: "website",
     url: "https://famocitygroup.org",
-    siteName: "Famocity",
+    siteName: "Famocity Group Ltd",
     images: [
       {
         url: "/famocity-header-logo-cropped.png",
         width: 304,
         height: 117,
-        alt: "Famocity Group Limited"
+        alt: "Famocity Group Ltd"
       }
     ]
   },
   twitter: {
     card: "summary_large_image",
-    title: "Famocity Group Limited",
+    title: "Famocity Group Ltd",
     description:
       "Real estate, property agency, interior decor, solar energy, technology, and structured savings.",
     images: ["/famocity-header-logo-cropped.png"]
@@ -56,13 +60,13 @@ export const metadata: Metadata = {
 const organizationSchema = {
   "@context": "https://schema.org",
   "@type": ["Organization", "RealEstateAgent"],
-  name: "Famocity Group Limited",
+  name: "Famocity Group Ltd",
   alternateName: "Famocity Group",
   url: "https://famocitygroup.org",
   logo: "https://famocitygroup.org/famocity-header-logo-cropped.png",
   image: "https://famocitygroup.org/famocity-header-logo-cropped.png",
   description:
-    "Famocity Group Limited helps clients through real estate, property agency, interior decor, solar energy facilitation, technology solutions, and Famosave.",
+    "Famocity Group Ltd helps clients through real estate, property agency, interior decor, solar energy facilitation, technology solutions, and Famosave.",
   telephone: ["+2348148287468", "+2347038320560", "+2348124592833"],
   email: "famocityprime@gmail.com",
   address: {
@@ -134,10 +138,10 @@ const organizationSchema = {
 const websiteSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
-  name: "Famocity",
+  name: "Famocity Group Ltd",
   url: "https://famocitygroup.org",
   description:
-    "Official website of Famocity Group Limited."
+    "Official website of Famocity Group Ltd."
 };
 
 export default function RootLayout({

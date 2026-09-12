@@ -85,8 +85,8 @@ export default async function ProfilePage({ searchParams }: ProfilePageProps) {
                 </div>
 
                 <div className="mt-6">
-                  <Link href="/my-courses" className="premium-button-secondary w-full sm:w-auto">
-                    Back to My Courses
+                  <Link href="/courses" className="premium-button-secondary w-full sm:w-auto">
+                    Back to Courses
                   </Link>
                 </div>
               </div>
