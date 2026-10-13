@@ -140,6 +140,25 @@ img {
 }
 
 @media (max-width: 640px) {
+  .site-intro {
+    background:
+      radial-gradient(circle at 50% 45%, rgba(200, 169, 81, 0.14), transparent 18rem),
+      #020817;
+  }
+
+  .site-intro__video {
+    height: auto;
+    max-height: 78vh;
+    object-fit: contain;
+    width: 100%;
+  }
+
+  .site-intro__shade {
+    background:
+      linear-gradient(180deg, rgba(2, 8, 23, 0.18), rgba(2, 8, 23, 0.8)),
+      radial-gradient(circle at 50% 52%, transparent 0%, rgba(2, 8, 23, 0.3) 52%, rgba(2, 8, 23, 0.82) 100%);
+  }
+
   .site-intro__content {
     align-items: stretch;
     bottom: 1.25rem;

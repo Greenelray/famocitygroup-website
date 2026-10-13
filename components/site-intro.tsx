@@ -4,7 +4,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 const INTRO_STORAGE_KEY = "famocity-intro-seen";
 const EXIT_DURATION_MS = 720;
-const FALLBACK_DURATION_MS = 9000;
+const FALLBACK_DURATION_MS = 5600;
+const SLOW_START_DURATION_MS = 2400;
 
 export function SiteIntro() {
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -51,9 +52,17 @@ export function SiteIntro() {
     document.body.style.overflow = "hidden";
 
     const fallback = window.setTimeout(dismissIntro, FALLBACK_DURATION_MS);
+    const slowStart = window.setTimeout(() => {
+      const video = videoRef.current;
+
+      if (!video || video.readyState < HTMLMediaElement.HAVE_CURRENT_DATA) {
+        dismissIntro();
+      }
+    }, SLOW_START_DURATION_MS);
 
     return () => {
       window.clearTimeout(fallback);
+      window.clearTimeout(slowStart);
       document.body.style.overflow = previousOverflow;
     };
   }, [dismissIntro, visible]);
@@ -86,6 +95,7 @@ export function SiteIntro() {
         muted
         playsInline
         preload="auto"
+        onCanPlay={() => videoRef.current?.play().catch(() => undefined)}
         onEnded={dismissIntro}
         onError={dismissIntro}
       >
