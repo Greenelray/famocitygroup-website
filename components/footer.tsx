@@ -43,17 +43,17 @@ export function Footer() {
   return (
     <footer className="relative overflow-hidden border-t border-slate-200 bg-[#061326] text-white">
       <video
-        className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-[0.18]"
+        className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-[0.42]"
         autoPlay
         muted
         loop
         playsInline
-        preload="metadata"
+        preload="auto"
         aria-hidden="true"
       >
-        <source src="/famocity-intro.mov" type="video/quicktime" />
+        <source src="/famocity-intro.mov" />
       </video>
-      <div className="absolute inset-0 bg-[linear-gradient(115deg,rgba(6,19,38,0.96)_0%,rgba(6,19,38,0.88)_52%,rgba(11,31,58,0.95)_100%)]" />
+      <div className="absolute inset-0 bg-[linear-gradient(115deg,rgba(6,19,38,0.86)_0%,rgba(6,19,38,0.74)_52%,rgba(11,31,58,0.88)_100%)]" />
       <div className="absolute -right-24 top-10 h-72 w-72 rounded-full bg-[#c8a951]/12 blur-3xl" />
       <div className="section-shell relative grid gap-12 py-16 lg:grid-cols-[1.2fr_0.8fr_1fr]">
         <div>

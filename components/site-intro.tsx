@@ -99,7 +99,7 @@ export function SiteIntro() {
         onEnded={dismissIntro}
         onError={dismissIntro}
       >
-        <source src="/famocity-intro.mov" type="video/quicktime" />
+        <source src="/famocity-intro.mov" />
       </video>
 
       <div className="site-intro__shade" />
