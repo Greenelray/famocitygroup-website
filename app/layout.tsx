@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { SiteIntro } from "@/components/site-intro";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -152,6 +153,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body className="bg-white text-slate-800 antialiased">
+        <SiteIntro />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
