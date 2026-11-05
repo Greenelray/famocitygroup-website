@@ -33,11 +33,15 @@ export default async function ServicesPage() {
             </p>
           </Reveal>
 
-          <div className="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-5">
+          <div className="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-6">
             {businessPillars.map((pillar, index) => {
               const Icon = pillar.icon;
               return (
-                <Reveal key={pillar.slug} delay={0.08 * index}>
+                <Reveal
+                  key={pillar.slug}
+                  delay={0.08 * index}
+                  className={`xl:col-span-2 ${index === 3 ? "xl:col-start-2" : ""}`}
+                >
                   <Link href={pillar.href} className="glass-card group block h-full p-6">
                     <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-[#0b1f3a] text-[#c8a951]">
                       <Icon size={22} />

@@ -93,9 +93,13 @@ export default async function Home() {
             </p>
           </Reveal>
 
-          <div className="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-5">
+          <div className="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-6">
             {businessPillars.map((pillar, index) => (
-              <Reveal key={pillar.slug} delay={0.06 * index}>
+              <Reveal
+                key={pillar.slug}
+                delay={0.06 * index}
+                className={`xl:col-span-2 ${index === 3 ? "xl:col-start-2" : ""}`}
+              >
                 <Link href={pillar.href} className="glass-card group block h-full p-5">
                   {pillar.logo ? (
                     <div className="flex h-32 items-center justify-center rounded-[1.2rem] bg-slate-50 p-4">

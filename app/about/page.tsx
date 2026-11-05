@@ -66,9 +66,13 @@ export default async function AboutPage() {
             <h2 className="section-title max-w-4xl">Five expertise areas, one coordinated brand standard.</h2>
           </Reveal>
 
-          <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-5">
+          <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-6">
             {businessPillars.map((pillar, index) => (
-              <Reveal key={pillar.slug} delay={0.06 * index}>
+              <Reveal
+                key={pillar.slug}
+                delay={0.06 * index}
+                className={`xl:col-span-2 ${index === 3 ? "xl:col-start-2" : ""}`}
+              >
                 <Link href={pillar.href} className="glass-card block h-full p-5">
                   {pillar.logo ? (
                     <div className="flex h-28 items-center justify-center rounded-[1.2rem] bg-slate-50 p-4">

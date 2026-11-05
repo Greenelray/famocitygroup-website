@@ -34,7 +34,7 @@ export default async function PropertiesPage() {
             </p>
           </Reveal>
 
-          <div className="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+          <div className="mt-12 grid gap-7 md:grid-cols-2 xl:gap-8">
             {propertyListings.map((property, index) => (
               <Reveal key={property.slug} delay={0.08 * index}>
                 <article className="glass-card h-full overflow-hidden p-3">
@@ -44,7 +44,7 @@ export default async function PropertiesPage() {
                       alt={property.alt}
                       fill
                       className="object-contain p-3"
-                      sizes="(max-width: 768px) 100vw, 25vw"
+                      sizes="(max-width: 768px) 100vw, 50vw"
                     />
                   </div>
                   <div className="p-4">
