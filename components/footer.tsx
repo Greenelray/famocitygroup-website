@@ -57,13 +57,13 @@ export function Footer() {
       <div className="absolute -right-24 top-10 h-72 w-72 rounded-full bg-[#c8a951]/12 blur-3xl" />
       <div className="section-shell relative grid gap-12 py-16 lg:grid-cols-[1.2fr_0.8fr_1fr]">
         <div>
-          <div className="inline-flex rounded-[1.5rem] bg-white p-3 shadow-[0_18px_42px_rgba(0,0,0,0.24)]">
+          <div className="inline-flex p-1">
             <Image
               src={logo}
               alt="Famocity Group Ltd logo"
               width={160}
               height={80}
-              className="h-16 w-auto"
+              className="h-16 w-auto brightness-0 invert"
             />
           </div>
           <p className="mt-5 max-w-md text-sm leading-7 text-white/72">

@@ -58,7 +58,7 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
 
       <section className="section-surface pb-16 pt-36 sm:pb-20 sm:pt-40">
         <div className="section-shell grid gap-10 lg:grid-cols-[0.92fr_1.08fr] lg:items-center">
-          <Reveal>
+          <Reveal variant="slide-left">
             <div>
               <span className="section-label">Property Listing</span>
               <h1 className="section-title">{property.title}</h1>
@@ -97,7 +97,7 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
             </div>
           </Reveal>
 
-          <Reveal delay={0.1}>
+          <Reveal delay={0.1} variant="scale">
             <div className="glass-card overflow-hidden p-3">
               <div className="relative aspect-[4/5] overflow-hidden rounded-[1.6rem] bg-[linear-gradient(180deg,#eef4fb_0%,#d8e7f8_100%)]">
                 <Image src={property.src} alt={property.alt} fill className="object-contain p-3" sizes="(max-width: 1024px) 100vw, 45vw" priority />
@@ -109,7 +109,7 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
 
       <section className="section-block bg-white">
         <div className="section-shell grid gap-8 lg:grid-cols-[0.8fr_1.2fr]">
-          <Reveal>
+          <Reveal variant="slide-left">
             <div className="sticky top-28">
               <span className="section-label">Why This Property</span>
               <h2 className="section-title">A clearer path before you commit.</h2>
@@ -121,7 +121,7 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
 
           <div className="grid gap-4 sm:grid-cols-2">
             {property.highlights.map((highlight, index) => (
-              <Reveal key={highlight} delay={0.08 * index}>
+              <Reveal key={highlight} delay={0.08 * index} variant="card">
                 <div className="glass-card flex h-full gap-4 p-6">
                   <CheckCircle2 className="mt-1 shrink-0 text-[#c8a951]" size={20} />
                   <p className="text-sm leading-7 text-slate-600">{highlight}</p>
@@ -134,7 +134,7 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
 
       <section className="section-block section-surface">
         <div className="section-shell">
-          <Reveal>
+          <Reveal variant="spotlight">
             <div className="rounded-[2rem] bg-[#061326] p-8 text-white sm:p-10 lg:p-12">
               <p className="text-sm font-semibold uppercase tracking-[0.24em] text-[#eadba6]">Next Step</p>
               <h2 className="mt-4 max-w-3xl text-3xl font-semibold leading-tight sm:text-4xl">

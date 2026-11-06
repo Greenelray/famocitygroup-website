@@ -25,7 +25,7 @@ export default async function ServicesPage() {
 
       <section className="section-surface pb-16 pt-36 sm:pb-20 sm:pt-40">
         <div className="section-shell">
-          <Reveal>
+          <Reveal variant="slide-left">
             <span className="section-label">Expertise</span>
             <h1 className="section-title max-w-4xl">Five specialist arms under Famocity Group Ltd.</h1>
             <p className="section-copy">
@@ -40,6 +40,7 @@ export default async function ServicesPage() {
                 <Reveal
                   key={pillar.slug}
                   delay={0.08 * index}
+                  variant="card"
                   className={`xl:col-span-2 ${index === 3 ? "xl:col-start-2" : ""}`}
                 >
                   <Link href={pillar.href} className="glass-card group block h-full p-6">

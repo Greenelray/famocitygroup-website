@@ -40,7 +40,7 @@ export function PropertyGallery({ images }: PropertyGalleryProps) {
     <>
       <div className="grid auto-rows-fr gap-5 sm:grid-cols-2">
         {images.map((image, index) => (
-          <Reveal key={image.alt} delay={0.08 * index}>
+          <Reveal key={image.alt} delay={0.08 * index} variant="card">
             <div className="glass-card h-full overflow-hidden p-3 transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(11,31,58,0.12)]">
               <button
                 type="button"

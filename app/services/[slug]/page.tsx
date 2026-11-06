@@ -57,7 +57,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
 
       <section className="section-surface pb-16 pt-36 sm:pb-20 sm:pt-40">
         <div className="section-shell grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
-          <Reveal>
+          <Reveal variant="slide-left">
             <div>
               <span className="section-label">{pillar.eyebrow}</span>
               <h1 className="section-title">{pillar.title}</h1>
@@ -74,7 +74,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
             </div>
           </Reveal>
 
-          <Reveal delay={0.1}>
+          <Reveal delay={0.1} variant="scale">
             <div className="glass-card p-8 sm:p-10">
               {pillar.logo ? (
                 <div className="rounded-[1.5rem] border border-slate-200 bg-slate-50 p-5">
@@ -97,13 +97,13 @@ export default async function ServicePage({ params }: ServicePageProps) {
 
       <section className="section-block bg-white">
         <div className="section-shell">
-          <Reveal>
+          <Reveal variant="rise">
             <span className="section-label">How We Help</span>
             <h2 className="section-title max-w-4xl">A more guided experience from first interest to next action.</h2>
           </Reveal>
           <div className="mt-10 grid gap-5 md:grid-cols-3">
             {serviceProof.map((item, index) => (
-              <Reveal key={item} delay={0.08 * index}>
+              <Reveal key={item} delay={0.08 * index} variant="card">
                 <div className="glass-card flex h-full gap-4 p-6">
                   <CheckCircle2 className="mt-1 shrink-0 text-[#c8a951]" size={20} />
                   <p className="text-sm leading-7 text-slate-600">{item}</p>

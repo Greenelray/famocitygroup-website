@@ -43,7 +43,7 @@ export default async function ContactPage() {
 
       <section className="section-surface pb-16 pt-36 sm:pb-20 sm:pt-40">
         <div className="section-shell grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
-          <Reveal>
+          <Reveal variant="slide-left">
             <div>
               <span className="section-label">Contact Famocity</span>
               <h1 className="section-title">Tell us what you want to build, buy, power, design, or improve.</h1>
@@ -82,7 +82,7 @@ export default async function ContactPage() {
             </div>
           </Reveal>
 
-          <Reveal delay={0.1}>
+          <Reveal delay={0.1} variant="slide-right">
             <div className="glass-card p-6 sm:p-8">
               <p className="text-sm font-semibold uppercase tracking-[0.22em] text-[#9b7b26]">Send a message</p>
               <h2 className="mt-3 text-3xl font-semibold text-slate-950">We will help you choose the right next step.</h2>

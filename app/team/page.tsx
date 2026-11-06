@@ -33,7 +33,7 @@ export default async function TeamPage() {
 
       <section className="section-surface pb-16 pt-36 sm:pb-20 sm:pt-40">
         <div className="section-shell">
-          <Reveal>
+          <Reveal variant="slide-left">
             <span className="section-label">Team</span>
             <h1 className="section-title max-w-4xl">People driving trust, structure, and execution.</h1>
             <p className="section-copy">
@@ -43,7 +43,7 @@ export default async function TeamPage() {
 
           <div className="mt-12 grid auto-rows-fr gap-6 sm:grid-cols-2 xl:grid-cols-4">
             {team.map((member, index) => (
-              <Reveal key={member.name} delay={0.08 * index}>
+              <Reveal key={member.name} delay={0.08 * index} variant="card">
                 <article className="glass-card group flex h-full flex-col overflow-hidden p-4">
                   <div className="relative aspect-square overflow-hidden rounded-2xl bg-slate-100">
                     <Image src={member.image} alt={member.name} fill className="object-cover transition duration-500 group-hover:scale-105" sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 25vw" />

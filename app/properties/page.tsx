@@ -26,7 +26,7 @@ export default async function PropertiesPage() {
 
       <section className="section-surface pb-16 pt-36 sm:pb-20 sm:pt-40">
         <div className="section-shell">
-          <Reveal>
+          <Reveal variant="slide-left">
             <span className="section-label">Available Properties</span>
             <h1 className="section-title max-w-4xl">Property opportunities with clearer guidance and stronger confidence.</h1>
             <p className="section-copy">
@@ -36,7 +36,7 @@ export default async function PropertiesPage() {
 
           <div className="mt-12 grid gap-7 md:grid-cols-2 xl:gap-8">
             {propertyListings.map((property, index) => (
-              <Reveal key={property.slug} delay={0.08 * index}>
+              <Reveal key={property.slug} delay={0.08 * index} variant="card">
                 <article className="glass-card h-full overflow-hidden p-3">
                   <div className="relative aspect-[4/5] overflow-hidden rounded-[1.35rem] bg-slate-100">
                     <Image
@@ -74,7 +74,7 @@ export default async function PropertiesPage() {
             ))}
           </div>
 
-          <Reveal delay={0.12}>
+          <Reveal delay={0.12} variant="spotlight">
             <div className="mt-12 grid gap-5 rounded-[2rem] bg-[#061326] p-6 text-white sm:p-8 lg:grid-cols-3">
               {[
                 "Property search guidance for buyers in and outside Delta State.",

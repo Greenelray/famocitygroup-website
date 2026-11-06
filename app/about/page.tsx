@@ -27,7 +27,7 @@ export default async function AboutPage() {
 
       <section className="section-surface pb-16 pt-36 sm:pb-20 sm:pt-40">
         <div className="section-shell grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
-          <Reveal>
+          <Reveal variant="slide-left">
             <div>
               <span className="section-label">About The Group</span>
               <h1 className="section-title">Famocity Group Ltd is built around practical value creation.</h1>
@@ -49,7 +49,7 @@ export default async function AboutPage() {
             </div>
           </Reveal>
 
-          <Reveal delay={0.1}>
+          <Reveal delay={0.1} variant="slide-right">
             <div className="glass-card overflow-hidden p-3">
               <div className="relative aspect-[4/5] overflow-hidden rounded-[1.5rem] bg-slate-100">
                 <Image src={founderStoryPhoto} alt="Famocity Group story" fill className="object-cover" sizes="(max-width: 1024px) 100vw, 45vw" />
@@ -61,7 +61,7 @@ export default async function AboutPage() {
 
       <section className="section-block bg-white">
         <div className="section-shell">
-          <Reveal>
+          <Reveal variant="rise">
             <span className="section-label">Group Structure</span>
             <h2 className="section-title max-w-4xl">Five expertise areas, one coordinated brand standard.</h2>
           </Reveal>
@@ -71,6 +71,7 @@ export default async function AboutPage() {
               <Reveal
                 key={pillar.slug}
                 delay={0.06 * index}
+                variant="card"
                 className={`xl:col-span-2 ${index === 3 ? "xl:col-start-2" : ""}`}
               >
                 <Link href={pillar.href} className="glass-card block h-full p-5">
@@ -86,7 +87,7 @@ export default async function AboutPage() {
             ))}
           </div>
 
-          <Reveal delay={0.12}>
+          <Reveal delay={0.12} variant="spotlight">
             <div className="mt-10 rounded-[2rem] bg-[#061326] p-8 text-white sm:p-10">
               <p className="text-sm font-semibold uppercase tracking-[0.24em] text-[#eadba6]">{savingsPlatform.eyebrow}</p>
               <h2 className="mt-4 text-3xl font-semibold">{savingsPlatform.title}</h2>

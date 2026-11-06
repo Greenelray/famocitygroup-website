@@ -32,7 +32,7 @@ export default async function Home() {
         </div>
 
         <div className="section-shell relative z-10 grid min-h-[82svh] items-center gap-12 lg:grid-cols-[1.02fr_0.98fr]">
-          <Reveal>
+          <Reveal variant="hero">
             <div className="max-w-4xl">
               <span className="section-label border-white/15 bg-white/10 text-[#c8a951]">Famocity Group Ltd</span>
               <h1 className="mt-6 max-w-4xl text-4xl font-extrabold leading-[1.02] text-white sm:text-5xl lg:text-7xl">
@@ -66,7 +66,7 @@ export default async function Home() {
             </div>
           </Reveal>
 
-          <Reveal delay={0.12}>
+          <Reveal delay={0.12} variant="scale">
             <div className="mx-auto w-full max-w-[29rem]">
               <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] border border-white/10 bg-white/10 p-3 shadow-2xl backdrop-blur-sm">
                 <Image src={promisePhoto} alt="Famocity Group representative" fill className="object-cover p-3" sizes="(max-width: 1024px) 100vw, 40vw" />
@@ -85,7 +85,7 @@ export default async function Home() {
 
       <section className="section-block bg-white">
         <div className="section-shell">
-          <Reveal>
+          <Reveal variant="slide-left">
             <span className="section-label">Five Expertise</span>
             <h2 className="section-title max-w-4xl">Specialist arms with one professional standard.</h2>
             <p className="section-copy">
@@ -98,6 +98,7 @@ export default async function Home() {
               <Reveal
                 key={pillar.slug}
                 delay={0.06 * index}
+                variant="card"
                 className={`xl:col-span-2 ${index === 3 ? "xl:col-start-2" : ""}`}
               >
                 <Link href={pillar.href} className="glass-card group block h-full p-5">
@@ -122,7 +123,7 @@ export default async function Home() {
 
       <section className="section-block section-surface">
         <div className="section-shell grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
-          <Reveal>
+          <Reveal variant="slide-left">
             <div>
               <span className="section-label">Featured Property</span>
               <h2 className="section-title">{featuredProperty.title}</h2>
@@ -148,7 +149,7 @@ export default async function Home() {
             </div>
           </Reveal>
 
-          <Reveal delay={0.1}>
+          <Reveal delay={0.1} variant="slide-right">
             <div className="glass-card overflow-hidden p-3">
               <div className="relative aspect-[4/5] overflow-hidden rounded-[1.5rem] bg-slate-100">
                 <Image src={featuredProperty.src} alt={featuredProperty.alt} fill className="object-contain p-3" sizes="(max-width: 1024px) 100vw, 45vw" />
@@ -160,12 +161,12 @@ export default async function Home() {
 
       <section className="section-block bg-white">
         <div className="section-shell grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
-          <Reveal>
+          <Reveal variant="scale">
             <div className="rounded-[2rem] border border-slate-200 bg-slate-50 p-6">
               <Image src={savingsPlatform.logo || "/famosave-logo.png"} alt="Famosave logo" width={520} height={220} className="h-auto w-full max-w-md" />
             </div>
           </Reveal>
-          <Reveal delay={0.1}>
+          <Reveal delay={0.1} variant="slide-right">
             <div>
               <span className="section-label">{savingsPlatform.eyebrow}</span>
               <h2 className="section-title">{savingsPlatform.title} remains the savings platform.</h2>
@@ -181,7 +182,7 @@ export default async function Home() {
 
       <section className="section-block section-surface">
         <div className="section-shell">
-          <Reveal>
+          <Reveal variant="spotlight">
             <div className="rounded-[2rem] bg-[#061326] p-8 text-white shadow-xl sm:p-10 lg:p-12">
               <p className="text-sm font-semibold uppercase tracking-[0.24em] text-[#eadba6]">Start Here</p>
               <h2 className="mt-4 max-w-4xl text-3xl font-semibold leading-tight sm:text-4xl">

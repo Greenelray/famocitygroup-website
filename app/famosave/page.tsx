@@ -44,7 +44,7 @@ export default async function FamosavePage() {
 
       <section className="section-surface pb-16 pt-36 sm:pb-20 sm:pt-40">
         <div className="section-shell grid gap-10 lg:grid-cols-[0.92fr_1.08fr] lg:items-center">
-          <Reveal>
+          <Reveal variant="slide-left">
             <div>
               <span className="section-label">{savingsPlatform.eyebrow}</span>
               <h1 className="section-title">{savingsPlatform.title} helps turn ownership goals into a plan.</h1>
@@ -61,7 +61,7 @@ export default async function FamosavePage() {
             </div>
           </Reveal>
 
-          <Reveal delay={0.1}>
+          <Reveal delay={0.1} variant="scale">
             <div className="glass-card p-8 sm:p-10">
               <div className="rounded-[1.7rem] border border-slate-200 bg-white p-6 shadow-sm">
                 <Image
@@ -84,7 +84,7 @@ export default async function FamosavePage() {
 
       <section className="section-block bg-white">
         <div className="section-shell">
-          <Reveal>
+          <Reveal variant="rise">
             <span className="section-label">Why It Matters</span>
             <h2 className="section-title max-w-4xl">A savings platform should make your next big move feel clearer.</h2>
           </Reveal>
@@ -94,7 +94,7 @@ export default async function FamosavePage() {
               const Icon = benefit.icon;
 
               return (
-                <Reveal key={benefit.title} delay={0.08 * index}>
+                <Reveal key={benefit.title} delay={0.08 * index} variant="card">
                   <div className="glass-card h-full p-6">
                     <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#0b1f3a] text-[#c8a951]">
                       <Icon size={22} />
